@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Home|worK</string>
+    <string name="text_welcome">Login</string>
+    <string name="plain_text_email">Enter your email</string>
+    <string name="plain_text_pass">Enter your password</string>
+    <string name="text_pass_forget"> Remember password?</string>
+    <string name="text_register"> Sign up</string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="plain_sign_name">Enter your name</string>
+    <string name="plain_sign_surname">Enter your surname</string>
+    <string name="plain_sign_email_repeat">Repeat your email</string>
+    <string name="plain_sign_pass_repeat">Repeat your password</string>
+    <string name="radio_plain_admin">Administrator</string>
+    <string name="radio_plain_family">Family</string>
 </resources>
