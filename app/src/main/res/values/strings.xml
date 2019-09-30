@@ -12,4 +12,5 @@
     <string name="plain_sign_pass_repeat">Repeat your password</string>
     <string name="radio_plain_admin">Administrator</string>
     <string name="radio_plain_family">Family</string>
+    <string name="title_activity_forgot">Remember Password</string>
 </resources>

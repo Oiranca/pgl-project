@@ -45,7 +45,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gruop_sign"
         app:layout_constraintVertical_bias="0.963"
-        app:srcCompat="@mipmap/back" />
+        app:maxImageSize="35dp"
+        app:srcCompat="@android:drawable/ic_menu_revert" />
 
     <EditText
         android:id="@+id/name_sign"

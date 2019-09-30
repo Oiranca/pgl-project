@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     Button loginButton;
-    TextView sign;
+    TextView sign, forgot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,17 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent signIntent = new Intent(getApplicationContext(),ActivitySignUp.class);
             startActivity(signIntent);
+
+
+        }
+    });
+
+    forgot = (TextView)findViewById(R.id.text_forgot);
+    forgot.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent forgotIntent = new Intent(getApplicationContext(),ActivityForgot.class);
+            startActivity(forgotIntent);
         }
     });
 
