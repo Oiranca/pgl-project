@@ -10,6 +10,7 @@
         android:id="@+id/image_logo"
         android:layout_width="0dp"
         android:layout_height="150dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:text="@string/text_welcome"
         android:textAlignment="center"
@@ -40,9 +41,9 @@
         android:text="@android:string/ok"
         android:textAlignment="center"
         android:textSize="26sp"
-        app:layout_constraintEnd_toEndOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="@+id/editText2"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintEnd_toEndOf="@+id/plain_password"
+        app:layout_constraintStart_toStartOf="@+id/plain_password"
+        app:layout_constraintTop_toBottomOf="@+id/plain_password" />
 
     <EditText
         android:id="@+id/plain_email"
@@ -60,7 +61,7 @@
         app:layout_constraintVertical_bias="0.102" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/plain_password"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"

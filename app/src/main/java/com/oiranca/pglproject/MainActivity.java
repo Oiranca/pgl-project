@@ -1,14 +1,17 @@
 package com.oiranca.pglproject;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     Button loginButton;
     TextView sign, forgot;
@@ -37,6 +40,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(forgotIntent);
         }
     });
+
+    loginButton=(Button)findViewById(R.id.button_login);
+    loginButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            FragmentManager provicionalFrag = getSupportFragmentManager();
+            DialogApp alerta = new DialogApp();
+            alerta.show(provicionalFrag,"Alerta");
+        }
+    });
+
+
+
+
 
     }
 
