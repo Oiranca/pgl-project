@@ -1,10 +1,8 @@
 package com.oiranca.pglproject;
 
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,18 +19,17 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    sign = (TextView) findViewById(R.id.text_sign);
+    sign = findViewById(R.id.text_sign);
     sign.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent signIntent = new Intent(getApplicationContext(),ActivitySignUp.class);
             startActivity(signIntent);
 
-
         }
     });
 
-    forgot = (TextView)findViewById(R.id.text_forgot);
+    forgot = findViewById(R.id.text_forgot);
     forgot.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -41,7 +38,7 @@ public class MainActivity extends AppCompatActivity{
         }
     });
 
-    loginButton=(Button)findViewById(R.id.button_login);
+    loginButton=findViewById(R.id.button_login);
     loginButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -52,11 +49,6 @@ public class MainActivity extends AppCompatActivity{
     });
 
 
-
-
-
     }
-
-
 
 }

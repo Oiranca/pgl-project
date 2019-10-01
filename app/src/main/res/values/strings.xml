@@ -8,9 +8,11 @@
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="plain_sign_name">Enter your name</string>
     <string name="plain_sign_surname">Enter your surname</string>
-    <string name="plain_sign_email_repeat">Repeat your email</string>
     <string name="plain_sign_pass_repeat">Repeat your password</string>
     <string name="radio_plain_admin">Administrator</string>
     <string name="radio_plain_family">Family</string>
     <string name="title_activity_forgot">Remember Password</string>
+    <string name="title_activity_admin">Assignment Work</string>
+    <string name="family_activity_admin">Assignment Family</string>
+    <string name="Provisional_User">"Samuel Romero Arbelo</string>
 </resources>
