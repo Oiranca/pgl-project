@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 public class ActivityAdmin extends AppCompatActivity {
 
@@ -27,6 +29,11 @@ public class ActivityAdmin extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        Spinner work =findViewById(R.id.spinner_adm);
+        String [] workHome= {"Dog","Clean","Rush"};
+        work.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,workHome));
+
     }
 
 }

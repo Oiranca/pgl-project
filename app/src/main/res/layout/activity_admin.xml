@@ -7,17 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ActivityAdmin">
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="70dp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="@+id/divider"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/divider"
-        app:layout_constraintTop_toBottomOf="@+id/textAdmin" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -61,23 +50,13 @@
         android:layout_width="305dp"
         android:layout_height="297dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorCalendar"
+        android:background="@android:color/background_light"
         android:isScrollContainer="true"
         android:verticalScrollbarPosition="right"
         app:layout_constraintEnd_toEndOf="@+id/userAdmin"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="@+id/userAdmin"
         app:layout_constraintTop_toBottomOf="@+id/userAdmin" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimaryDark"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/calendarAdmin" />
 
     <TextView
         android:id="@+id/textAdmin"
@@ -91,7 +70,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/calendarAdmin" />
 
     <TextView
         android:id="@+id/textView3"
@@ -103,9 +82,10 @@
         android:textAlignment="textStart"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/divider2"
-        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+        app:layout_constraintEnd_toEndOf="@+id/calendarAdmin"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/calendarAdmin"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_adm" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -121,5 +101,18 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.976"
         app:srcCompat="@android:drawable/ic_menu_revert" />
+
+    <Spinner
+        android:id="@+id/spinner_adm"
+        android:layout_width="305dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/calendarAdmin"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toStartOf="@+id/calendarAdmin"
+        app:layout_constraintTop_toBottomOf="@+id/textAdmin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

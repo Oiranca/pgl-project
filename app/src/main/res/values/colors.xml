@@ -3,6 +3,5 @@
     <color name="colorPrimary">#465F85</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorBackground">#9DACC3</color>
-    <color name="colorCalendar">#96BFB7</color>
+    <color name="colorCalendar">#A9A3C9</color>
 </resources>
