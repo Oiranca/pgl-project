@@ -15,4 +15,14 @@
     <string name="title_activity_admin">Assignment Work</string>
     <string name="family_activity_admin">Assignment Family</string>
     <string name="Provisional_User">"Samuel Romero Arbelo</string>
+    <string name="title_activity_navigation_admin">NavigationAdmin</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_subtitle">homerwork@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_activity">Assignament Work</string>
+    <string name="menu_reports">Reports</string>
+    <string name="menu_my_activity">My Home Work</string>
+
 </resources>

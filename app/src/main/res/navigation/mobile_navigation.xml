@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_activity">
+
+    <fragment
+        android:id="@+id/nav_activity"
+        android:name="com.oiranca.pglproject.ui.home.HomeFragment"
+        android:label="@string/menu_activity"
+        tools:layout="@layout/fragment_activity" />
+
+    <fragment
+        android:id="@+id/nav_reports"
+        android:name="com.oiranca.pglproject.ui.gallery.GalleryFragment"
+        android:label="@string/menu_reports"
+        tools:layout="@layout/fragment_reports" />
+
+    <fragment
+        android:id="@+id/nav_my_activity"
+        android:name="com.oiranca.pglproject.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_my_activity"
+        tools:layout="@layout/fragment_my_activity" />
+
+
+</navigation>

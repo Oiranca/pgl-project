@@ -19,7 +19,7 @@ public class DialogApp extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                Intent adminIntent = new Intent(getActivity(),ActivityAdmin.class);
+                Intent adminIntent = new Intent(getActivity(),NavigationAdmin.class);
                 startActivity(adminIntent);
 
             }

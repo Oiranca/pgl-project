@@ -12,9 +12,14 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ActivityAdmin"
-            android:label="@string/title_activity_admin"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".NavigationAdmin"
+            android:label="@string/title_activity_navigation_admin"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.oiranca.pglproject.MainActivity" />
+        </activity>
         <activity
             android:name=".ActivityForgot"
             android:label="@string/title_activity_forgot"
