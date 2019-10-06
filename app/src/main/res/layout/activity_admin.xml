@@ -5,7 +5,7 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivityAdmin">
+    tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -30,33 +30,16 @@
         app:layout_constraintVertical_bias="0.976"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
-    <TextView
-        android:id="@+id/userAdmin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="monospace"
-        android:text="@string/Provisional_User"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
     <CalendarView
         android:id="@+id/calendarAdmin"
         style="@android:style/Widget.DeviceDefault.Light.CalendarView"
         android:layout_width="305dp"
         android:layout_height="297dp"
-        android:layout_marginTop="8dp"
         android:background="@android:color/background_light"
         android:isScrollContainer="true"
         android:verticalScrollbarPosition="right"
-        app:layout_constraintEnd_toEndOf="@+id/userAdmin"
-        app:layout_constraintHorizontal_bias="0.515"
-        app:layout_constraintStart_toStartOf="@+id/userAdmin"
-        app:layout_constraintTop_toBottomOf="@+id/userAdmin" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_editor_absoluteX="53dp" />
 
     <TextView
         android:id="@+id/textAdmin"
@@ -64,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="monospace"
-        android:text="@string/title_activity_admin"
+        android:text="@string/assignment_work"
         android:textAlignment="textStart"
         android:textSize="16sp"
         android:textStyle="bold"

@@ -5,8 +5,11 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,8 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Toast;
 
-public class NavigationAdmin extends AppCompatActivity {
+public class NavigationAdmin extends AppCompatActivity  {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -43,9 +47,20 @@ public class NavigationAdmin extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                Toast.makeText(getApplicationContext(),"Has pulsado en algunos",Toast.LENGTH_SHORT).show();
+
+
+                return true;
+            }
+        });
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
+
+       mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_activity, R.id.nav_reports, R.id.nav_my_activity)
                 .setDrawerLayout(drawer)
                 .build();
@@ -67,4 +82,6 @@ public class NavigationAdmin extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }
