@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_activity"
-        android:name="com.oiranca.pglproject.ui.home.HomeFragment"
+        android:name="com.oiranca.pglproject.ui.activity.ActivityFragment"
         android:label="@string/assignment_work"
         tools:layout="@layout/fragment_activity" />
 
     <fragment
         android:id="@+id/nav_reports"
-        android:name="com.oiranca.pglproject.ui.gallery.GalleryFragment"
+        android:name="com.oiranca.pglproject.ui.reports.ReportsFragment"
         android:label="@string/menu_reports"
         tools:layout="@layout/fragment_reports" />
 
     <fragment
         android:id="@+id/nav_my_activity"
-        android:name="com.oiranca.pglproject.ui.slideshow.SlideshowFragment"
+        android:name="com.oiranca.pglproject.ui.myactivity.MyActivityFragment"
         android:label="@string/menu_my_activity"
         tools:layout="@layout/fragment_my_activity" />
 

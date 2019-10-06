@@ -1,4 +1,4 @@
-package com.oiranca.pglproject.ui.slideshow;
+package com.oiranca.pglproject.ui.myactivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,20 +14,20 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.oiranca.pglproject.R;
 
-public class SlideshowFragment extends Fragment {
+public class MyActivityFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private MyActivityViewModel myActivityViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+        myActivityViewModel =
+                ViewModelProviders.of(this).get(MyActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_my_activity, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(this, new Observer<String>() {
+        myActivityViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                textView.setText("Poner el Nombre del Usuario");
             }
         });
         return root;

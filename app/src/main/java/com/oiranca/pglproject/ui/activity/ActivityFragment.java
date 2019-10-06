@@ -1,4 +1,4 @@
-package com.oiranca.pglproject.ui.share;
+package com.oiranca.pglproject.ui.activity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,20 +14,19 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.oiranca.pglproject.R;
 
-public class ShareFragment extends Fragment {
+public class ActivityFragment extends Fragment {
 
-    private ShareViewModel shareViewModel;
+    private ActivityViewModel activityViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        shareViewModel =
-                ViewModelProviders.of(this).get(ShareViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_share, container, false);
-        final TextView textView = root.findViewById(R.id.text_share);
-        shareViewModel.getText().observe(this, new Observer<String>() {
+        activityViewModel =ViewModelProviders.of(this).get(ActivityViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_activity, container, false);
+        final TextView textView = root.findViewById(R.id.home);
+        activityViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                textView.setText("Poner el Nombre del Usuario");
             }
         });
         return root;

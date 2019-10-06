@@ -1,4 +1,4 @@
-package com.oiranca.pglproject.ui.gallery;
+package com.oiranca.pglproject.ui.reports;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,20 +14,20 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.oiranca.pglproject.R;
 
-public class GalleryFragment extends Fragment {
+public class ReportsFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private ReportsViewModel reportsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
+        reportsViewModel =
+                ViewModelProviders.of(this).get(ReportsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_reports, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(this, new Observer<String>() {
+        reportsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                textView.setText("Poner el Nombre del Usuario");
             }
         });
         return root;
