@@ -13,7 +13,6 @@
     <string name="radio_plain_family">Family</string>
     <string name="title_activity_forgot">Remember Password</string>
     <string name="family_activity_admin">Assignment Family</string>
-    <string name="Provisional_User">"Samuel Romero Arbelo</string>
     <string name="title_activity_navigation_admin">NavigationAdmin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -23,5 +22,23 @@
     <string name="assignment_work">Assignment Work</string>
     <string name="menu_reports">Reports</string>
     <string name="menu_my_activity">My Home Work</string>
+
+    <string-array name="works">
+        <item>"Walk the dog"</item>
+        <item>"Put dishwasher"</item>
+        <item>"Wash breakfast dishes"</item>
+        <item>"Wash lunch dishes"</item>
+        <item>"Wash dinner dishes"</item>
+        <item>"Take out the trash"</item>
+        <item>"To clean the bathroom"</item>
+    </string-array>
+
+
+    <string-array name="pruebas">
+        <item>"Samuel"</item>
+        <item>"Diego"</item>
+        <item>"Roberto"</item>
+        <item>"Leo"</item>
+    </string-array>
 
 </resources>

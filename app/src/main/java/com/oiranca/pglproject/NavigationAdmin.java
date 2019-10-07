@@ -40,8 +40,13 @@ public class NavigationAdmin extends AppCompatActivity  {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+
+                // Tengo que implementar la manera de si selecciono cada vista el boton fab cambie
+                //de opciones
+
+                Snackbar.make(view, "Pendiente de programar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -56,16 +61,7 @@ public class NavigationAdmin extends AppCompatActivity  {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-      /*  navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                Toast.makeText(getApplicationContext(),"Has pulsado en algunos",Toast.LENGTH_SHORT).show();
-
-
-                return true;
-            }
-        });*/
     }
 
     @Override
