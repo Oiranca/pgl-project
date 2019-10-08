@@ -22,6 +22,13 @@
     <string name="assignment_work">Assignment Work</string>
     <string name="menu_reports">Reports</string>
     <string name="menu_my_activity">My Home Work</string>
+    <string name="menu_new_family">New Family</string>
+    <string name="new_family_name">Enter family name</string>
+    <string name="new_family_email">Enter family email</string>
+    <string name="new_name">Name</string>
+    <string name="new_email">Email</string>
+
+
 
     <string-array name="works">
         <item>"Walk the dog"</item>
