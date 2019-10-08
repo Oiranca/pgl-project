@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text_slideshow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textMactivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="monospace"
+        android:text="@string/menu_my_activity"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/text_slideshow"
+        app:layout_constraintStart_toStartOf="@+id/text_slideshow"
+        app:layout_constraintTop_toBottomOf="@+id/text_slideshow" />
+
+    <CalendarView
+        android:id="@+id/calendarMactivity"
+        android:layout_width="288dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/calendar_custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textMactivity" />
+
+    <CheckBox
+        android:id="@+id/checkFactivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarMactivity" />
+
+    <CheckedTextView
+        android:id="@+id/checkedActivity"
+        android:layout_width="255dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="46dp"
+        android:fontFamily="monospace"
+        android:text="First Activity"
+        android:textAlignment="viewStart"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.265"
+        app:layout_constraintStart_toEndOf="@+id/checkFactivity"
+        app:layout_constraintTop_toBottomOf="@+id/calendarMactivity" />
+
+    <CheckBox
+        android:id="@+id/checkFactivityBis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@+id/checkFactivity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkFactivity" />
+
+    <CheckedTextView
+        android:id="@+id/checkedActivityBis"
+        android:layout_width="255dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="32dp"
+        android:fontFamily="monospace"
+        android:text="Second Activity"
+        android:textAlignment="viewStart"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/checkedActivity"
+        app:layout_constraintHorizontal_bias="0.347"
+        app:layout_constraintStart_toStartOf="@+id/checkedActivity"
+        app:layout_constraintTop_toBottomOf="@+id/checkedActivity" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

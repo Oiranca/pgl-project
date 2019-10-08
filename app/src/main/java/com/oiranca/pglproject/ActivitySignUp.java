@@ -1,5 +1,6 @@
 package com.oiranca.pglproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,8 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.Toast;
 
 public class ActivitySignUp extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +23,26 @@ public class ActivitySignUp extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab_ok_sing);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton backFab = findViewById(R.id.signBack);
+        backFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                Intent backMenu = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(backMenu);
+            }
+        });
+
+        FloatingActionButton okFab = findViewById(R.id.signOk);
+        okFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent fortgot = new Intent(getApplicationContext(),MainActivity.class);
+                Toast.makeText(getApplicationContext(),"Registrado Correctamente",Toast.LENGTH_LONG).show();
+                startActivity(fortgot);
+
             }
         });
     }

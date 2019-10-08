@@ -8,13 +8,13 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_ok_sing"
+        android:id="@+id/signOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="36dp"
         app:backgroundTint="#3B88C3"
-        app:fabSize="normal"
+        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.98"
@@ -24,13 +24,14 @@
         app:srcCompat="@mipmap/ok" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/signBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         app:backgroundTint="#3B88C3"
-        app:fabSize="normal"
+        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fab_ok_sing"
+        app:layout_constraintEnd_toStartOf="@+id/signOk"
         app:layout_constraintHorizontal_bias="0.239"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gruop_sign"
@@ -63,7 +64,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:titleTextColor="@android:color/background_light" />
 
     <EditText
         android:id="@+id/surname_sign"
@@ -90,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@+id/surname_sign" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/textSignPass"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -109,9 +111,9 @@
         android:ems="10"
         android:hint="@string/plain_sign_pass_repeat"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/editText6"
+        app:layout_constraintEnd_toEndOf="@+id/textSignPass"
         app:layout_constraintStart_toStartOf="@+id/editText6"
-        app:layout_constraintTop_toBottomOf="@+id/editText6" />
+        app:layout_constraintTop_toBottomOf="@+id/textSignPass" />
 
     <RadioGroup
         android:id="@+id/gruop_sign"
@@ -124,6 +126,7 @@
         app:layout_constraintTop_toBottomOf="@+id/repeat_sign">
 
         <RadioButton
+            android:id="@+id/radioAdmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radio_plain_admin"
@@ -131,6 +134,7 @@
             android:textSize="20sp" />
 
         <RadioButton
+            android:id="@+id/radioFam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radio_plain_family"

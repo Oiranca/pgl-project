@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_activity">
+
+    <fragment
+        android:id="@+id/nav_activity"
+        android:name="com.oiranca.pglproject.ui.activity.ActivityFragment"
+        android:label="@string/assignment_work"
+        tools:layout="@layout/fragment_activity" />
+
+    <fragment
+        android:id="@+id/nav_newF"
+        android:name="com.oiranca.pglproject.ui.family.NewFamily"
+        android:label="@string/menu_new_family"
+        tools:layout="@layout/new_family_fragment" />
+
+    <fragment
+        android:id="@+id/nav_reports"
+        android:name="com.oiranca.pglproject.ui.reports.ReportsFragment"
+        android:label="@string/menu_reports"
+        tools:layout="@layout/fragment_reports" />
+
+    <fragment
+        android:id="@+id/nav_my_activity"
+        android:name="com.oiranca.pglproject.ui.myactivity.MyActivityFragment"
+        android:label="@string/menu_my_activity"
+        tools:layout="@layout/fragment_my_activity" />
+
+
+</navigation>
