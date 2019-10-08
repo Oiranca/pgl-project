@@ -14,19 +14,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="104dp"
-        app:backgroundTint="#3B88C3"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:maxImageSize="40dp"
-        app:srcCompat="@mipmap/ok" />
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -40,8 +27,23 @@
         app:titleTextColor="@android:color/background_light"
         tools:ignore="MissingConstraints" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSendAdm"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="176dp"
+        app:backgroundTint="#3B88C3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textForgot"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/textForgot"
+        app:layout_constraintTop_toBottomOf="@+id/textForgot"
+        app:layout_constraintVertical_bias="0.754"
+        app:maxImageSize="40dp"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/textForgot"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"

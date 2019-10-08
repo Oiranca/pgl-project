@@ -23,6 +23,11 @@
             android:icon="@drawable/ic_home_work"
             android:title="@string/menu_my_activity" />
 
+        <item
+            android:id="@+id/nav_back"
+            android:icon="@drawable/ic_exit"
+            android:title="@string/back" />
+
     </group>
 
 

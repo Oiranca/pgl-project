@@ -19,10 +19,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <CalendarView
-        android:id="@+id/calendarView"
+        android:id="@+id/calenAssig"
         android:layout_width="288dp"
         android:layout_height="300dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/calendar_custom"
         app:layout_constraintEnd_toEndOf="@+id/spinnerFamily"
         app:layout_constraintHorizontal_bias="0.416"
@@ -33,7 +33,7 @@
         android:id="@+id/textFamily"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="monospace"
         android:text="@string/family_activity_admin"
         android:textAlignment="center"
@@ -47,10 +47,10 @@
         android:id="@+id/spinnerFamily"
         android:layout_width="300dp"
         android:layout_height="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/spinner_custom"
-        android:textAlignment="center"
         android:entries="@array/pruebas"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/textFamily"
         app:layout_constraintStart_toStartOf="@+id/textFamily"
         app:layout_constraintTop_toBottomOf="@+id/textFamily" />
@@ -59,23 +59,26 @@
         android:id="@+id/textWork"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="monospace"
         android:text="@string/assignment_work"
+        android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/calendarView"
-        app:layout_constraintStart_toStartOf="@+id/calendarView"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/calenAssig"
+        app:layout_constraintStart_toStartOf="@+id/calenAssig"
+        app:layout_constraintTop_toBottomOf="@+id/calenAssig" />
 
     <Spinner
         android:id="@+id/spinnerWork"
         android:layout_width="300dp"
         android:layout_height="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/spinner_custom"
-        android:textAlignment="center"
         android:entries="@array/works"
-        app:layout_constraintEnd_toEndOf="@+id/textWork"
-        app:layout_constraintStart_toStartOf="@+id/textWork"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textWork" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_subtitle">homerwork@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="back">Log out</string>
     <string name="action_settings">Settings</string>
     <string name="assignment_work">Assignment Work</string>
     <string name="menu_reports">Reports</string>
