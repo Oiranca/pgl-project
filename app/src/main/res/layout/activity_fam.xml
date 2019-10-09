@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavigationAdmin">
+    tools:context=".ActivityFam">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -20,17 +20,15 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_navigation_admin" />
+    <include layout="@layout/content_activity_fam" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabSendAdm"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="#3B88C3"
-        app:fabSize="mini"
-        app:maxImageSize="35dp"
-        app:srcCompat="@android:drawable/sym_action_email" />
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
