@@ -27,6 +27,10 @@ public class DialogApp extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+
+                Intent famIntent = new Intent(getActivity(),ActivityFam.class);
+                startActivity(famIntent);
+
             }
         });
         return provicional.create();

@@ -38,8 +38,6 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/textForgot"
         app:layout_constraintTop_toBottomOf="@+id/textForgot"
-        app:layout_constraintVertical_bias="0.754"
-        app:maxImageSize="40dp"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
     <EditText
