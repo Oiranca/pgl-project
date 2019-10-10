@@ -30,6 +30,11 @@
     <string name="new_email">Email</string>
     <string name="title_activity_fam">My Activity</string>
 
+    <!--Warnnig-->
+
+    <string name="empty">Campo obligatorio</string>
+    <string name="checked">Debe seleccionar una opción</string>
+
 
     <string-array name="works">
         <item>"Walk the dog"</item>

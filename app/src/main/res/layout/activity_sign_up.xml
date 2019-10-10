@@ -7,6 +7,20 @@
     tools:context=".ActivitySignUp">
 
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:titleTextColor="@android:color/background_light" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/signOk"
         android:layout_width="wrap_content"
@@ -17,10 +31,10 @@
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintHorizontal_bias="0.927"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gruop_sign"
-        app:layout_constraintVertical_bias="0.898"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@mipmap/ok" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,27 +59,13 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/plain_sign_name"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textCapWords"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/toolbar"
         app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="@+id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.057" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:titleTextColor="@android:color/background_light" />
 
     <EditText
         android:id="@+id/surname_sign"
@@ -74,7 +74,7 @@
         android:layout_marginTop="40dp"
         android:ems="10"
         android:hint="@string/plain_sign_surname"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textCapWords"
         app:layout_constraintEnd_toEndOf="@+id/name_sign"
         app:layout_constraintStart_toStartOf="@+id/name_sign"
         app:layout_constraintTop_toBottomOf="@+id/name_sign" />
@@ -92,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@+id/surname_sign" />
 
     <EditText
-        android:id="@+id/textSignPass"
+        android:id="@+id/pass_sign"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -108,12 +108,13 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/plain_sign_pass_repeat"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/textSignPass"
-        app:layout_constraintStart_toStartOf="@+id/editText6"
-        app:layout_constraintTop_toBottomOf="@+id/textSignPass" />
+        app:layout_constraintEnd_toEndOf="@id/pass_sign"
+        app:layout_constraintStart_toStartOf="@id/pass_sign"
+        app:layout_constraintTop_toBottomOf="@id/pass_sign" />
 
     <RadioGroup
         android:id="@+id/gruop_sign"
