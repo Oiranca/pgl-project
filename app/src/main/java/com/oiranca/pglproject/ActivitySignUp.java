@@ -125,7 +125,7 @@ public class ActivitySignUp extends AppCompatActivity {
                             startActivity(fortgot);
 
                         } else {
-                            Toast.makeText(getApplicationContext(), "Debe seleccionar una opción", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getString(R.string.checked), Toast.LENGTH_LONG).show();
 
                         }
 
