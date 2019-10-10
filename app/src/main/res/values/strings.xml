@@ -30,6 +30,13 @@
     <string name="new_email">Email</string>
     <string name="title_activity_fam">My Activity</string>
 
+    <!--Warnnig-->
+
+    <string name="email_correct">Formato E-mail incorrecto (...@...com/es..)</string>
+    <string name="name_correct">Formato ncorrecto solamente letras</string>
+    <string name="password_correct">Debe tener entre 7 u 8 carácteres alfanuméricos</string>
+    <string name="empty">Campo obligatorio</string>
+
 
     <string-array name="works">
         <item>"Walk the dog"</item>
