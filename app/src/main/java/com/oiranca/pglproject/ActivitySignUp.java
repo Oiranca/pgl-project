@@ -34,7 +34,7 @@ public class ActivitySignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         Toolbar toolbar = findViewById(R.id.toolbarSign);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
 
         name = (EditText) findViewById(R.id.name_sign);
@@ -139,6 +139,12 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_activity, menu);
 
+        return true;
+    }
 
 }

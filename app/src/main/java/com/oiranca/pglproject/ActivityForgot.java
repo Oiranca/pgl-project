@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,9 +26,6 @@ public class ActivityForgot extends AppCompatActivity {
         setContentView(R.layout.activity_forgot);
         Toolbar toolbar = findViewById(R.id.toolbarForgot);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         forgoten = (EditText)findViewById(R.id.textForgot);
 
         FloatingActionButton fab = findViewById(R.id.fabSendAdm);
@@ -38,6 +36,8 @@ public class ActivityForgot extends AppCompatActivity {
 
             }
         });
+
+
 
 
     }
@@ -64,7 +64,17 @@ public class ActivityForgot extends AppCompatActivity {
 
 
     }
-    
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_activity, menu);
+
+
+
+        return true;
+    }
+
 
 
 }
