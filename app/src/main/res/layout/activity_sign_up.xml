@@ -6,143 +6,119 @@
     android:layout_height="match_parent"
     tools:context=".ActivitySignUp">
 
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <include
+        android:id="@+id/toolbarSign"
+        layout="@layout/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:titleTextColor="@android:color/background_light" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/signOk"
-        android:layout_width="wrap_content"
+
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="36dp"
-        app:backgroundTint="#3B88C3"
-        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.927"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gruop_sign"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@mipmap/ok" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSign"
+        tools:layout_editor_absoluteX="199dp">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/signBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        app:backgroundTint="#3B88C3"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/signOk"
-        app:layout_constraintHorizontal_bias="0.239"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gruop_sign"
-        app:layout_constraintVertical_bias="0.963"
-        app:maxImageSize="35dp"
-        app:srcCompat="@android:drawable/ic_menu_revert" />
-
-    <EditText
-        android:id="@+id/name_sign"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/plain_sign_name"
-        android:inputType="textPersonName|textCapWords"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintHorizontal_bias="0.549"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.057" />
-
-    <EditText
-        android:id="@+id/surname_sign"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="@string/plain_sign_surname"
-        android:inputType="textPersonName|textCapWords"
-        app:layout_constraintEnd_toEndOf="@+id/name_sign"
-        app:layout_constraintStart_toStartOf="@+id/name_sign"
-        app:layout_constraintTop_toBottomOf="@+id/name_sign" />
-
-    <EditText
-        android:id="@+id/email_sign"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="@string/plain_text_email"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/surname_sign"
-        app:layout_constraintStart_toStartOf="@+id/surname_sign"
-        app:layout_constraintTop_toBottomOf="@+id/surname_sign" />
-
-    <EditText
-        android:id="@+id/pass_sign"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="@string/plain_text_pass"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/email_sign"
-        app:layout_constraintStart_toStartOf="@+id/email_sign"
-        app:layout_constraintTop_toBottomOf="@+id/email_sign" />
-
-    <EditText
-        android:id="@+id/repeat_sign"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/plain_sign_pass_repeat"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@id/pass_sign"
-        app:layout_constraintStart_toStartOf="@id/pass_sign"
-        app:layout_constraintTop_toBottomOf="@id/pass_sign" />
-
-    <RadioGroup
-        android:id="@+id/gruop_sign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/repeat_sign"
-        app:layout_constraintHorizontal_bias="0.462"
-        app:layout_constraintStart_toStartOf="@+id/repeat_sign"
-        app:layout_constraintTop_toBottomOf="@+id/repeat_sign">
-
-        <RadioButton
-            android:id="@+id/radioAdmin"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/radio_plain_admin"
-            android:textColor="#465F85"
-            android:textSize="20sp" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioFam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/radio_plain_family"
-            android:textColor="#465F85"
-            android:textSize="20sp"
-            android:visibility="visible" />
+            <EditText
+                android:id="@+id/name_sign"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="19dp"
+                android:ems="10"
+                android:hint="@string/plain_sign_name"
+                android:inputType="textPersonName|textCapWords" />
 
-    </RadioGroup>
+            <EditText
+                android:id="@+id/surname_sign"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:hint="@string/plain_sign_surname"
+                android:inputType="textPersonName|textCapWords" />
+
+            <EditText
+                android:id="@+id/email_sign"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:hint="@string/plain_text_email"
+                android:inputType="textPersonName"
+                tools:ignore="TextFields" />
+
+            <EditText
+                android:id="@+id/pass_sign"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:hint="@string/plain_text_pass"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/repeat_sign"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:hint="@string/plain_sign_pass_repeat"
+                android:inputType="textPersonName" />
+
+            <RadioGroup
+                android:id="@+id/gruop_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp">
+
+                <RadioButton
+                    android:id="@+id/radioAdmin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_plain_admin"
+                    android:textColor="#465F85"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/radioFam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_plain_family"
+                    android:textColor="#465F85"
+                    android:textSize="20sp"
+                    android:visibility="visible" />
+
+            </RadioGroup>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/signOk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="36dp"
+                android:layout_marginStart="40dp"
+                app:backgroundTint="#3B88C3"
+                app:fabSize="mini"
+                app:srcCompat="@mipmap/ok" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

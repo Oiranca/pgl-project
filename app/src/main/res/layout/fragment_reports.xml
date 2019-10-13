@@ -20,8 +20,10 @@
                 android:layout_height="wrap_content" />
 
             <TableLayout
+                android:id="@+id/tableReports"
                 android:layout_width="match_parent"
-                android:layout_height="370dp" />
+                android:layout_height="370dp"
+                android:background="@color/colorPrimary" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

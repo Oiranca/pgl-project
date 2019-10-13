@@ -1,18 +1,23 @@
 package com.oiranca.pglproject;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -32,13 +37,6 @@ import android.view.Menu;
 import android.widget.FrameLayout;
 
 public class NavigationAdmin extends AppCompatActivity {
-    FragmentManager fragmentManager;
-    DrawerLayout drawer;
-    FrameLayout viewLayout;
-    NewFamily newFamily;
-    ActivityFragment activity;
-    MyActivityFragment myActiv;
-    ReportsFragment reportsFragment;
 
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -63,7 +61,7 @@ public class NavigationAdmin extends AppCompatActivity {
         });
 
 
-        drawer = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         final NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
 
@@ -75,20 +73,6 @@ public class NavigationAdmin extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-                navigationView.setCheckedItem(R.id.nav_back);
-                Intent back = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(back);
-
-
-                return true;
-            }
-        });
-
 
     }
 

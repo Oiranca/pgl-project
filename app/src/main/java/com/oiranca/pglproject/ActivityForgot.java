@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,8 +23,10 @@ public class ActivityForgot extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarForgot);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         forgoten = (EditText)findViewById(R.id.textForgot);
 
@@ -35,6 +38,8 @@ public class ActivityForgot extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     private void correct() {
@@ -59,6 +64,7 @@ public class ActivityForgot extends AppCompatActivity {
 
 
     }
+    
 
 
 }
