@@ -31,7 +31,7 @@ public class ActivityFam extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+
     }
 
 
@@ -39,6 +39,7 @@ public class ActivityFam extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation_admin, menu);
+
         return true;
     }
 
