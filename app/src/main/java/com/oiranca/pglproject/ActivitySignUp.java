@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -31,8 +32,10 @@ public class ActivitySignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarSign);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         name = (EditText) findViewById(R.id.name_sign);
         surname = (EditText) findViewById(R.id.surname_sign);
@@ -42,7 +45,7 @@ public class ActivitySignUp extends AppCompatActivity {
         checkedAdmin = (RadioButton) findViewById(R.id.radioAdmin);
         checkedFam = (RadioButton) findViewById(R.id.radioFam);
 
-        FloatingActionButton backFab = findViewById(R.id.signBack);
+        FloatingActionButton backFab = findViewById(R.id.signOk);
         backFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,5 +139,6 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
     }
+
 
 }
