@@ -26,18 +26,16 @@ public class ActivityForgot extends AppCompatActivity {
         setContentView(R.layout.activity_forgot);
         Toolbar toolbar = findViewById(R.id.toolbarForgot);
         setSupportActionBar(toolbar);
-        forgoten = (EditText)findViewById(R.id.textForgot);
+        forgoten = (EditText) findViewById(R.id.textForgot);
 
         FloatingActionButton fab = findViewById(R.id.fabSendAdm);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               correct();
+                correct();
 
             }
         });
-
-
 
 
     }
@@ -57,8 +55,8 @@ public class ActivityForgot extends AppCompatActivity {
         } else {
 
 
-            Intent fortgot = new Intent(getApplicationContext(),MainActivity.class);
-            Toast.makeText(getApplicationContext(),"Se le ha enviado un password provisional",Toast.LENGTH_LONG).show();
+            Intent fortgot = new Intent(getApplicationContext(), MainActivity.class);
+            Toast.makeText(getApplicationContext(), "Se le ha enviado un password provisional", Toast.LENGTH_LONG).show();
             startActivity(fortgot);
         }
 
@@ -71,10 +69,20 @@ public class ActivityForgot extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_activity, menu);
 
 
-
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
+        if (id == R.id.action_back) {
+
+            Intent back = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(back);
+        }
+        return true;
+
+    }
 
 }

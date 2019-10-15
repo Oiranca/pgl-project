@@ -1,5 +1,6 @@
 package com.oiranca.pglproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,7 +13,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class ActivityFam extends AppCompatActivity {
 
@@ -44,4 +47,21 @@ public class ActivityFam extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_back) {
+
+            Intent back = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(back);
+        }
+
+        if (id == R.id.action_settings) {
+
+            Toast.makeText(getApplicationContext(),"Pendiente de configurar",Toast.LENGTH_SHORT).show();
+        }
+        return true;
+
+    }
 }
