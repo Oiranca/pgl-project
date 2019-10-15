@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -147,4 +148,16 @@ public class ActivitySignUp extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_back) {
+
+            Intent back = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(back);
+        }
+        return true;
+
+    }
 }
