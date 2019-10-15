@@ -37,7 +37,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:background="#9DACC3"
+        android:background="@drawable/spinner_custom"
         android:text="@android:string/ok"
         android:textAlignment="center"
         android:textSize="26sp"
