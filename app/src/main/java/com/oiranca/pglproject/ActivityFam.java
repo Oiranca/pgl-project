@@ -21,7 +21,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 public class ActivityFam extends AppCompatActivity {
-     String activFam = null;
+    String activFam = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class ActivityFam extends AppCompatActivity {
 
 
         // Recoger fecha del calendar
+
         CalendarView calenFam = findViewById(R.id.calendarViewFam);
         calenFam.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -43,12 +44,11 @@ public class ActivityFam extends AppCompatActivity {
                 String day = Integer.toString(dayOfMonth);
                 String m = Integer.toString(month);
                 String years = Integer.toString(year);
-                activFam = day+"/"+m+"/"+years;
+                activFam = day + "/" + m + "/" + years;
 
-                chkFirst.setText(getString(R.string.first_activity)+activFam);
-                chkBis.setText(getString(R.string.second_activity)+activFam);
+                chkFirst.setText(getString(R.string.first_activity) + activFam);
+                chkBis.setText(getString(R.string.second_activity) + activFam);
 
-                Toast.makeText(getApplicationContext(),activFam, Toast.LENGTH_SHORT).show();
             }
         });
 
