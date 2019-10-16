@@ -9,7 +9,7 @@ public class NewFamilyViewModel extends ViewModel {
     private MutableLiveData<String> fText;
 
     public NewFamilyViewModel() { fText = new MutableLiveData<>();
-        fText.setValue("This is gallery fragment");
+        fText.setValue("This is new family fragment");
     }
 
     public LiveData<String> getText() {

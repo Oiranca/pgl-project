@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -15,9 +16,12 @@ import androidx.navigation.ui.NavigationUI;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CalendarView;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 public class ActivityFam extends AppCompatActivity {
+    String activFam = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,30 @@ public class ActivityFam extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarFam);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        final CheckBox chkFirst = findViewById(R.id.checkBoxFam);
+        final CheckBox chkBis = findViewById(R.id.checkBoxFamBis);
+
+
+        // Recoger fecha del calendar
+
+        CalendarView calenFam = findViewById(R.id.calendarViewFam);
+        calenFam.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
+                String day = Integer.toString(dayOfMonth);
+                String m = Integer.toString(month);
+                String years = Integer.toString(year);
+                activFam = day + "/" + m + "/" + years;
+
+                chkFirst.setText(getString(R.string.first_activity) + activFam);
+                chkBis.setText(getString(R.string.second_activity) + activFam);
+
+            }
+        });
+
+
+        FloatingActionButton fab = findViewById(R.id.fabFam);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +86,7 @@ public class ActivityFam extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
 
-            Toast.makeText(getApplicationContext(),"Pendiente de configurar",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Pendiente de configurar", Toast.LENGTH_SHORT).show();
         }
         return true;
 
