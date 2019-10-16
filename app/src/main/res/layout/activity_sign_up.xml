@@ -55,7 +55,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:ems="10"
-                android:hint="@string/plain_text_email"
+                android:hint="@string/text_mail"
                 android:inputType="textPersonName"
                 tools:ignore="TextFields" />
 

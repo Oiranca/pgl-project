@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Home|worK</string>
     <string name="text_welcome">Login</string>
-    <string name="plain_text_email">Enter your email</string>
+    <string name="plain_text_user">Enter your user</string>
     <string name="plain_text_pass">Enter your password</string>
     <string name="text_pass_forget"> Remember password?</string>
     <string name="text_register"> Sign up</string>
@@ -9,6 +9,7 @@
     <string name="plain_sign_name">Enter your name</string>
     <string name="plain_sign_surname">Enter your surname</string>
     <string name="plain_sign_pass_repeat">Repeat your password</string>
+    <string name="text_mail">Enter your e-mail</string>
     <string name="radio_plain_admin">Administrator</string>
     <string name="radio_plain_family">Family</string>
     <string name="title_activity_forgot">Forgotten</string>
@@ -17,7 +18,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_subtitle">homerwork@gmail.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="back">Log out</string>
     <string name="exit">Exit</string>
     <string name="first_activity">1ª Tarea:</string>
