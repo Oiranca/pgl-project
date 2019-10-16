@@ -6,17 +6,20 @@
     app:startDestination="@id/nav_newF"
     tools:ignore="UnusedNavigation">
 
-    <fragment
-        android:id="@+id/nav_activity"
-        android:name="com.oiranca.pglproject.ui.activity.ActivityFragment"
-        android:label="@string/assignment_work"
-        tools:layout="@layout/fragment_activity" />
 
     <fragment
         android:id="@+id/nav_newF"
         android:name="com.oiranca.pglproject.ui.family.NewFamily"
         android:label="@string/menu_new_family"
         tools:layout="@layout/new_family_fragment" />
+
+    <fragment
+        android:id="@+id/nav_activity"
+        android:name="com.oiranca.pglproject.ui.activity.ActivityFragment"
+        android:label="@string/assignment_work"
+        tools:layout="@layout/fragment_activity" />
+
+
 
     <fragment
         android:id="@+id/nav_reports"

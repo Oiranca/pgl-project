@@ -79,28 +79,8 @@ public class NavigationAdmin extends AppCompatActivity {
 
         return true;
     }
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == R.id.action_back) {
 
-            Intent back = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(back);
-        }
-
-        if (id == R.id.action_settings) {
-
-            Toast.makeText(getApplicationContext(), "Pendiente de configurar", Toast.LENGTH_SHORT).show();
-        }
-
-        if (id==R.id.nav_host_fragment){
-
-            onSupportNavigateUp();
-        }
-        return true;
-
-    }*/
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -109,5 +89,34 @@ public class NavigationAdmin extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+
+        switch (item.getItemId()) {
+
+            case R.id.action_back:
+
+
+
+                Intent back = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(back);
+                return true;
+
+
+
+            case R.id.action_settings:
+
+                Toast.makeText(getApplicationContext(), "Pendiente de configurar", Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+
+
+
+
+    }
 }

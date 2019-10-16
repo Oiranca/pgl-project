@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent forgotIntent = new Intent(getApplicationContext(), ActivityForgot.class);
                 startActivity(forgotIntent);
+
             }
         });
 
