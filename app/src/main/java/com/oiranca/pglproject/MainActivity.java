@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent forgotIntent = new Intent(getApplicationContext(), ActivityForgot.class);
+
                 startActivity(forgotIntent);
 
             }
@@ -57,13 +58,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if (mail.getText().toString().equals("admin") & pass.getText().toString().equals("admin")) {
                     Intent admin = new Intent(getApplicationContext(), NavigationAdmin.class);
-
+                    admin.putExtra("Admin", mail.getText().toString());
                     startActivity(admin);
 
                 } else {
 
                     if (mail.getText().toString().equals("familiar") & pass.getText().toString().equals("familiar")) {
-                        Intent fam = new Intent(getApplicationContext(), ActivityFam.class);
+                        Intent fam = new Intent(getApplicationContext(), TabFamily.class);
                         startActivity(fam);
 
                     } else {

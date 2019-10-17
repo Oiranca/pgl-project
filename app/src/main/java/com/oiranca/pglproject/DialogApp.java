@@ -28,7 +28,7 @@ public class DialogApp extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
 
 
-                Intent famIntent = new Intent(getActivity(),ActivityFam.class);
+                Intent famIntent = new Intent(getActivity(),TabFamily.class);
                 startActivity(famIntent);
 
             }

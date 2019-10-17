@@ -1,5 +1,6 @@
 package com.oiranca.pglproject.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ public class ActivityFragment extends Fragment {
 
     private ActivityViewModel activityViewModel;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         activityViewModel =ViewModelProviders.of(this).get(ActivityViewModel.class);
@@ -26,7 +28,8 @@ public class ActivityFragment extends Fragment {
         activityViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText("Poner el Nombre del Usuario");
+
+                    textView.setText(s);
             }
         });
         return root;

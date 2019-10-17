@@ -32,6 +32,9 @@
     <string name="new_name">Name</string>
     <string name="new_email">Email</string>
     <string name="title_activity_fam">My Activity</string>
+    <string name="title_activity_tab_family">Home|Work Family</string>
+    <string name="my_activity">My activity</string>
+
 
     <!--Warnnig-->
 
@@ -56,6 +59,9 @@
         <item>"Roberto"</item>
         <item>"Leo"</item>
     </string-array>
+
+
+
 
 
 </resources>
