@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -24,6 +25,9 @@ public class ActivityFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         activityViewModel =ViewModelProviders.of(this).get(ActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_activity, container, false);
+        Spinner spinnerFam = root.findViewById(R.id.spinnerFamily);
+
+
         final TextView textView = root.findViewById(R.id.home);
         activityViewModel.getText().observe(this, new Observer<String>() {
             @Override

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Home|worK</string>
     <string name="text_welcome">Login</string>
+    <string name="enter">Ok</string>
     <string name="plain_text_user">Enter your user</string>
     <string name="plain_text_pass">Enter your password</string>
     <string name="text_pass_forget"> Remember password?</string>

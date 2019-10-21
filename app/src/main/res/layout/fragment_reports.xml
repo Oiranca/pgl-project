@@ -16,15 +16,17 @@
 
             <CalendarView
                 android:id="@+id/calendarReport"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/calendar_custom"
+                android:layout_marginVertical="8dp"/>
 
             <TableLayout
                 android:id="@+id/tableReports"
                 android:layout_width="match_parent"
                 android:layout_height="370dp"
-                android:background="@color/colorPrimary" />
+                android:background="#B2D0F0" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
