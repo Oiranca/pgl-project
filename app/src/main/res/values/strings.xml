@@ -62,7 +62,11 @@
     </string-array>
 
 
-
+    <string-array name="header">
+        <item>Fecha</item>
+        <item>Nombre</item>
+        <item>Tarea</item>
+    </string-array>
 
 
 </resources>
