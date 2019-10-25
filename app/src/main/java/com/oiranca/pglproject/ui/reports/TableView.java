@@ -32,12 +32,13 @@ public class TableView {
 
     public void setHeader(String[] header) {
         this.header = header;
-        createHeader();
+       createHeader();
     }
 
 
     public void setData(ArrayList<String[]> data) {
         this.data = data;
+
         createDataTable();
     }
 
@@ -59,12 +60,16 @@ public class TableView {
     private void createHeader() {
         indexC = 0;
         newRow();
+
         while (indexC < header.length) {
             newCell();
             txtCell.setText(header[indexC++]);
+            txtCell.setWidth(0);
+            txtCell.setHeight(60);
             tableRow.addView(txtCell, newTableRowParams());
 
         }
+
         tableLayout.addView(tableRow);
     }
 
@@ -76,16 +81,37 @@ public class TableView {
 
             for (indexC = 0; indexC < header.length; indexC++) {
                 newCell();
-                String[] columns = data.get(indexR - 1);
-                info = (indexC < columns.length) ? columns[indexC] : "";
+                String[] row = data.get(indexR - 1);
+                info = (indexC < row.length) ? row[indexC] : "";
                 txtCell.setText(info);
+                txtCell.setWidth(0);
+                txtCell.setHeight(60);
                 tableRow.addView(txtCell, newTableRowParams());
 
-
             }
+
             tableLayout.addView(tableRow);
 
         }
+
+
+    }
+
+    public void addItems(String[] item) {
+
+        String info;
+        data.add(item);
+        indexC = 0;
+        newRow();
+        while (indexC < header.length) {
+            newCell();
+            info = (indexC < item.length) ? item[indexC++] : "";
+            txtCell.setText(info);
+            tableRow.addView(txtCell, newTableRowParams());
+        }
+        tableLayout.addView(tableRow, data.size() - 1);
+        reColoring();
+
 
 
     }
@@ -98,6 +124,7 @@ public class TableView {
             txtCell = getCell(0, indexC++);
             txtCell.setBackgroundColor(color);
             txtCell.setTypeface(null, Typeface.BOLD);
+
 
         }
 
@@ -138,6 +165,15 @@ public class TableView {
 
     }
 
+    public void lineColor(int color){
+        indexR=0;
+        while (indexR<data.size()){
+            getRow(indexR++).setBackgroundColor(color);
+
+        }
+
+    }
+
     private TableRow getRow(int index) {
         return (TableRow) tableLayout.getChildAt(index);
 
@@ -155,7 +191,7 @@ public class TableView {
     private TableRow.LayoutParams newTableRowParams() {
 
         TableRow.LayoutParams params = new TableRow.LayoutParams();
-        params.setMargins(1, 1, 1, 1);
+        params.setMargins(2, 2, 2, 2);
         params.weight = 2;
         return params;
 
