@@ -63,4 +63,11 @@ public class MyActivityFragment extends Fragment {
 
         return root;
     }
+
+    /*  private void datePresent() {
+        SimpleDateFormat fechForm = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        Date fechaHoy = new Date();
+        present = fechForm.format(fechaHoy);
+    }*/
+
 }

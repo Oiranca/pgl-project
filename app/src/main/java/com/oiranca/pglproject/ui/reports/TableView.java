@@ -1,200 +1,93 @@
 package com.oiranca.pglproject.ui.reports;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.oiranca.pglproject.R;
+
 import java.util.ArrayList;
 
 public class TableView {
-
-    private TableLayout tableLayout;
+    private TableLayout table;
+    private TableRow nRow;
+    private ArrayList<TableRow> rows;
+    private Resources rs;
     private Context context;
-    private String[] header;
-    private ArrayList<String[]> data;
-    private TableRow tableRow;
-    private TextView txtCell;
-    private int indexC, indexR;
-
-    private int firstColor;
+    private TextView textView;
+    private int indexR, indeC;
 
 
-    public TableView(TableLayout tableLayout, Context context) {
-
-        this.tableLayout = tableLayout;
+    public TableView(TableLayout table, Context context) {
+        this.table = table;
         this.context = context;
-
+        rs = this.context.getResources();
+        indexR = indeC = 0;
+        rows = new ArrayList<TableRow>();
     }
 
 
-    public void setHeader(String[] header) {
-        this.header = header;
-       createHeader();
-    }
+    public void addHead(String[] head) {
 
 
-    public void setData(ArrayList<String[]> data) {
-        this.data = data;
+        nRow = new TableRow(context);
+        indeC = head.length;
 
-        createDataTable();
-    }
-
-    private void newRow() {
-
-        tableRow = new TableRow(context);
-
-    }
-
-    private void newCell() {
-
-        txtCell = new TextView(context);
-        txtCell.setGravity(Gravity.CENTER);
-        txtCell.setTextSize(16);
+        for (int i = 0; i < head.length; i++) {
+            textView = new TextView(context);
+            textView.setText(head[i]);
+            textView.setGravity(Gravity.CENTER_HORIZONTAL);
+            textView.setTextSize(18);
+            textView.setTextColor(Color.WHITE);
+            textView.setBackgroundResource(R.drawable.heade_table);
 
 
-    }
-
-    private void createHeader() {
-        indexC = 0;
-        newRow();
-
-        while (indexC < header.length) {
-            newCell();
-            txtCell.setText(header[indexC++]);
-            txtCell.setWidth(0);
-            txtCell.setHeight(60);
-            tableRow.addView(txtCell, newTableRowParams());
-
+            nRow.addView(textView, newTableRowParams());
         }
 
-        tableLayout.addView(tableRow);
+        table.addView(nRow);
+        rows.add(nRow);
+
+        indexR++;
     }
 
-    private void createDataTable() {
-        String info;
+    public void agregarFilaTabla(ArrayList<String> elementos) {
 
-        for (indexR = 1; indexR <= header.length; indexR++) {
-            newRow();
 
-            for (indexC = 0; indexC < header.length; indexC++) {
-                newCell();
-                String[] row = data.get(indexR - 1);
-                info = (indexC < row.length) ? row[indexC] : "";
-                txtCell.setText(info);
-                txtCell.setWidth(0);
-                txtCell.setHeight(60);
-                tableRow.addView(txtCell, newTableRowParams());
+        nRow = new TableRow(context);
 
-            }
 
-            tableLayout.addView(tableRow);
+        for (int i = 0; i < elementos.size(); i++) {
+            textView = new TextView(context);
+            textView.setText(String.valueOf(elementos.get(i)));
+            textView.setGravity(Gravity.CENTER_HORIZONTAL);
+            textView.setTextSize(16);
+            textView.setBackgroundResource(R.drawable.cell_table);
 
+            textView.setWidth(0);
+            textView.setHeight(60);
+            nRow.addView(textView, newTableRowParams());
         }
 
+        table.addView(nRow);
+        rows.add(nRow);
 
-    }
-
-    public void addItems(String[] item) {
-
-        String info;
-        data.add(item);
-        indexC = 0;
-        newRow();
-        while (indexC < header.length) {
-            newCell();
-            info = (indexC < item.length) ? item[indexC++] : "";
-            txtCell.setText(info);
-            tableRow.addView(txtCell, newTableRowParams());
-        }
-        tableLayout.addView(tableRow, data.size() - 1);
-        reColoring();
-
-
-
-    }
-
-    public void backgroundHeader(int color) {
-
-        indexC = 0;
-        newRow();
-        while (indexC < header.length) {
-            txtCell = getCell(0, indexC++);
-            txtCell.setBackgroundColor(color);
-            txtCell.setTypeface(null, Typeface.BOLD);
-
-
-        }
-
-
-    }
-
-
-    public void backgroundData(int firstColor) {
-
-        for (indexR = 1; indexR <= header.length; indexR++) {
-
-
-            for (indexC = 0; indexC < header.length; indexC++) {
-                txtCell = getCell(indexR, indexC);
-                txtCell.setBackgroundColor(firstColor);
-
-
-            }
-
-
-        }
-
-        this.firstColor = firstColor;
-
-
-    }
-
-    public void reColoring() {
-
-        indexC = 0;
-
-        while (indexC < header.length) {
-            txtCell = getCell(data.size() - 1, indexC++);
-            txtCell.setBackgroundColor(firstColor);
-
-        }
-
-
-    }
-
-    public void lineColor(int color){
-        indexR=0;
-        while (indexR<data.size()){
-            getRow(indexR++).setBackgroundColor(color);
-
-        }
-
-    }
-
-    private TableRow getRow(int index) {
-        return (TableRow) tableLayout.getChildAt(index);
-
-
-    }
-
-    private TextView getCell(int rowIndex, int columsIndex) {
-
-        tableRow = getRow(rowIndex);
-        return (TextView) tableRow.getChildAt(columsIndex);
-
-
+        indexR++;
     }
 
     private TableRow.LayoutParams newTableRowParams() {
 
         TableRow.LayoutParams params = new TableRow.LayoutParams();
-        params.setMargins(2, 2, 2, 2);
-        params.weight = 2;
+        params.setMargins(1, 1, 1, 1);
+        params.weight = 1;
         return params;
 
     }
+
+
 }
 
