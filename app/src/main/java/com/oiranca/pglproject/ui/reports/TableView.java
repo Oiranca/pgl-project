@@ -44,7 +44,8 @@ public class TableView {
             textView.setTextSize(18);
             textView.setTextColor(Color.WHITE);
             textView.setBackgroundResource(R.drawable.heade_table);
-
+            textView.setWidth(0);
+            textView.setHeight(75);
 
             nRow.addView(textView, newTableRowParams());
         }

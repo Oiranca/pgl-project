@@ -22,15 +22,5 @@
 
     <include layout="@layout/content_navigation_admin" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabSendAdm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="#3B88C3"
-        app:fabSize="mini"
-        app:maxImageSize="35dp"
-        app:srcCompat="@android:drawable/sym_action_email" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

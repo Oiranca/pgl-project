@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class ReportsFragment extends Fragment {
 
     private ReportsViewModel reportsViewModel;
-    private TableView tablaDyn;
+    private TableView tablaDyn,tabHead;
     private String[] header = {"Fecha", "Nombre", "Actividad"};
     private ArrayList<String>item;
     private String[] datos;
@@ -38,7 +38,9 @@ public class ReportsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_reports, container, false);
         TableLayout tableLayout = (TableLayout) root.findViewById(R.id.tableReports);
         tablaDyn = new TableView(tableLayout, getContext());
-        tablaDyn.addHead(header);
+        TableLayout headTable = (TableLayout)root.findViewById(R.id.headTable);
+        tabHead = new TableView(headTable, getContext());
+        tabHead.addHead(header);
 
 
         CalendarView calenReport = root.findViewById(R.id.calendarReport);

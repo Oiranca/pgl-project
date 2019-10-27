@@ -28,7 +28,7 @@ public class ActivityForgot extends AppCompatActivity {
         setSupportActionBar(toolbar);
         forgoten = (EditText) findViewById(R.id.textForgot);
 
-        FloatingActionButton fab = findViewById(R.id.fabSendAdm);
+        FloatingActionButton fab = findViewById(R.id.fabForgot);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

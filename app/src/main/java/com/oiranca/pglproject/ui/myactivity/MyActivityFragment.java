@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -17,11 +16,16 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.oiranca.pglproject.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class MyActivityFragment extends Fragment {
 
 
     private MyActivityViewModel myActivityViewModel;
-    String actadm = null;
+    private String actadm = null;
+    private CheckBox chkMy,chkMybis;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,13 +41,11 @@ public class MyActivityFragment extends Fragment {
         });
 
 
-        final CheckBox chkMy = root.findViewById(R.id.checkBoxAdm);
-        final CheckBox chkMybis = root.findViewById(R.id.checkBoxAdmBis);
-
-// Aquí pondríamos los datos de las actividades en la base de datos al pulsar el calendario
-
+        chkMy = root.findViewById(R.id.checkBoxAdm);
+        chkMybis = root.findViewById(R.id.checkBoxAdmBis);
 
         CalendarView calendar = root.findViewById(R.id.calendarMactivity);
+        datePresent();
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -64,10 +66,15 @@ public class MyActivityFragment extends Fragment {
         return root;
     }
 
-    /*  private void datePresent() {
+    private void  datePresent() {
+
         SimpleDateFormat fechForm = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
         Date fechaHoy = new Date();
-        present = fechForm.format(fechaHoy);
-    }*/
+        String present = fechForm.format(fechaHoy);
+
+        chkMy.setText(getString(R.string.first_activity) + present);
+        chkMybis.setText(getString(R.string.second_activity) + present);
+
+    }
 
 }

@@ -40,17 +40,6 @@ public class NavigationAdmin extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fabSendAdm);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Snackbar.make(view, "Pendiente de programar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-            }
-        });
-
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         final NavigationView navigationView = findViewById(R.id.nav_view);

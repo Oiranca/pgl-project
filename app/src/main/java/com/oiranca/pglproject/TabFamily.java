@@ -33,17 +33,6 @@ public class TabFamily extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-
-        FloatingActionButton fab = findViewById(R.id.fabTabFam);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
