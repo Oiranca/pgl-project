@@ -12,13 +12,20 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".DialogAdmin"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar.Dialog"
+            />
+        <activity
             android:name=".TabFamily"
             android:label="@string/title_activity_tab_family"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NavigationAdmin"
             android:label="@string/title_activity_navigation_admin"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -27,10 +34,12 @@
         <activity
             android:name=".ActivityForgot"
             android:label="@string/title_activity_forgot"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivitySignUp"
             android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>

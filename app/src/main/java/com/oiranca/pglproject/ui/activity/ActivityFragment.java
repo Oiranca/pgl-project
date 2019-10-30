@@ -23,6 +23,7 @@ public class ActivityFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         activityViewModel =ViewModelProviders.of(this).get(ActivityViewModel.class);
         View root = inflater.inflate(R.layout.fragment_activity, container, false);
         Spinner spinnerFam = root.findViewById(R.id.spinnerFamily);

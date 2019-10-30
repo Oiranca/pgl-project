@@ -4,8 +4,9 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -15,21 +16,25 @@ public class DialogApp extends DialogFragment {
     public Dialog onCreateDialog (Bundle saveInstanceState){
 
         AlertDialog.Builder provicional = new AlertDialog.Builder(getActivity());
-        provicional.setMessage("Provisional elige una opción").setPositiveButton("Admin", new DialogInterface.OnClickListener() {
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        provicional.setView(inflater.inflate(R.layout.dialog, null));
+        provicional.setTitle("Email del administrador").setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                Intent adminIntent = new Intent(getActivity(),NavigationAdmin.class);
-                startActivity(adminIntent);
+                Toast.makeText(getContext(),"Boton Aceptar",Toast.LENGTH_LONG).show();
+
+              /*  Intent adminIntent = new Intent(getActivity(),NavigationAdmin.class);
+                startActivity(adminIntent);*/
 
             }
-        }).setNegativeButton("Familiar", new DialogInterface.OnClickListener() {
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(),"Boton Cancelar",Toast.LENGTH_LONG).show();
 
-
-                Intent famIntent = new Intent(getActivity(),TabFamily.class);
-                startActivity(famIntent);
+               // Intent famIntent = new Intent(getActivity(),TabFamily.class);
+              //  startActivity(famIntent);
 
             }
         });

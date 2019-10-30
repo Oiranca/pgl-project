@@ -40,6 +40,11 @@
     <string name="family_surname">Enter family surname</string>
     <string name="surname">Surname</string>
     <string name="send_data">Send Data</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancel">Cancel</string>
+    <string name="acept">Acept</string>
+    <string name="e_mail_del_administrador">¿E-mail del administrador?</string>
 
 
     <string-array name="works">

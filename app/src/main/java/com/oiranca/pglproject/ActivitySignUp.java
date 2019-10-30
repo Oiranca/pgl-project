@@ -1,6 +1,7 @@
 package com.oiranca.pglproject;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -8,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
 import android.text.TextUtils;
 import android.view.Menu;
@@ -32,10 +34,10 @@ public class ActivitySignUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_sign_up);
         Toolbar toolbar = findViewById(R.id.toolbarSign);
         setSupportActionBar(toolbar);
-
 
 
         name = (EditText) findViewById(R.id.name_sign);
@@ -45,6 +47,14 @@ public class ActivitySignUp extends AppCompatActivity {
         rPass = (EditText) findViewById(R.id.repeat_sign);
         checkedAdmin = (RadioButton) findViewById(R.id.radioAdmin);
         checkedFam = (RadioButton) findViewById(R.id.radioFam);
+
+        checkedFam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent admini = new Intent(getApplicationContext(), DialogAdmin.class);
+                startActivity(admini);
+            }
+        });
 
         FloatingActionButton backFab = findViewById(R.id.signOk);
         backFab.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +150,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -160,4 +171,6 @@ public class ActivitySignUp extends AppCompatActivity {
         return true;
 
     }
+
+
 }
