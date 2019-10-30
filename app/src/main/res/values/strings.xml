@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Home|worK</string>
     <string name="text_welcome">Login</string>
+    <string name="enter">Ok</string>
     <string name="plain_text_user">Enter your user</string>
     <string name="plain_text_pass">Enter your password</string>
     <string name="text_pass_forget"> Remember password?</string>
@@ -15,11 +16,8 @@
     <string name="title_activity_forgot">Forgotten</string>
     <string name="family_activity_admin">Assignment Family</string>
     <string name="title_activity_navigation_admin">NavigationAdmin</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_subtitle">homerwork@gmail.com</string>
     <string name="back">Log out</string>
-    <string name="exit">Exit</string>
     <string name="first_activity">1ª Tarea:</string>
     <string name="second_activity">2ª Tarea:</string>
     <string name="action_settings">Settings</string>
@@ -31,12 +29,22 @@
     <string name="new_family_email">Enter family email</string>
     <string name="new_name">Name</string>
     <string name="new_email">Email</string>
-    <string name="title_activity_fam">My Activity</string>
+    <string name="title_activity_tab_family">Home|Work Family</string>
+    <string name="my_activity">My activity</string>
+
 
     <!--Warnnig-->
 
     <string name="empty">Campo obligatorio</string>
     <string name="checked">Debe seleccionar una opción</string>
+    <string name="family_surname">Enter family surname</string>
+    <string name="surname">Surname</string>
+    <string name="send_data">Send Data</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancel">Cancel</string>
+    <string name="acept">Acept</string>
+    <string name="e_mail_del_administrador">¿E-mail del administrador?</string>
 
 
     <string-array name="works">

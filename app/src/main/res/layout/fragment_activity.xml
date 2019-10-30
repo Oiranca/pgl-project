@@ -5,80 +5,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/home"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="16sp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <CalendarView
-        android:id="@+id/calenAssig"
-        android:layout_width="288dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/calendar_custom"
-        app:layout_constraintEnd_toEndOf="@+id/spinnerFamily"
-        app:layout_constraintHorizontal_bias="0.416"
-        app:layout_constraintStart_toStartOf="@+id/spinnerFamily"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerFamily" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textFamily"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="monospace"
-        android:text="@string/family_activity_admin"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/home"
-        app:layout_constraintStart_toStartOf="@+id/home"
-        app:layout_constraintTop_toBottomOf="@+id/home" />
+            <TextView
+                android:id="@+id/home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textAlignment="center"
+                android:textSize="16sp" />
 
-    <Spinner
-        android:id="@+id/spinnerFamily"
-        android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/spinner_custom"
-        android:entries="@array/pruebas"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/textFamily"
-        app:layout_constraintStart_toStartOf="@+id/textFamily"
-        app:layout_constraintTop_toBottomOf="@+id/textFamily" />
+            <TextView
+                android:id="@+id/textFamily"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:text="@string/family_activity_admin"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textWork"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="monospace"
-        android:text="@string/assignment_work"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/calenAssig"
-        app:layout_constraintStart_toStartOf="@+id/calenAssig"
-        app:layout_constraintTop_toBottomOf="@+id/calenAssig" />
+            <Spinner
+                android:id="@+id/spinnerFamily"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/spinner_custom"
+                android:entries="@array/pruebas"
+                android:textAlignment="center"
+                android:layout_gravity="center_horizontal"/>
 
-    <Spinner
-        android:id="@+id/spinnerWork"
-        android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/spinner_custom"
-        android:entries="@array/works"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textWork" />
+            <CalendarView
+                android:id="@+id/calenAssig"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/calendar_custom" />
+
+            <TextView
+                android:id="@+id/textWork"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="monospace"
+                android:text="@string/assignment_work"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerWork"
+                android:layout_width="300dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/spinner_custom"
+                android:entries="@array/works"
+                android:textAlignment="center"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

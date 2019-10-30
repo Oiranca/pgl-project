@@ -5,25 +5,27 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/homework"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".ActivityFam"
-            android:label="@string/title_activity_fam"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.oiranca.pglproject.MainActivity" />
-        </activity>
+            android:name=".DialogAdmin"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar.Dialog"
+            />
+        <activity
+            android:name=".TabFamily"
+            android:label="@string/title_activity_tab_family"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NavigationAdmin"
             android:label="@string/title_activity_navigation_admin"
             android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -32,10 +34,12 @@
         <activity
             android:name=".ActivityForgot"
             android:label="@string/title_activity_forgot"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivitySignUp"
             android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>

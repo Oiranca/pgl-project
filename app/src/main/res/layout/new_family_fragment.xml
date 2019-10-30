@@ -18,77 +18,99 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/newNameF"
-        android:layout_width="350dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="136dp"
-        android:background="@drawable/editext_custom"
-        android:ems="10"
-        android:hint="@string/new_family_name"
-        android:inputType="textPersonName"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textnewF" />
-
-    <EditText
-        android:id="@+id/newEmailF"
-        android:layout_width="350dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="132dp"
-        android:background="@drawable/editext_custom"
-        android:ems="10"
-        android:hint="@string/new_family_email"
-        android:inputType="textEmailAddress"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/newNameF"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/newNameF"
-        app:layout_constraintTop_toBottomOf="@+id/newNameF" />
-
-    <TextView
-        android:id="@+id/textnewF"
+    <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="monospace"
-        android:text="@string/menu_new_family"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_newf" />
+        app:layout_constraintTop_toBottomOf="@+id/text_newf">
 
-    <TextView
-        android:id="@+id/nameFam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:fontFamily="monospace"
-        android:text="@string/new_name"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/newNameF"
-        app:layout_constraintEnd_toEndOf="@+id/newNameF"
-        app:layout_constraintHorizontal_bias="0.058"
-        app:layout_constraintStart_toStartOf="@+id/newNameF" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/emailFam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="32dp"
-        android:fontFamily="monospace"
-        android:text="@string/new_email"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/newEmailF"
-        app:layout_constraintEnd_toEndOf="@+id/newEmailF"
-        app:layout_constraintHorizontal_bias="0.061"
-        app:layout_constraintStart_toStartOf="@+id/newEmailF"
-        app:layout_constraintTop_toBottomOf="@+id/newNameF"
-        app:layout_constraintVertical_bias="1.0" />
+            <TextView
+                android:id="@+id/textnewF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="monospace"
+                android:text="@string/menu_new_family"
+                android:layout_gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nameFam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="monospace"
+                android:text="@string/new_name"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/newNameF"
+                android:layout_width="350dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/editext_custom"
+                android:ems="10"
+                android:hint="@string/new_family_name"
+                android:inputType="textPersonName"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textNsurname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="monospace"
+                android:text="@string/surname"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/newSurname"
+                android:layout_width="350sp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/editext_custom"
+                android:ems="10"
+                android:hint="@string/family_surname"
+                android:inputType="textPersonName"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/emailFam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:fontFamily="monospace"
+                android:text="@string/new_email"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/newEmailF"
+                android:layout_width="350dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/editext_custom"
+                android:ems="10"
+                android:hint="@string/new_family_email"
+                android:inputType="textEmailAddress"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
