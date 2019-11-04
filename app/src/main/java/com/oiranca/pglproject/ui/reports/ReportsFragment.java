@@ -23,12 +23,11 @@ import java.util.ArrayList;
 public class ReportsFragment extends Fragment {
 
     private ReportsViewModel reportsViewModel;
-    private TableView tablaDyn,tabHead;
-    private String[] header = {"Fecha", "Nombre", "Actividad"};
-    private ArrayList<String>item;
+    private TableView tablaDyn, tabHead;
+    private String[] header = {"Fecha", "Nombre", "Actividad", "Realizado"};
+    private ArrayList<String> item;
     private String[] datos;
     private String date;
-
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -38,7 +37,7 @@ public class ReportsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_reports, container, false);
         TableLayout tableLayout = (TableLayout) root.findViewById(R.id.tableReports);
         tablaDyn = new TableView(tableLayout, getContext());
-        TableLayout headTable = (TableLayout)root.findViewById(R.id.headTable);
+        TableLayout headTable = (TableLayout) root.findViewById(R.id.headTable);
         tabHead = new TableView(headTable, getContext());
         tabHead.addHead(header);
 
@@ -49,14 +48,14 @@ public class ReportsFragment extends Fragment {
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 date = dayOfMonth + "." + month + "." + year;
 
-                    item = new ArrayList<String>();
-                    item.add(date);
-                    item.add("Casilla [" + "i" + ", 0]");
-                    item.add("Casilla.. [" + "i" + ", 1]");
+                item = new ArrayList<String>();
+                item.add(date);
+                item.add("Casilla [" + "i" + ", 0]");
+                item.add("Casilla.. [" + "i" + ", 1]");
+                item.add("Casilla.. [" + "i" + ", 2]");
 
 
-
-                tablaDyn.agregarFilaTabla(item);
+                tablaDyn.addFile(item);
             }
         });
 

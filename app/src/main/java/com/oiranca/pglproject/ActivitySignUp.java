@@ -1,15 +1,18 @@
 package com.oiranca.pglproject;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.oiranca.pglproject.ui.conection.BaseCreate;
+import com.oiranca.pglproject.ui.conection.HelperBase;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
+
 
 import android.text.TextUtils;
 import android.view.Menu;
@@ -17,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class ActivitySignUp extends AppCompatActivity {
@@ -26,9 +28,9 @@ public class ActivitySignUp extends AppCompatActivity {
     EditText email;
     EditText pass;
     EditText rPass;
-    RadioGroup group;
     RadioButton checkedAdmin;
     RadioButton checkedFam;
+    HelperBase dbHelp;
 
 
     @Override
@@ -48,6 +50,7 @@ public class ActivitySignUp extends AppCompatActivity {
         checkedAdmin = (RadioButton) findViewById(R.id.radioAdmin);
         checkedFam = (RadioButton) findViewById(R.id.radioFam);
 
+
         checkedFam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,16 +59,6 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton backFab = findViewById(R.id.signOk);
-        backFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                Intent backMenu = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(backMenu);
-            }
-        });
 
         FloatingActionButton okFab = findViewById(R.id.signOk);
         okFab.setOnClickListener(new View.OnClickListener() {
@@ -133,14 +126,29 @@ public class ActivitySignUp extends AppCompatActivity {
                             rPass.requestFocus();
                             return;
                         }
-                        if (checkedAdmin.isChecked() || checkedFam.isChecked()) {
-                            Intent fortgot = new Intent(getApplicationContext(), MainActivity.class);
-                            Toast.makeText(getApplicationContext(), "Registrado Correctamente", Toast.LENGTH_LONG).show();
-                            startActivity(fortgot);
+                        if (checkedAdmin.isChecked()) {
+                            dbHelp = new HelperBase(getApplicationContext(), "HomeWork.db", null, 1);
+                            SQLiteDatabase db = dbHelp.getWritableDatabase();
+                            ContentValues values = new ContentValues();
 
+                            values.put(BaseCreate.COLUMN_NAME, nameText);
+                            values.put(BaseCreate.COLUMN_SURNAME, surnameText);
+                            values.put(BaseCreate.COLUMN_MAIL, emailText);
+                            values.put(BaseCreate.COLUMN_PASS, passText);
+                            values.put(BaseCreate.COLUMN_RANGE, "Administrador");
+
+                            long rId = db.insert(BaseCreate.NAME_TABLE, BaseCreate.ID, values);
+
+                            Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación " + rId, Toast.LENGTH_LONG).show();
+
+                            db.close();
                         } else {
-                            Toast.makeText(getApplicationContext(), getString(R.string.checked), Toast.LENGTH_LONG).show();
 
+                            if (checkedFam.isChecked()) {
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), getString(R.string.checked), Toast.LENGTH_LONG).show();
+                            }
                         }
 
                     }
@@ -150,6 +158,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
