@@ -6,65 +6,78 @@
     android:layout_height="match_parent"
     tools:context=".DialogAdmin">
 
-    <EditText
-        android:id="@+id/editDAdmin"
-        android:layout_width="300dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/spinner_custom"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
     <Button
         android:id="@+id/buttonCancel"
-        android:layout_width="77dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_custom"
         android:gravity="center"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonAcep"
-        app:layout_constraintHorizontal_bias="0.273"
+        app:layout_constraintHorizontal_bias="0.658"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDAdmin"
-        android:layout_marginVertical="16dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/radioFamSign"
+        app:layout_constraintVertical_bias="0.046"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/buttonAcep"
-        android:layout_width="77dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_custom"
         android:gravity="center"
         android:text="@string/acept"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.832"
+        app:layout_constraintHorizontal_bias="0.725"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDAdmin"
-        android:layout_marginVertical="16dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/radioFamSign"
+        app:layout_constraintVertical_bias="0.046"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="monospace"
-        android:text="@string/e_mail_del_administrador"
-        android:textSize="18sp"
+        android:text="@string/seleciona_administrador_o_familiar"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editDAdmin"
-        app:layout_constraintEnd_toEndOf="@+id/editDAdmin"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="@+id/editDAdmin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioButton
+        android:id="@+id/radioAdminSign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/radio_plain_admin"
+        app:layout_constraintEnd_toEndOf="@+id/textDialog"
+        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintStart_toStartOf="@+id/textDialog"
+        app:layout_constraintTop_toBottomOf="@+id/textDialog" />
+
+    <RadioButton
+        android:id="@+id/radioFamSign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:text="@string/radio_plain_family"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textDialog"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/textDialog"
+        app:layout_constraintTop_toBottomOf="@+id/radioAdminSign"
+        app:layout_constraintVertical_bias="0.017" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

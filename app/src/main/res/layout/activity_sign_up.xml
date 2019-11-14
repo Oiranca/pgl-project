@@ -28,6 +28,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+
+
             <EditText
                 android:id="@+id/name_sign"
                 android:layout_width="300dp"
@@ -56,8 +58,7 @@
                 android:layout_marginTop="40dp"
                 android:ems="10"
                 android:hint="@string/text_mail"
-                android:inputType="textPersonName"
-                tools:ignore="TextFields" />
+                android:inputType="textEmailAddress"/>
 
             <EditText
                 android:id="@+id/pass_sign"
@@ -79,31 +80,17 @@
                 android:hint="@string/plain_sign_pass_repeat"
                 android:inputType="textPersonName" />
 
-            <RadioGroup
-                android:id="@+id/gruop_sign"
-                android:layout_width="wrap_content"
+
+            <EditText
+                android:id="@+id/emailSignAdmin"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="40dp"
+                android:ems="10"
+                android:hint="@string/e_mail_del_administrador"
+                android:inputType="textEmailAddress"/>
 
-                <RadioButton
-                    android:id="@+id/radioAdmin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/radio_plain_admin"
-                    android:textColor="#465F85"
-                    android:textSize="20sp" />
-
-                <RadioButton
-                    android:id="@+id/radioFam"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/radio_plain_family"
-                    android:textColor="#465F85"
-                    android:textSize="20sp"
-                    android:visibility="visible" />
-
-            </RadioGroup>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/signOk"
