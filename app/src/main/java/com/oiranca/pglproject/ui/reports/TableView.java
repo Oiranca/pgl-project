@@ -56,7 +56,7 @@ public class TableView {
         indexR++;
     }
 
-    public void agregarFilaTabla(ArrayList<String> elementos) {
+    public void addFile(ArrayList<String> elementos) {
 
 
         nRow = new TableRow(context);

@@ -2,8 +2,7 @@ package com.oiranca.pglproject;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.Navigation;
+
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -16,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+
 public class MainActivity extends AppCompatActivity {
 
     Button loginButton;
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
-
         mail = findViewById(R.id.plain_email);
         pass = findViewById(R.id.plain_password);
 
