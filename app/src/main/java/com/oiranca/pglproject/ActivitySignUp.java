@@ -1,15 +1,27 @@
 package com.oiranca.pglproject;
 
-import android.content.ContentValues;
+
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.oiranca.pglproject.ui.conection.BaseCreate;
-import com.oiranca.pglproject.ui.conection.HelperBase;
 
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.oiranca.pglproject.ui.entidades.Admin;
+import com.oiranca.pglproject.ui.entidades.Family;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,8 +31,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Toast;
+
+import java.util.UUID;
+import java.util.Vector;
 
 public class ActivitySignUp extends AppCompatActivity {
     EditText name;
@@ -28,9 +42,10 @@ public class ActivitySignUp extends AppCompatActivity {
     EditText email;
     EditText pass;
     EditText rPass;
-    RadioButton checkedAdmin;
-    RadioButton checkedFam;
-    HelperBase dbHelp;
+    EditText emailAdmin;
+    private int op = 1;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
 
     @Override
@@ -47,31 +62,37 @@ public class ActivitySignUp extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email_sign);
         pass = (EditText) findViewById(R.id.pass_sign);
         rPass = (EditText) findViewById(R.id.repeat_sign);
-        checkedAdmin = (RadioButton) findViewById(R.id.radioAdmin);
-        checkedFam = (RadioButton) findViewById(R.id.radioFam);
-
-
-        checkedFam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent admini = new Intent(getApplicationContext(), DialogAdmin.class);
-                startActivity(admini);
-            }
-        });
+        emailAdmin = (EditText) findViewById(R.id.emailSignAdmin);
+        option();
 
 
         FloatingActionButton okFab = findViewById(R.id.signOk);
         okFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 correct();
 
             }
         });
 
 
+    }
+
+    private void option() {
+
+        Intent idAd = this.getIntent();
+        Bundle admin = idAd.getExtras();
+        boolean selected = admin.getBoolean("administrator");
+
+
+        if (selected == false) {
+            emailAdmin.setVisibility(View.INVISIBLE);
+            op = 0;
+            Toast.makeText(getApplicationContext(), "Es Administrador", Toast.LENGTH_LONG).show();
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Es Familiar", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void correct() {
@@ -81,7 +102,7 @@ public class ActivitySignUp extends AppCompatActivity {
         email.setError(null);
         pass.setError(null);
         rPass.setError(null);
-        checkedAdmin.setError(null);
+        emailAdmin.setError(null);
 
 
         String nameText = name.getText().toString();
@@ -89,6 +110,8 @@ public class ActivitySignUp extends AppCompatActivity {
         String emailText = email.getText().toString();
         String passText = pass.getText().toString();
         String rpText = rPass.getText().toString();
+        final String emailAdText = emailAdmin.getText().toString();
+
 
         if (TextUtils.isEmpty(nameText)) {
 
@@ -126,28 +149,75 @@ public class ActivitySignUp extends AppCompatActivity {
                             rPass.requestFocus();
                             return;
                         }
-                        if (checkedAdmin.isChecked()) {
-                            dbHelp = new HelperBase(getApplicationContext(), "HomeWork.db", null, 1);
-                            SQLiteDatabase db = dbHelp.getWritableDatabase();
-                            ContentValues values = new ContentValues();
+                        if (op == 0) {
+                            emailAdmin.setVisibility(View.INVISIBLE);
+                            String rpassw = rPass.getText().toString();
+                            Admin ad = new Admin();
 
-                            values.put(BaseCreate.COLUMN_NAME, nameText);
-                            values.put(BaseCreate.COLUMN_SURNAME, surnameText);
-                            values.put(BaseCreate.COLUMN_MAIL, emailText);
-                            values.put(BaseCreate.COLUMN_PASS, passText);
-                            values.put(BaseCreate.COLUMN_RANGE, "Administrador");
+                            ad.setIdAdm(UUID.randomUUID().toString());
+                            ad.setName(nameText);
+                            ad.setSurname(surnameText);
+                            ad.setEmail(emailText);
 
-                            long rId = db.insert(BaseCreate.NAME_TABLE, BaseCreate.ID, values);
+                            if (rpassw.equals(passText)) {
 
-                            Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación " + rId, Toast.LENGTH_LONG).show();
+                                ad.setPass(passText);
+                                ad.setRange("Admin");
+                                firebaseDatabase = FirebaseDatabase.getInstance();
+                                databaseReference = firebaseDatabase.getReference();
+                                databaseReference.child("Admin").child(ad.getIdAdm()).setValue(ad);
 
-                            db.close();
-                        } else {
+                                Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
 
-                            if (checkedFam.isChecked()) {
 
                             } else {
-                                Toast.makeText(getApplicationContext(), getString(R.string.checked), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Constraseñas diferentes ", Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+
+                            if (op == 1) {
+
+                                if (emailAdText.isEmpty()) {
+
+
+                                    emailAdmin.setError(getString(R.string.empty));
+                                    emailAdmin.requestFocus();
+                                    return;
+
+                                } else {
+                                    String rpassw = rPass.getText().toString();
+
+                                    final Family fm = new Family();
+
+                                    fm.setIdFam(UUID.randomUUID().toString());
+                                    fm.setNameF(nameText);
+                                    fm.setSurnameF(surnameText);
+                                    fm.setEmailF(emailText);
+
+                                    if (rpassw.equals(passText)) {
+
+                                        fm.setPassF(passText);
+                                        fm.setRangeF("Fam");
+                                        firebaseDatabase = FirebaseDatabase.getInstance();
+                                        firebaseDatabase.getReference("Admin");
+
+                                                fm.setEmailAdm(emailAdText);
+
+
+
+                                        databaseReference = firebaseDatabase.getReference();
+                                        databaseReference.child("Family").child(fm.getIdFam()).setValue(fm);
+
+                                        Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Constraseñas diferentes ", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+
                             }
                         }
 
@@ -156,7 +226,16 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         }
 
+        clean();
+    }
 
+    private void clean() {
+        name.setText("");
+        surname.setText("");
+        email.setText("");
+        pass.setText("");
+        rPass.setText("");
+        emailAdmin.setText("");
     }
 
 

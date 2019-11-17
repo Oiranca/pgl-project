@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     Button loginButton;
     TextView sign, forgot;
     EditText mail, pass;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +36,15 @@ public class MainActivity extends AppCompatActivity {
         mail = findViewById(R.id.plain_email);
         pass = findViewById(R.id.plain_password);
 
+        starFirebase();
+
 
         sign = findViewById(R.id.text_sign);
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signIntent = new Intent(getApplicationContext(), ActivitySignUp.class);
+
+                Intent signIntent = new Intent(getApplicationContext(), DialogAdmin.class);
                 startActivity(signIntent);
 
             }
@@ -46,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent forgotIntent = new Intent(getApplicationContext(), ActivityForgot.class);
 
                 startActivity(forgotIntent);
@@ -77,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void starFirebase() {
+
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
     }
 
 
