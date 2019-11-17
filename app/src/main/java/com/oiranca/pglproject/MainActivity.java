@@ -15,13 +15,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class MainActivity extends AppCompatActivity {
 
     Button loginButton;
     TextView sign, forgot;
     EditText mail, pass;
-
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mail = findViewById(R.id.plain_email);
         pass = findViewById(R.id.plain_password);
 
-
+        starFirebase();
 
 
         sign = findViewById(R.id.text_sign);
@@ -83,7 +88,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void starFirebase() {
 
+        FirebaseApp.initializeApp(this);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+    }
 
 
 }
