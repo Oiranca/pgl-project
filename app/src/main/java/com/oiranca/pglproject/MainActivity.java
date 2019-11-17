@@ -16,12 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
 public class MainActivity extends AppCompatActivity {
 
     Button loginButton;
     TextView sign, forgot;
     EditText mail, pass;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +32,14 @@ public class MainActivity extends AppCompatActivity {
         pass = findViewById(R.id.plain_password);
 
 
+
+
         sign = findViewById(R.id.text_sign);
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signIntent = new Intent(getApplicationContext(), ActivitySignUp.class);
+
+                Intent signIntent = new Intent(getApplicationContext(), DialogAdmin.class);
                 startActivity(signIntent);
 
             }
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent forgotIntent = new Intent(getApplicationContext(), ActivityForgot.class);
 
                 startActivity(forgotIntent);
@@ -78,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
 }

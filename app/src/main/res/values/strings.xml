@@ -31,10 +31,6 @@
     <string name="new_email">Email</string>
     <string name="title_activity_tab_family">Home|Work Family</string>
     <string name="my_activity">My activity</string>
-
-
-    <!--Warnnig-->
-
     <string name="empty">Campo obligatorio</string>
     <string name="checked">Debe seleccionar una opción</string>
     <string name="family_surname">Enter family surname</string>
@@ -44,7 +40,10 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancel">Cancel</string>
     <string name="acept">Acept</string>
-    <string name="e_mail_del_administrador">¿E-mail del administrador?</string>
+    <string name="e_mail_del_administrador">E-mail del administrador</string>
+    <string name="admin_base">Admin</string>
+    <string name="family_base">Family</string>
+    <string name="seleciona_administrador_o_familiar">Seleciona Administrador o Familiar</string>
 
 
     <string-array name="works">
