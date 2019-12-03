@@ -33,6 +33,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -85,7 +86,7 @@ public class ActivitySignUp extends AppCompatActivity {
         boolean selected = admin.getBoolean("administrator");
 
 
-        if (selected == false) {
+        if (!selected) {
             emailAdmin.setVisibility(View.INVISIBLE);
             op = 0;
             Toast.makeText(getApplicationContext(), "Es Administrador", Toast.LENGTH_LONG).show();
@@ -188,28 +189,51 @@ public class ActivitySignUp extends AppCompatActivity {
                                 } else {
                                     String rpassw = rPass.getText().toString();
 
-                                    final Family fm = new Family();
-
-                                    fm.setIdFam(UUID.randomUUID().toString());
-                                    fm.setNameF(nameText);
-                                    fm.setSurnameF(surnameText);
-                                    fm.setEmailF(emailText);
 
                                     if (rpassw.equals(passText)) {
+
+                                        final Family fm = new Family();
+
+                                        fm.setIdFam(UUID.randomUUID().toString());
+                                        fm.setNameF(nameText);
+                                        fm.setSurnameF(surnameText);
+                                        fm.setEmailF(emailText);
 
                                         fm.setPassF(passText);
                                         fm.setRangeF("Fam");
                                         firebaseDatabase = FirebaseDatabase.getInstance();
-                                        firebaseDatabase.getReference("Admin");
+                                        firebaseDatabase.getReference();
+                                        databaseReference = firebaseDatabase.getReference().child("Admin");
+                                        databaseReference.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                ArrayList<String> isCorrect = new ArrayList<>();
+                                                for (DataSnapshot Emails : dataSnapshot.getChildren()) {
 
-                                                fm.setEmailAdm(emailAdText);
+                                                    String value = Emails.child("email").getValue(String.class);
+                                                    isCorrect.add(value);
 
+                                                }
 
+                                                if (isCorrect.contains(emailAdText)) {
+                                                    databaseReference = firebaseDatabase.getReference();
+                                                    databaseReference.child("Family").child(fm.getIdFam()).setValue(fm);
 
-                                        databaseReference = firebaseDatabase.getReference();
-                                        databaseReference.child("Family").child(fm.getIdFam()).setValue(fm);
+                                                    Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
 
-                                        Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                                } else {
+
+                                                    Toast.makeText(getApplicationContext(), "El admnistrador no existe", Toast.LENGTH_LONG).show();
+
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
 
 
                                     } else {
