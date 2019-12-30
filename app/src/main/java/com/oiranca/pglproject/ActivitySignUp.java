@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -108,7 +109,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
         String nameText = name.getText().toString();
         String surnameText = surname.getText().toString();
-        String emailText = email.getText().toString();
+        final String emailText = email.getText().toString();
         String passText = pass.getText().toString();
         String rpText = rPass.getText().toString();
         final String emailAdText = emailAdmin.getText().toString();
@@ -150,25 +151,55 @@ public class ActivitySignUp extends AppCompatActivity {
                             rPass.requestFocus();
                             return;
                         }
+
+                        // Create Administrator in FireBase
+
                         if (op == 0) {
                             emailAdmin.setVisibility(View.INVISIBLE);
                             String rpassw = rPass.getText().toString();
-                            Admin ad = new Admin();
+                            final Admin ad = new Admin();
+
 
                             ad.setIdAdm(UUID.randomUUID().toString());
                             ad.setName(nameText);
                             ad.setSurname(surnameText);
                             ad.setEmail(emailText);
+                            ad.setRange("Admin");
 
                             if (rpassw.equals(passText)) {
 
-                                ad.setPass(passText);
-                                ad.setRange("Admin");
-                                firebaseDatabase = FirebaseDatabase.getInstance();
-                                databaseReference = firebaseDatabase.getReference();
-                                databaseReference.child("Admin").child(ad.getIdAdm()).setValue(ad);
 
-                                Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                ad.setPass(passText);
+                                firebaseDatabase = FirebaseDatabase.getInstance();
+                                databaseReference = firebaseDatabase.getReference().child("Family-" + emailText.replace(".", "-"));
+
+                                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        ArrayList<String> list = new ArrayList<>();
+
+                                        for (DataSnapshot isExist : dataSnapshot.getChildren()) {
+
+                                            String email = isExist.child("email").getValue(String.class);
+                                            list.add(email);
+                                        }
+                                        if (list.contains(emailText)) {
+
+                                            Toast.makeText(getApplicationContext(), "Ya existe administrador con ese email", Toast.LENGTH_SHORT).show();
+                                        } else {
+
+                                            databaseReference.child(emailText.replace(".", "-")).setValue(ad);
+                                            Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                            backLogin();
+                                        }
+                                    }
+
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.w(null, "Failed to read value", databaseError.toException());
+                                    }
+                                });
 
 
                             } else {
@@ -200,26 +231,33 @@ public class ActivitySignUp extends AppCompatActivity {
                                         fm.setEmailF(emailText);
 
                                         fm.setPassF(passText);
-                                        fm.setRangeF("Fam");
+                                        fm.setRangeF("Family");
                                         firebaseDatabase = FirebaseDatabase.getInstance();
-                                        firebaseDatabase.getReference();
-                                        databaseReference = firebaseDatabase.getReference().child("Admin");
-                                        databaseReference.addValueEventListener(new ValueEventListener() {
+                                        databaseReference = firebaseDatabase.getReference().child("Family-" + emailAdText.replace(".", "-"));
+                                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 ArrayList<String> isCorrect = new ArrayList<>();
-                                                for (DataSnapshot Emails : dataSnapshot.getChildren()) {
-
-                                                    String value = Emails.child("email").getValue(String.class);
+                                                for (DataSnapshot emails : dataSnapshot.getChildren()) {
+                                                    String value = emails.child("email").getValue(String.class);
+                                                    String valueF = emails.child("emailF").getValue(String.class);
                                                     isCorrect.add(value);
+                                                    isCorrect.add(valueF);
+
 
                                                 }
 
                                                 if (isCorrect.contains(emailAdText)) {
-                                                    databaseReference = firebaseDatabase.getReference();
-                                                    databaseReference.child("Family").child(fm.getIdFam()).setValue(fm);
 
-                                                    Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+
+                                                    if (isCorrect.contains(emailText)) {
+                                                        Toast.makeText(getApplicationContext(), "Familiar ya existe ", Toast.LENGTH_LONG).show();
+                                                    } else {
+                                                        databaseReference.child(emailText.replace(".", "-")).setValue(fm);
+                                                        Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                                        backLogin();
+                                                    }
+
 
                                                 } else {
 
@@ -231,7 +269,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                                Log.w(null, "Failed to read value", databaseError.toException());
                                             }
                                         });
 
@@ -251,6 +289,11 @@ public class ActivitySignUp extends AppCompatActivity {
         }
 
         clean();
+    }
+
+    private void backLogin() {
+        Intent login = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(login);
     }
 
     private void clean() {
@@ -277,8 +320,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
         if (id == R.id.action_back) {
 
-            Intent back = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(back);
+            backLogin();
         }
         return true;
 
