@@ -1,6 +1,7 @@
 package com.oiranca.pglproject;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -15,9 +16,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     EditText mail, pass;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    private String rang;
+    private String passComp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mail = findViewById(R.id.plain_email);
         pass = findViewById(R.id.plain_password);
 
-        starFirebase();
+        FirebaseApp.initializeApp(getApplicationContext());
 
 
         sign = findViewById(R.id.text_sign);
@@ -66,33 +74,97 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                firebaseDatabase = FirebaseDatabase.getInstance();
+                databaseReference = firebaseDatabase.getReference();
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if (mail.getText().toString().equals("admin") & pass.getText().toString().equals("admin")) {
-                    Intent admin = new Intent(getApplicationContext(), NavigationAdmin.class);
-                    admin.putExtra("Admin", mail.getText().toString());
-                    startActivity(admin);
+                        for (DataSnapshot emails : dataSnapshot.getChildren()) {
+                            String valuesKey = emails.getKey();
+                            if (valuesKey != null) {
+                                String emailComp;
+                                String emailCompF;
+                                emailComp = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                        child("email").getValue(String.class);
+                                if (emailComp != null) {
+                                    if (emailComp.contains(mail.getText().toString())) {
+                                        passComp = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                child("pass").getValue(String.class);
+                                        if ((passComp != null)) {
+                                            if (passComp.contains(pass.getText().toString())) {
+                                                rang = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                        child("range").getValue(String.class);
+                                                if (rang != null) {
+                                                    if (rang.contains("Admin")) {
 
-                } else {
+                                                        if (passComp.equals(pass.getText().toString())) {
+                                                            Intent admin = new Intent(getApplicationContext(), NavigationAdmin.class);
+                                                            admin.putExtra("Admin", mail.getText().toString());
+                                                            startActivity(admin);
+                                                        }
+                                                    }
 
-                    if (mail.getText().toString().equals("familiar") & pass.getText().toString().equals("familiar")) {
-                        Intent fam = new Intent(getApplicationContext(), TabFamily.class);
-                        startActivity(fam);
+                                                }
+                                            }
 
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrecto", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+
+
+                                } else {
+                                    emailCompF = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                            child("emailF").getValue(String.class);
+                                    if (emailCompF != null) {
+                                        if (emailCompF.contains(mail.getText().toString())) {
+                                            passComp = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                    child("passF").getValue(String.class);
+                                            if ((passComp != null)) {
+                                                if (passComp.contains(pass.getText().toString())) {
+                                                    rang = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                            child("rangeF").getValue(String.class);
+                                                    if (rang != null) {
+                                                        if (rang.contains("Family")) {
+
+                                                            if (passComp.equals(pass.getText().toString())) {
+                                                                Intent fam = new Intent(getApplicationContext(), TabFamily.class);
+                                                                fam.putExtra("Family", mail.getText().toString());
+                                                                startActivity(fam);
+                                                            }
+                                                        }
+
+                                                    }
+                                                }
+
+                                            }
+                                        }
+
+
+                                    }
+
+                                }
+
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "No se encuentrandatos", Toast.LENGTH_LONG).show();
+                            }
+
+
+                        }
+
                     }
-                }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
             }
         });
 
 
-    }
-
-    public void starFirebase() {
-
-        FirebaseApp.initializeApp(this);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
     }
 
 

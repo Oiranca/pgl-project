@@ -171,27 +171,27 @@ public class ActivitySignUp extends AppCompatActivity {
 
                                 ad.setPass(passText);
                                 firebaseDatabase = FirebaseDatabase.getInstance();
-                                databaseReference = firebaseDatabase.getReference().child("Family-" + emailText.replace(".", "-"));
+                                databaseReference = firebaseDatabase.getReference();
 
                                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        ArrayList<String> list = new ArrayList<>();
 
-                                        for (DataSnapshot isExist : dataSnapshot.getChildren()) {
 
-                                            String email = isExist.child("email").getValue(String.class);
-                                            list.add(email);
-                                        }
-                                        if (list.contains(emailText)) {
+                                        String email = dataSnapshot.child("Family-" + emailText.replace(".", "-"))
+                                                .child(emailText.replace(".", "-")).child("email").getValue(String.class);
+                                        if (email != null) {
+                                            if (email.contains(emailText)) {
+                                                Toast.makeText(getApplicationContext(), "Ya existe administrador con ese email", Toast.LENGTH_SHORT).show();
 
-                                            Toast.makeText(getApplicationContext(), "Ya existe administrador con ese email", Toast.LENGTH_SHORT).show();
+                                            }
                                         } else {
 
-                                            databaseReference.child(emailText.replace(".", "-")).setValue(ad);
+                                            databaseReference.child("Family-" + emailText.replace(".", "-")).child(emailText.replace(".", "-")).setValue(ad);
                                             Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
                                             backLogin();
                                         }
+
                                     }
 
 
@@ -237,33 +237,30 @@ public class ActivitySignUp extends AppCompatActivity {
                                         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                ArrayList<String> isCorrect = new ArrayList<>();
-                                                for (DataSnapshot emails : dataSnapshot.getChildren()) {
-                                                    String value = emails.child("email").getValue(String.class);
-                                                    String valueF = emails.child("emailF").getValue(String.class);
-                                                    isCorrect.add(value);
-                                                    isCorrect.add(valueF);
 
 
-                                                }
-
-                                                if (isCorrect.contains(emailAdText)) {
-
-
-                                                    if (isCorrect.contains(emailText)) {
-                                                        Toast.makeText(getApplicationContext(), "Familiar ya existe ", Toast.LENGTH_LONG).show();
-                                                    } else {
-                                                        databaseReference.child(emailText.replace(".", "-")).setValue(fm);
-                                                        Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
-                                                        backLogin();
+                                                String email = dataSnapshot.child(emailAdText.replace(".", "-")).child("email").getValue(String.class);
+                                                if (email != null) {
+                                                    if (email.contains(emailAdText)) {
+                                                        email = dataSnapshot.child(emailText.replace(".", "-")).child("emailF").getValue(String.class);
+                                                        if (email != null) {
+                                                            if (email.contains(emailText)) {
+                                                                Toast.makeText(getApplicationContext(), "Familiar ya existe ", Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }else {
+                                                            databaseReference.child(emailText.replace(".", "-")).setValue(fm);
+                                                            Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                                            backLogin();
+                                                        }
                                                     }
-
-
                                                 } else {
 
-                                                    Toast.makeText(getApplicationContext(), "El admnistrador no existe", Toast.LENGTH_LONG).show();
+
+                                                    Toast.makeText(getApplicationContext(), "El administrador no existe ", Toast.LENGTH_LONG).show();
 
                                                 }
+
+
 
                                             }
 
