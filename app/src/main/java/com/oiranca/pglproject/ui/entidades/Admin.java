@@ -10,6 +10,7 @@ public class Admin {
     String idAdm;
 
 
+
     public Admin(String name, String surname, String email, String pass, String range, String idAdm) {
         this.name = name;
         this.surname = surname;

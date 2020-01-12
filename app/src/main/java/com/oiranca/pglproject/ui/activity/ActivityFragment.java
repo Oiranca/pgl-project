@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
+import com.oiranca.pglproject.ui.entidades.Admin;
 
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ public class ActivityFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     ArrayAdapter<String> comAdp;
+    String date;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -40,8 +43,8 @@ public class ActivityFragment extends Fragment {
         activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_activity, container, false);
         final Spinner spinnerFam = root.findViewById(R.id.spinnerFamily);
-
         final Spinner spinnerWork = root.findViewById(R.id.spinnerWork);
+        final CalendarView calendarView = root.findViewById(R.id.calendarAssig);
 
 
         Intent idUser = getActivity().getIntent();
@@ -84,52 +87,68 @@ public class ActivityFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 final String famSelect = spinnerFam.getSelectedItem().toString();
-                spinnerWork.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        final String workSelect = spinnerWork.getSelectedItem().toString();
-                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                        int correction = 1 + month;
+                        date = dayOfMonth + "-" + correction + "-" + year;
+
+                        spinnerWork.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                String email;
-                                for (DataSnapshot work : dataSnapshot.getChildren()) {
-                                    String namesAd = work.child("name").getValue(String.class);
-                                    String namesFam = work.child("nameF").getValue(String.class);
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                final String workSelect = spinnerWork.getSelectedItem().toString();
+                                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        String email;
 
-                                    if (namesAd != null) {
-                                        if (namesAd.contains(famSelect)) {
-                                            email = work.child("email").getValue(String.class);
-                                            Toast.makeText(getContext(), email, Toast.LENGTH_LONG).show();
+
+                                        for (DataSnapshot work : dataSnapshot.getChildren()) {
+                                            String namesAd = work.child("name").getValue(String.class);
+                                            String namesFam = work.child("nameF").getValue(String.class);
+
+
+                                            if (namesAd != null) {
+                                                if (namesAd.contains(famSelect)) {
+                                                    email = work.child("email").getValue(String.class);
+                                                    String emailRemplace = email.replace(".", "-");
+
+                                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+
+                                                    Toast.makeText(getContext(), email + workSelect + date, Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            if (namesFam != null) {
+                                                if (namesFam.contains(famSelect)) {
+                                                    email = work.child("emailF").getValue(String.class);
+                                                    Toast.makeText(getContext(), email + workSelect + date, Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+
                                         }
                                     }
 
-                                    if (namesFam != null) {
-                                        if (namesFam.contains(famSelect)) {
-                                            email = work.child("emailF").getValue(String.class);
-                                            Toast.makeText(getContext(), email, Toast.LENGTH_LONG).show();
-                                        }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
                                     }
+                                });
 
 
-
-                                }
                             }
 
-
                             @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            public void onNothingSelected(AdapterView<?> parent) {
 
                             }
                         });
-
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
+
 
             }
 

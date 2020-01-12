@@ -46,7 +46,8 @@ public class ReportsFragment extends Fragment {
         calenReport.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                date = dayOfMonth + "." + month + "." + year;
+                int correction = 1 + month;
+                date = dayOfMonth + "." + correction + "." + year;
 
                 item = new ArrayList<String>();
                 item.add(date);
