@@ -77,7 +77,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/spinner_custom"
                 android:entries="@array/works"
-                android:textAlignment="center" />
+               />
         </LinearLayout>
     </ScrollView>
 

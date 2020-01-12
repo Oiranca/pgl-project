@@ -30,17 +30,18 @@ import java.util.ArrayList;
 
 public class ActivityFragment extends Fragment {
 
-    private ActivityViewModel activityViewModel;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
-    ArrayAdapter<String> comAdp;
-    String date;
+    private DatabaseReference databaseReference;
+    private ArrayAdapter<String> comAdp;
+    private String date;
+    private String famSelect;
+    private String workSelect;
+    private String emailRemplace;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel.class);
+        ActivityViewModel activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_activity, container, false);
         final Spinner spinnerFam = root.findViewById(R.id.spinnerFamily);
         final Spinner spinnerWork = root.findViewById(R.id.spinnerWork);
@@ -53,13 +54,13 @@ public class ActivityFragment extends Fragment {
 
         emailUser = user.getString("Admin");
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Family-" + emailUser.replace(".", "-"));
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<String> nameFamily = new ArrayList<>();
-
+                nameFamily.add("Selecciona un familiar");
                 for (DataSnapshot name : dataSnapshot.getChildren()) {
                     String namesAd = name.child("name").getValue(String.class);
                     String nameFm = name.child("nameF").getValue(String.class);
@@ -86,66 +87,69 @@ public class ActivityFragment extends Fragment {
         spinnerFam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                final String famSelect = spinnerFam.getSelectedItem().toString();
 
-                calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                famSelect = spinnerFam.getSelectedItem().toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                int correction = 1 + month;
+                date = dayOfMonth + "-" + correction + "-" + year;
+
+
+            }
+        });
+
+        spinnerWork.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                workSelect = spinnerWork.getSelectedItem().toString();
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                        int correction = 1 + month;
-                        date = dayOfMonth + "-" + correction + "-" + year;
-
-                        spinnerWork.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                final String workSelect = spinnerWork.getSelectedItem().toString();
-                                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        String email;
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String email;
 
 
-                                        for (DataSnapshot work : dataSnapshot.getChildren()) {
-                                            String namesAd = work.child("name").getValue(String.class);
-                                            String namesFam = work.child("nameF").getValue(String.class);
+                        for (DataSnapshot work : dataSnapshot.getChildren()) {
+                            String namesAd = work.child("name").getValue(String.class);
+                            String namesFam = work.child("nameF").getValue(String.class);
 
 
-                                            if (namesAd != null) {
-                                                if (namesAd.contains(famSelect)) {
-                                                    email = work.child("email").getValue(String.class);
-                                                    String emailRemplace = email.replace(".", "-");
+                            if (namesAd != null) {
+                                if (namesAd.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
+                                    email = work.child("email").getValue(String.class);
+                                    emailRemplace = email.replace(".", "-");
 
-                                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
 
-                                                    Toast.makeText(getContext(), email + workSelect + date, Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-
-                                            if (namesFam != null) {
-                                                if (namesFam.contains(famSelect)) {
-                                                    email = work.child("emailF").getValue(String.class);
-                                                    Toast.makeText(getContext(), email + workSelect + date, Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-
-
-                                        }
-                                    }
-
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                    }
-                                });
-
-
+                                }
                             }
 
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
+                            if (namesFam != null) {
+                                if (namesFam.contains(famSelect)&& !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
 
+                                    email = work.child("emailF").getValue(String.class);
+                                    emailRemplace = email.replace(".", "-");
+                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                }
                             }
-                        });
+
+
+                        }
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
                     }
                 });
 
