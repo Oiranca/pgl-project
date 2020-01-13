@@ -258,8 +258,12 @@ public class MyActivityFragment extends Fragment {
                                 Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRemp).
                                         child("Work-" + emailRemp).child(present).getValue(genericTypeIndicator);
 
+                                if (workDay == null) {
+                                    chkMy.setText("Dia libre");
+                                    chkMybis.setText("Dia libre");
+                                } else {
 
-                                if (!workDay.keySet().isEmpty()) {
+
                                     homeWorks = workDay.keySet().toArray(new String[0]);
 
                                     if (homeWorks.length > 0) {
@@ -269,13 +273,15 @@ public class MyActivityFragment extends Fragment {
                                             } else {
                                                 chkMybis.setText(homeWorks[i]);
                                             }
+
+                                            if(homeWorks.length<2){
+                                                chkMybis.setText("Sin tarea");
+                                            }
                                         }
 
 
-                                    } else {
-                                        chkMy.setText("Dia libre");
-                                        chkMybis.setText("Dia libre");
                                     }
+
 
                                 }
 
@@ -291,7 +297,12 @@ public class MyActivityFragment extends Fragment {
                                             child("Work-" + emailRmpF).child(present).getValue(genericTypeIndicator);
 
 
-                                    if (!workDay.keySet().isEmpty()) {
+                                    if (workDay == null) {
+                                        chkMy.setText("Dia libre");
+                                        chkMybis.setText("Dia libre");
+                                    } else {
+
+
                                         homeWorks = workDay.keySet().toArray(new String[0]);
 
                                         if (homeWorks.length > 0) {
@@ -301,13 +312,15 @@ public class MyActivityFragment extends Fragment {
                                                 } else {
                                                     chkMybis.setText(homeWorks[i]);
                                                 }
+
+                                                if(homeWorks.length<2){
+                                                    chkMybis.setText("Sin tarea");
+                                                }
                                             }
 
 
-                                        } else {
-                                            chkMy.setText("Dia libre");
-                                            chkMybis.setText("Dia libre");
                                         }
+
 
                                     }
 
