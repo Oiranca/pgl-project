@@ -58,7 +58,6 @@
                 android:id="@+id/checkBoxAdm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="32dp"
                 android:fontFamily="monospace"
 
@@ -69,7 +68,6 @@
                 android:id="@+id/checkBoxAdmBis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="24dp"
                 android:fontFamily="monospace"
                 android:textSize="16sp"

@@ -24,7 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
-import com.oiranca.pglproject.ui.entidades.Admin;
 
 import java.util.ArrayList;
 
@@ -51,7 +50,6 @@ public class ActivityFragment extends Fragment {
         Intent idUser = getActivity().getIntent();
         Bundle user = idUser.getExtras();
         String emailUser;
-
         emailUser = user.getString("Admin");
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -127,14 +125,16 @@ public class ActivityFragment extends Fragment {
                                 if (namesAd.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
                                     email = work.child("email").getValue(String.class);
                                     emailRemplace = email.replace(".", "-");
-
-                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
-
+                                    if (date == null) {
+                                        Toast.makeText(getContext(), "Tiene que elegir el día primero", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                    }
                                 }
                             }
 
                             if (namesFam != null) {
-                                if (namesFam.contains(famSelect)&& !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
+                                if (namesFam.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
 
                                     email = work.child("emailF").getValue(String.class);
                                     emailRemplace = email.replace(".", "-");
