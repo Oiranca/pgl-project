@@ -85,19 +85,127 @@ public class MyActivityFragment extends Fragment {
                 String day = Integer.toString(dayOfMonth);
                 String m = Integer.toString(correction);
                 String years = Integer.toString(year);
-                actadm = day + "/" + m + "/" + years;
+                actadm = day + "-" + m + "-" + years;
 
-                if (emailUser != null) {
-                    chkMy.setText(getString(R.string.first_activity) + emailUser);
-                    chkMybis.setText(getString(R.string.second_activity) + emailUser);
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String emailRemp = null;
+                        String emailRmpF = null;
+                        if (emailUser != null) {
+                            emailRemp = emailUser.replace(".", "-");
+                        } else {
+                            if (emailFam != null) {
+                                emailRmpF = emailFam.replace(".", "-");
 
-                } else {
-                    if (emailFam != null) {
+                            }
+                        }
 
-                        chkMy.setText(getString(R.string.first_activity) + emailFam);
-                        chkMybis.setText(getString(R.string.second_activity) + emailFam);
+
+                        for (DataSnapshot homeW : dataSnapshot.getChildren()) {
+
+                            keyValue = homeW.getKey();
+                            if (keyValue != null) {
+                                String emailComp = null;
+                                String emailCompF = null;
+                                if (emailRemp != null) {
+                                    emailComp = dataSnapshot.child(keyValue).child(emailRemp).child("email").getValue(String.class);
+                                } else {
+                                    if (emailRmpF != null) {
+                                        emailCompF = dataSnapshot.child(keyValue).child(emailRmpF).child("emailF").getValue(String.class);
+                                    }
+                                }
+
+
+                                if (emailComp != null) {
+                                    if (emailComp.contains(emailUser)) {
+                                        GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                                        };
+                                        Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRemp).
+                                                child("Work-" + emailRemp).child(actadm).getValue(genericTypeIndicator);
+
+
+                                        if (workDay == null) {
+                                            chkMy.setText("Dia libre");
+                                            chkMybis.setText("Dia libre");
+                                        } else {
+
+
+                                            homeWorks = workDay.keySet().toArray(new String[0]);
+
+                                            if (homeWorks.length > 0) {
+                                                for (int i = 0; i < homeWorks.length; i++) {
+                                                    if (i == 0) {
+                                                        chkMy.setText(homeWorks[i]);
+                                                    } else {
+                                                        chkMybis.setText(homeWorks[i]);
+                                                    }
+                                                    if(homeWorks.length<2){
+                                                        chkMybis.setText("Sin tarea");
+                                                    }
+                                                }
+
+
+                                            }
+
+
+                                        }
+
+
+                                    }
+
+                                } else {
+                                    if (emailCompF != null) {
+                                        if (emailCompF.contains(emailFam)) {
+                                            GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                                            };
+                                            Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRmpF).
+                                                    child("Work-" + emailRmpF).child(actadm).getValue(genericTypeIndicator);
+
+                                            if (workDay == null) {
+                                                chkMy.setText("Dia libre");
+                                                chkMybis.setText("Dia libre");
+                                            } else {
+
+
+                                                homeWorks = workDay.keySet().toArray(new String[0]);
+
+                                                if (homeWorks.length > 0) {
+                                                    for (int i = 0; i < homeWorks.length; i++) {
+                                                        if (i == 0) {
+                                                            chkMy.setText(homeWorks[i]);
+                                                        } else {
+                                                            chkMybis.setText(homeWorks[i]);
+                                                        }
+
+                                                        if(homeWorks.length<2){
+                                                            chkMybis.setText("Sin tarea");
+                                                        }
+                                                    }
+
+
+                                                }
+
+
+                                            }
+                                        }
+                                    }
+
+                                }
+
+
+                            }
+
+
+                        }
+
                     }
-                }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
             }
