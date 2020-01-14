@@ -27,12 +27,14 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -85,7 +87,7 @@ public class ActivitySignUp extends AppCompatActivity {
         boolean selected = admin.getBoolean("administrator");
 
 
-        if (selected == false) {
+        if (!selected) {
             emailAdmin.setVisibility(View.INVISIBLE);
             op = 0;
             Toast.makeText(getApplicationContext(), "Es Administrador", Toast.LENGTH_LONG).show();
@@ -107,7 +109,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
         String nameText = name.getText().toString();
         String surnameText = surname.getText().toString();
-        String emailText = email.getText().toString();
+        final String emailText = email.getText().toString();
         String passText = pass.getText().toString();
         String rpText = rPass.getText().toString();
         final String emailAdText = emailAdmin.getText().toString();
@@ -149,25 +151,55 @@ public class ActivitySignUp extends AppCompatActivity {
                             rPass.requestFocus();
                             return;
                         }
+
+                        // Create Administrator in FireBase
+
                         if (op == 0) {
                             emailAdmin.setVisibility(View.INVISIBLE);
                             String rpassw = rPass.getText().toString();
-                            Admin ad = new Admin();
+                            final Admin ad = new Admin();
+
 
                             ad.setIdAdm(UUID.randomUUID().toString());
                             ad.setName(nameText);
                             ad.setSurname(surnameText);
                             ad.setEmail(emailText);
+                            ad.setRange("Admin");
 
                             if (rpassw.equals(passText)) {
 
+
                                 ad.setPass(passText);
-                                ad.setRange("Admin");
                                 firebaseDatabase = FirebaseDatabase.getInstance();
                                 databaseReference = firebaseDatabase.getReference();
-                                databaseReference.child("Admin").child(ad.getIdAdm()).setValue(ad);
 
-                                Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                                        String email = dataSnapshot.child("Family-" + emailText.replace(".", "-"))
+                                                .child(emailText.replace(".", "-")).child("email").getValue(String.class);
+                                        if (email != null) {
+                                            if (email.contains(emailText)) {
+                                                Toast.makeText(getApplicationContext(), "Ya existe administrador con ese email", Toast.LENGTH_SHORT).show();
+
+                                            }
+                                        } else {
+
+                                            databaseReference.child("Family-" + emailText.replace(".", "-")).child(emailText.replace(".", "-")).setValue(ad);
+                                            Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                            backLogin();
+                                        }
+
+                                    }
+
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.w(null, "Failed to read value", databaseError.toException());
+                                    }
+                                });
 
 
                             } else {
@@ -188,28 +220,55 @@ public class ActivitySignUp extends AppCompatActivity {
                                 } else {
                                     String rpassw = rPass.getText().toString();
 
-                                    final Family fm = new Family();
-
-                                    fm.setIdFam(UUID.randomUUID().toString());
-                                    fm.setNameF(nameText);
-                                    fm.setSurnameF(surnameText);
-                                    fm.setEmailF(emailText);
 
                                     if (rpassw.equals(passText)) {
 
+                                        final Family fm = new Family();
+
+                                        fm.setIdFam(UUID.randomUUID().toString());
+                                        fm.setNameF(nameText);
+                                        fm.setSurnameF(surnameText);
+                                        fm.setEmailF(emailText);
+
                                         fm.setPassF(passText);
-                                        fm.setRangeF("Fam");
+                                        fm.setRangeF("Family");
                                         firebaseDatabase = FirebaseDatabase.getInstance();
-                                        firebaseDatabase.getReference("Admin");
+                                        databaseReference = firebaseDatabase.getReference().child("Family-" + emailAdText.replace(".", "-"));
+                                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                fm.setEmailAdm(emailAdText);
+
+                                                String email = dataSnapshot.child(emailAdText.replace(".", "-")).child("email").getValue(String.class);
+                                                if (email != null) {
+                                                    if (email.contains(emailAdText)) {
+                                                        email = dataSnapshot.child(emailText.replace(".", "-")).child("emailF").getValue(String.class);
+                                                        if (email != null) {
+                                                            if (email.contains(emailText)) {
+                                                                Toast.makeText(getApplicationContext(), "Familiar ya existe ", Toast.LENGTH_LONG).show();
+                                                            }
+                                                        }else {
+                                                            databaseReference.child(emailText.replace(".", "-")).setValue(fm);
+                                                            Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                                            backLogin();
+                                                        }
+                                                    }
+                                                } else {
+
+
+                                                    Toast.makeText(getApplicationContext(), "El administrador no existe ", Toast.LENGTH_LONG).show();
+
+                                                }
 
 
 
-                                        databaseReference = firebaseDatabase.getReference();
-                                        databaseReference.child("Family").child(fm.getIdFam()).setValue(fm);
+                                            }
 
-                                        Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Log.w(null, "Failed to read value", databaseError.toException());
+                                            }
+                                        });
 
 
                                     } else {
@@ -227,6 +286,11 @@ public class ActivitySignUp extends AppCompatActivity {
         }
 
         clean();
+    }
+
+    private void backLogin() {
+        Intent login = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(login);
     }
 
     private void clean() {
@@ -253,8 +317,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
         if (id == R.id.action_back) {
 
-            Intent back = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(back);
+            backLogin();
         }
         return true;
 

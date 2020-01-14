@@ -47,6 +47,7 @@
 
 
     <string-array name="works">
+        <item>"Selecciona una tarea"</item>
         <item>"Walk the dog"</item>
         <item>"Put dishwasher"</item>
         <item>"Wash breakfast dishes"</item>
