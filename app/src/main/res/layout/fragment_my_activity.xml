@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/text_slideshow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
         android:textAlignment="center"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/textMactivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,58 +24,61 @@
         android:id="@+id/textMactivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
         android:fontFamily="monospace"
         android:text="@string/menu_my_activity"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/calendarMactivity"
         app:layout_constraintEnd_toEndOf="@+id/text_slideshow"
         app:layout_constraintStart_toStartOf="@+id/text_slideshow"
         app:layout_constraintTop_toBottomOf="@+id/text_slideshow" />
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <CalendarView
+        android:id="@+id/calendarMactivity"
+        android:layout_width="285dp"
+        android:layout_height="292dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/calendar_custom"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxAdm"
+        app:layout_constraintEnd_toEndOf="@+id/textMactivity"
+        app:layout_constraintStart_toStartOf="@+id/textMactivity"
+        app:layout_constraintTop_toBottomOf="@+id/textMactivity" />
+
+    <CheckBox
+        android:id="@+id/checkBoxAdm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="monospace"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/checkBoxAdmBis"
+        app:layout_constraintEnd_toEndOf="@+id/checkBoxAdmBis"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxAdmBis"
+        app:layout_constraintTop_toBottomOf="@+id/calendarMactivity" />
+
+    <CheckBox
+        android:id="@+id/checkBoxAdmBis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="100dp"
+        android:fontFamily="monospace"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.163"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textMactivity">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <CalendarView
-                android:id="@+id/calendarMactivity"
-                android:layout_width="288dp"
-                android:layout_height="300dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/calendar_custom" />
-
-            <CheckBox
-                android:id="@+id/checkBoxAdm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:fontFamily="monospace"
-
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/checkBoxAdmBis"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:fontFamily="monospace"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxAdm" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

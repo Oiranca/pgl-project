@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/text_newf"
@@ -12,15 +12,20 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
         android:textAlignment="center"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,10 +41,10 @@
                 android:id="@+id/textnewF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"
                 android:fontFamily="monospace"
                 android:text="@string/menu_new_family"
-                android:layout_gravity="center_horizontal"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -109,6 +114,16 @@
                 android:hint="@string/new_family_email"
                 android:inputType="textEmailAddress"
                 android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:text="Fragmento provisional"
+                android:textColor="#E53935"
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

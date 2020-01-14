@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +47,7 @@ public class ActivityFragment extends Fragment {
         final Spinner spinnerFam = root.findViewById(R.id.spinnerFamily);
         final Spinner spinnerWork = root.findViewById(R.id.spinnerWork);
         final CalendarView calendarView = root.findViewById(R.id.calendarAssig);
+        final FloatingActionButton floatButton = root.findViewById(R.id.floatMyAct);
 
 
         Intent idUser = getActivity().getIntent();
@@ -54,6 +57,7 @@ public class ActivityFragment extends Fragment {
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Family-" + emailUser.replace(".", "-"));
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -70,17 +74,22 @@ public class ActivityFragment extends Fragment {
                     }
                 }
 
+
                 comAdp = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, nameFamily);
                 spinnerFam.setAdapter(comAdp);
 
 
             }
 
+
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
+
 
         spinnerFam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -138,7 +147,16 @@ public class ActivityFragment extends Fragment {
 
                                     email = work.child("emailF").getValue(String.class);
                                     emailRemplace = email.replace(".", "-");
-                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                    floatButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+
+                                            databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+
+
+                                        }
+                                    });
+
                                 }
                             }
 
@@ -161,6 +179,9 @@ public class ActivityFragment extends Fragment {
 
             }
         });
+
+
+
 
 
         final TextView textView = root.findViewById(R.id.home);

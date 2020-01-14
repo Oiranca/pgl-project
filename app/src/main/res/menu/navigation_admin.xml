@@ -17,13 +17,6 @@
         android:title="@string/back"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_send"
-        android:checkable="true"
-        android:icon="@drawable/ic_incoming_mail"
-        android:orderInCategory="100"
-        android:title="@string/send_data"
-        app:showAsAction="ifRoom" />
 
 
 </menu>
