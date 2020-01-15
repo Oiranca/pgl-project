@@ -84,6 +84,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
         Intent idAd = this.getIntent();
         Bundle admin = idAd.getExtras();
+        assert admin != null;
         boolean selected = admin.getBoolean("administrator");
 
 

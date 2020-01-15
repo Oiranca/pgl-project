@@ -28,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ActivityFragment extends Fragment {
 
@@ -37,6 +38,8 @@ public class ActivityFragment extends Fragment {
     private String famSelect;
     private String workSelect;
     private String emailRemplace;
+    private String namesAd;
+    private String namesFam;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,13 +53,17 @@ public class ActivityFragment extends Fragment {
         final FloatingActionButton floatButton = root.findViewById(R.id.floatMyAct);
 
 
-        Intent idUser = getActivity().getIntent();
+        Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
         Bundle user = idUser.getExtras();
         String emailUser;
+        assert user != null;
         emailUser = user.getString("Admin");
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("Family-" + emailUser.replace(".", "-"));
+        if (emailUser != null) {
+            databaseReference = firebaseDatabase.getReference().child("Family-" + emailUser.replace(".", "-"));
+        }
+
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -82,15 +89,11 @@ public class ActivityFragment extends Fragment {
             }
 
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
-
-
         spinnerFam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -119,6 +122,20 @@ public class ActivityFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 workSelect = spinnerWork.getSelectedItem().toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        floatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -126,36 +143,37 @@ public class ActivityFragment extends Fragment {
 
 
                         for (DataSnapshot work : dataSnapshot.getChildren()) {
-                            String namesAd = work.child("name").getValue(String.class);
-                            String namesFam = work.child("nameF").getValue(String.class);
+                            namesAd = work.child("name").getValue(String.class);
+                            namesFam = work.child("nameF").getValue(String.class);
 
 
                             if (namesAd != null) {
                                 if (namesAd.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
                                     email = work.child("email").getValue(String.class);
+                                    assert email != null;
                                     emailRemplace = email.replace(".", "-");
-                                    if (date == null) {
-                                        Toast.makeText(getContext(), "Tiene que elegir el día primero", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
-                                    }
-                                }
-                            }
+                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
 
+                                }if (namesAd.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea")|| date.isEmpty()) {
+                                    Toast.makeText(getContext(), "Le ha faltado seleccionar algún dato", Toast.LENGTH_LONG).show();
+                                }
+
+                            }
                             if (namesFam != null) {
                                 if (namesFam.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
 
                                     email = work.child("emailF").getValue(String.class);
-                                    emailRemplace = email.replace(".", "-");
-                                    floatButton.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
+                                    if (email != null) {
+                                        emailRemplace = email.replace(".", "-");
+                                        databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
 
-                                            databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                    }
 
 
-                                        }
-                                    });
+                                } else {
+                                    if (namesFam.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea") || date.isEmpty()) {
+                                        Toast.makeText(getContext(), "Le ha faltado seleccionar algún dato", Toast.LENGTH_LONG).show();
+                                    }
 
                                 }
                             }
@@ -172,26 +190,22 @@ public class ActivityFragment extends Fragment {
                 });
 
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
-
 
 
 
         final TextView textView = root.findViewById(R.id.home);
-        activityViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
+        activityViewModel.getText().
 
-                textView.setText(s);
-            }
-        });
+                observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+
+                        textView.setText(s);
+                    }
+                });
 
 
         return root;

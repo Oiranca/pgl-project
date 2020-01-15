@@ -48,22 +48,15 @@
 
     <string-array name="works">
         <item>"Selecciona una tarea"</item>
-        <item>"Walk the dog"</item>
-        <item>"Put dishwasher"</item>
-        <item>"Wash breakfast dishes"</item>
-        <item>"Wash lunch dishes"</item>
-        <item>"Wash dinner dishes"</item>
-        <item>"Take out the trash"</item>
-        <item>"To clean the bathroom"</item>
+        <item>"Pasear al perro"</item>
+        <item>"Lavar la loza"</item>
+        <item>"Poner lavadora"</item>
+        <item>"Sacar la basura"</item>
+        <item>"Limpiar baño"</item>
+        <item>"Recoger habitación"</item>
+        <item>"Limpiar el coche"</item>
     </string-array>
 
-
-    <string-array name="pruebas">
-        <item>"Samuel"</item>
-        <item>"Diego"</item>
-        <item>"Roberto"</item>
-        <item>"Leo"</item>
-    </string-array>
 
 
 </resources>
