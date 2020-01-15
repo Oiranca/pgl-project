@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 
 import com.google.firebase.FirebaseApp;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity {
+    static boolean firebaseInitialized = false;
 
     Button loginButton;
     TextView sign, forgot;
@@ -44,8 +46,17 @@ public class MainActivity extends AppCompatActivity {
         mail = findViewById(R.id.plain_email);
         pass = findViewById(R.id.plain_password);
 
+
+
         FirebaseApp.initializeApp(getApplicationContext());
 
+        if (!MainActivity.firebaseInitialized) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(false);
+            MainActivity.firebaseInitialized = true;
+        }
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
 
         sign = findViewById(R.id.text_sign);
         sign.setOnClickListener(new View.OnClickListener() {
@@ -74,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firebaseDatabase = FirebaseDatabase.getInstance();
-                databaseReference = firebaseDatabase.getReference();
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

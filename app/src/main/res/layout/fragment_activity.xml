@@ -5,97 +5,86 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="0dp"
-        android:layout_height="515dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton2"
+    <LinearLayout
+        android:layout_width="408dp"
+        android:layout_height="541dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:textAlignment="center"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textAlignment="center"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/textFamily"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:text="@string/family_activity_admin"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textFamily"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="monospace"
-                android:gravity="center"
-                android:text="@string/family_activity_admin"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+        <Spinner
+            android:id="@+id/spinnerFamily"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
 
-            <Spinner
-                android:id="@+id/spinnerFamily"
-                android:layout_width="300dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/spinner_custom"
-                android:gravity="center"
-                android:textAlignment="center" />
+            android:background="@drawable/spinner_custom"
+            android:gravity="center"
+            android:textAlignment="center" />
 
-            <CalendarView
-                android:id="@+id/calendarAssig"
-                android:layout_width="320dp"
-                android:layout_height="316dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/calendar_custom" />
+        <CalendarView
+            android:id="@+id/calendarAssig"
+            android:layout_width="302dp"
+            android:layout_height="288dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/calendar_custom" />
 
-            <TextView
-                android:id="@+id/textWork"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="monospace"
-                android:text="@string/assignment_work"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textWork"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:fontFamily="monospace"
+            android:text="@string/assignment_work"
+            android:textAlignment="center"
 
-            <Spinner
-                android:id="@+id/spinnerWork"
-                android:layout_width="300dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/spinner_custom"
-                android:entries="@array/works" />
-        </LinearLayout>
-    </ScrollView>
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatMyAct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        app:backgroundTint="@android:color/holo_blue_dark"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="@+id/scrollView2"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
-        app:srcCompat="@mipmap/ok" />
+        <Spinner
+            android:id="@+id/spinnerWork"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/spinner_custom"
+            android:entries="@array/works" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatMyAct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:clickable="true"
+            app:backgroundTint="#3B88C3"
+            app:fabSize="mini"
+            app:srcCompat="@mipmap/ok" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

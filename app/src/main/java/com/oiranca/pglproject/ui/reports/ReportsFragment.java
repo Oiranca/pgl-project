@@ -284,14 +284,7 @@ public class ReportsFragment extends Fragment {
 
                     }
                 });
-               /* item = new ArrayList<String>();
-                item.add(date);
-                item.add("Casilla [" + "i" + ", 0]");
-                item.add("Casilla.. [" + "i" + ", 1]");
-                item.add("Casilla.. [" + "i" + ", 2]");
 
-
-                tablaDyn.addFile(item);*/
             }
         });
 

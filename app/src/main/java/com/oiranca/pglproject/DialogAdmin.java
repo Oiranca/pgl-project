@@ -29,18 +29,34 @@ public class DialogAdmin extends AppCompatActivity {
         cancel = (Button) findViewById(R.id.buttonCancel);
         acept = (Button) findViewById(R.id.buttonAcep);
 
+        admin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                family.setChecked(false);
+            }
+        });
+
+        family.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                admin.setChecked(false);
+            }
+        });
+
 
         acept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (admin.isChecked()) {
+
                     Intent back = new Intent(getApplicationContext(), ActivitySignUp.class);
                     back.putExtra("administrator", check);
                     startActivity(back);
 
                 } else {
                     if (family.isChecked()){
+
                         Intent back = new Intent(getApplicationContext(), ActivitySignUp.class);
                         check = true;
                         back.putExtra("administrator", check);

@@ -182,7 +182,7 @@ public class ActivitySignUp extends AppCompatActivity {
                                         String email = dataSnapshot.child("Family-" + emailText.replace(".", "-"))
                                                 .child(emailText.replace(".", "-")).child("email").getValue(String.class);
                                         if (email != null) {
-                                            if (email.contains(emailText)) {
+                                            if (email.equals(emailText)) {
                                                 Toast.makeText(getApplicationContext(), "Ya existe administrador con ese email", Toast.LENGTH_SHORT).show();
 
                                             }
@@ -245,7 +245,7 @@ public class ActivitySignUp extends AppCompatActivity {
                                                     if (email.contains(emailAdText)) {
                                                         email = dataSnapshot.child(emailText.replace(".", "-")).child("emailF").getValue(String.class);
                                                         if (email != null) {
-                                                            if (email.contains(emailText)) {
+                                                            if (email.equals(emailText)) {
                                                                 Toast.makeText(getApplicationContext(), "Familiar ya existe ", Toast.LENGTH_LONG).show();
                                                             }
                                                         }else {

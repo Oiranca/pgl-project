@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,7 +27,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ActivityFragment extends Fragment {
@@ -112,7 +115,9 @@ public class ActivityFragment extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 int correction = 1 + month;
-                date = dayOfMonth + "-" + correction + "-" + year;
+
+
+                    date = dayOfMonth + "-" + correction + "-" + year;
 
 
             }
@@ -136,6 +141,13 @@ public class ActivityFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+               final SimpleDateFormat fechForm = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
+                final Date fechaHoy = new Date();
+
+                if (date == null) {
+                    date = fechForm.format(fechaHoy);
+                }
+
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -148,30 +160,36 @@ public class ActivityFragment extends Fragment {
 
 
                             if (namesAd != null) {
-                                if (namesAd.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
+                                if (namesAd.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea") && date != null) {
                                     email = work.child("email").getValue(String.class);
                                     assert email != null;
                                     emailRemplace = email.replace(".", "-");
                                     databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                    spinnerFam.setSelection(0);
+                                    spinnerWork.setSelection(0);
 
-                                }if (namesAd.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea")|| date.isEmpty()) {
+
+                                }
+                                if (namesAd.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea") || date == null) {
                                     Toast.makeText(getContext(), "Le ha faltado seleccionar algún dato", Toast.LENGTH_LONG).show();
                                 }
 
                             }
                             if (namesFam != null) {
-                                if (namesFam.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea")) {
+                                if (namesFam.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea") && date != null) {
 
                                     email = work.child("emailF").getValue(String.class);
                                     if (email != null) {
                                         emailRemplace = email.replace(".", "-");
                                         databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                        spinnerFam.setSelection(0);
+                                        spinnerWork.setSelection(0);
 
                                     }
 
 
                                 } else {
-                                    if (namesFam.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea") || date.isEmpty()) {
+                                    if (namesFam.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea") || date == null) {
                                         Toast.makeText(getContext(), "Le ha faltado seleccionar algún dato", Toast.LENGTH_LONG).show();
                                     }
 
@@ -190,10 +208,8 @@ public class ActivityFragment extends Fragment {
                 });
 
 
-
             }
         });
-
 
 
         final TextView textView = root.findViewById(R.id.home);

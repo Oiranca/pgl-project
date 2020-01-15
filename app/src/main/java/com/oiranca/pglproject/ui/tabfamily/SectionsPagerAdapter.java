@@ -17,7 +17,7 @@ import com.oiranca.pglproject.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.my_activity, R.string.menu_reports};
+    private static final int[] TAB_TITLES = new int[]{R.string.menu_my_activity, R.string.menu_reports};
 
 
     private final Context mContext;

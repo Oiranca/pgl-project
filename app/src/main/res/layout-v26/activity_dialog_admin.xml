@@ -58,11 +58,11 @@
         android:id="@+id/radioAdminSign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="100dp"
+        android:layout_marginHorizontal="80dp"
         android:layout_marginTop="36dp"
         android:text="@string/radio_plain_admin"
         app:layout_constraintEnd_toEndOf="@+id/textDialog"
-        app:layout_constraintHorizontal_bias="0.542"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/textDialog"
         app:layout_constraintTop_toBottomOf="@+id/textDialog" />
 
@@ -70,7 +70,7 @@
         android:id="@+id/radioFamSign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="100dp"
+        android:layout_marginHorizontal="80dp"
         android:text="@string/radio_plain_family"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textDialog"

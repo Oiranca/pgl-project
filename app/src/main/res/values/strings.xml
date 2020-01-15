@@ -11,26 +11,26 @@
     <string name="plain_sign_surname">Enter your surname</string>
     <string name="plain_sign_pass_repeat">Repeat your password</string>
     <string name="text_mail">Enter your e-mail</string>
-    <string name="radio_plain_admin">Administrator</string>
-    <string name="radio_plain_family">Family</string>
-    <string name="title_activity_forgot">Forgotten</string>
-    <string name="family_activity_admin">Assignment Family</string>
+    <string name="radio_plain_admin">Administrador</string>
+    <string name="radio_plain_family">Familiar</string>
+    <string name="title_activity_forgot">Recordar Contraseña</string>
+    <string name="family_activity_admin">Selecciona un Familiar</string>
     <string name="title_activity_navigation_admin">NavigationAdmin</string>
     <string name="nav_header_subtitle">homerwork@gmail.com</string>
     <string name="back">Log out</string>
     <string name="first_activity">1ª Tarea:</string>
     <string name="second_activity">2ª Tarea:</string>
     <string name="action_settings">Settings</string>
-    <string name="assignment_work">Assignment Work</string>
+    <string name="assignment_work">Asignar Tarea</string>
     <string name="menu_reports">Reports</string>
-    <string name="menu_my_activity">My Home Work</string>
-    <string name="menu_new_family">New Family</string>
+    <string name="menu_my_activity">Mis Tareas</string>
+    <string name="menu_new_family">Nuevo Familiar</string>
     <string name="new_family_name">Enter family name</string>
     <string name="new_family_email">Enter family email</string>
     <string name="new_name">Name</string>
     <string name="new_email">Email</string>
     <string name="title_activity_tab_family">Home|Work Family</string>
-    <string name="my_activity">My activity</string>
+
     <string name="empty">Campo obligatorio</string>
     <string name="checked">Debe seleccionar una opción</string>
     <string name="family_surname">Enter family surname</string>
@@ -43,7 +43,7 @@
     <string name="e_mail_del_administrador">E-mail del administrador</string>
     <string name="admin_base">Admin</string>
     <string name="family_base">Family</string>
-    <string name="seleciona_administrador_o_familiar">Seleciona Administrador o Familiar</string>
+    <string name="seleciona_administrador_o_familiar">Seleciona una opción</string>
 
 
     <string-array name="works">
