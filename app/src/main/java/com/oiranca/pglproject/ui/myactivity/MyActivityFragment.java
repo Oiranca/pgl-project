@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,13 +25,8 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -91,224 +87,7 @@ public class MyActivityFragment extends Fragment {
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String emailRemp = null;
-                        String emailRmpF = null;
-                        if (emailUser != null) {
-                            emailRemp = emailUser.replace(".", "-");
-                        } else {
-                            if (emailFam != null) {
-                                emailRmpF = emailFam.replace(".", "-");
-
-                            }
-                        }
-
-
-                        for (DataSnapshot homeW : dataSnapshot.getChildren()) {
-
-                            keyValue = homeW.getKey();
-                            if (keyValue != null) {
-                                String emailComp = null;
-                                String emailCompF = null;
-                                if (emailRemp != null) {
-                                    emailComp = dataSnapshot.child(keyValue).child(emailRemp).child("email").getValue(String.class);
-                                } else {
-                                    if (emailRmpF != null) {
-                                        emailCompF = dataSnapshot.child(keyValue).child(emailRmpF).child("emailF").getValue(String.class);
-                                    }
-                                }
-
-
-                                if (emailComp != null) {
-                                    if (emailComp.contains(emailUser)) {
-                                        GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
-                                        };
-                                        Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRemp).
-                                                child("Work-" + emailRemp).child(actadm).getValue(genericTypeIndicator);
-
-
-                                        if (workDay == null) {
-                                            chkMy.setText("Dia libre");
-                                            chkMybis.setText("Dia libre");
-                                            if (chkMy.getText().toString().equals("Dia libre") | chkMy.getText().toString().equals("Dia libre")) {
-
-                                                chkMy.setClickable(false);
-                                                chkMy.setChecked(false);
-                                                chkMybis.setClickable(false);
-                                                chkMybis.setChecked(false);
-
-                                            }else{
-                                                chkMy.setClickable(false);
-
-                                                chkMybis.setClickable(false);
-
-                                            }
-                                        } else {
-
-
-                                            homeWorks = workDay.keySet().toArray(new String[0]);
-
-                                            if (homeWorks.length > 0) {
-                                                for (int i = 0; i < homeWorks.length; i++) {
-                                                    if (i == 0) {
-                                                        chkMy.setText(homeWorks[i]);
-
-                                                        completed = dataSnapshot.child(keyValue).child(emailRemp).
-                                                                child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
-                                                                child("completed").getValue(String.class);
-                                                        if (completed != null) {
-                                                            if (completed.toLowerCase().contains("si")) {
-                                                                chkMy.setChecked(true);
-                                                                chkMy.setClickable(false);
-                                                            }else{
-                                                                chkMy.setChecked(false);
-                                                                chkMy.setClickable(true);
-                                                            }
-                                                        }
-
-                                                    } else {
-                                                        chkMybis.setText(homeWorks[i]);
-                                                        completed = dataSnapshot.child(keyValue).child(emailRemp).
-                                                                child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
-                                                                child("completed").getValue(String.class);
-
-                                                        if (completed != null) {
-                                                            if (completed.toLowerCase().contains("si")) {
-                                                                chkMybis.setChecked(true);
-                                                                chkMybis.setClickable(false);
-                                                            }else{
-                                                                chkMybis.setChecked(false);
-                                                                chkMybis.setClickable(true);
-                                                            }
-                                                        }
-
-
-                                                    }
-                                                    if (homeWorks.length < 2) {
-                                                        chkMybis.setText("Sin tarea");
-                                                        if (chkMy.getText().toString().equals("Sin tarea")) {
-                                                            chkMy.setClickable(false);
-                                                            chkMy.setChecked(false);
-
-                                                        }else{
-                                                            chkMy.setClickable(true);
-                                                        }
-                                                        if (chkMybis.getText().toString().equals("Sin tarea")) {
-                                                            chkMybis.setChecked(false);
-                                                            chkMybis.setClickable(false);
-                                                        }else{
-                                                            chkMybis.setClickable(true);
-                                                        }
-                                                    }
-                                                }
-
-
-                                            }
-
-
-                                        }
-
-
-                                    }
-
-                                } else {
-                                    if (emailCompF != null) {
-                                        if (emailCompF.contains(emailFam)) {
-                                            GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
-                                            };
-                                            Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRmpF).
-                                                    child("Work-" + emailRmpF).child(actadm).getValue(genericTypeIndicator);
-
-                                            if (workDay == null) {
-                                                chkMy.setText("Dia libre");
-                                                chkMybis.setText("Dia libre");
-                                                if (chkMy.getText().toString().equals("Dia libre") | chkMy.getText().toString().equals("Dia libre")) {
-
-                                                    chkMy.setClickable(false);
-                                                    chkMy.setChecked(false);
-                                                    chkMybis.setClickable(false);
-                                                    chkMybis.setChecked(false);
-
-                                                }else{
-                                                    chkMy.setClickable(false);
-
-                                                    chkMybis.setClickable(false);
-
-                                                }
-                                            } else {
-
-
-                                                homeWorks = workDay.keySet().toArray(new String[0]);
-
-                                                if (homeWorks.length > 0) {
-
-                                                    for (int i = 0; i < homeWorks.length; i++) {
-                                                        if (i == 0) {
-                                                            chkMy.setText(homeWorks[i]);
-
-                                                            completed = dataSnapshot.child(keyValue).child(emailRmpF).
-                                                                    child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
-                                                                    child("completed").getValue(String.class);
-                                                            if (completed != null) {
-                                                                if (completed.toLowerCase().contains("si")) {
-                                                                    chkMy.setChecked(true);
-                                                                    chkMy.setClickable(false);
-                                                                }else{
-                                                                    chkMy.setChecked(false);
-                                                                    chkMy.setClickable(true);
-                                                                }
-                                                            }
-
-                                                        } else {
-                                                            chkMybis.setText(homeWorks[i]);
-                                                            completed = dataSnapshot.child(keyValue).child(emailRmpF).
-                                                                    child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
-                                                                    child("completed").getValue(String.class);
-
-                                                            if (completed != null) {
-                                                                if (completed.toLowerCase().contains("si")) {
-                                                                    chkMybis.setChecked(true);
-                                                                    chkMybis.setClickable(false);
-                                                                }else{
-                                                                    chkMybis.setChecked(false);
-                                                                    chkMybis.setClickable(true);
-                                                                }
-                                                            }
-
-
-                                                        }
-                                                        if (homeWorks.length < 2) {
-                                                            chkMybis.setText("Sin tarea");
-                                                            if (chkMy.getText().toString().equals("Sin tarea")) {
-                                                                chkMy.setClickable(false);
-                                                                chkMy.setChecked(false);
-
-                                                            }else{
-                                                                chkMy.setClickable(true);
-                                                            }
-                                                            if (chkMybis.getText().toString().equals("Sin tarea")) {
-                                                                chkMybis.setChecked(false);
-                                                                chkMybis.setClickable(false);
-                                                            }else{
-                                                                chkMybis.setClickable(true);
-                                                            }
-                                                        }
-                                                    }
-
-
-                                                }
-
-
-                                            }
-                                        }
-                                    }
-
-                                }
-
-
-                            }
-
-
-                        }
+                        extractData(dataSnapshot);
 
                     }
 
@@ -322,10 +101,284 @@ public class MyActivityFragment extends Fragment {
             }
         });
 
+        chkMy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (chkMy.isChecked()) {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String emailRemp = null;
+                            String emailRmpF = null;
+                            if (emailUser != null) {
+                                emailRemp = emailUser.replace(".", "-");
+                            } else {
+                                if (emailFam != null) {
+                                    emailRmpF = emailFam.replace(".", "-");
+
+                                }
+                            }
+
+                            for (DataSnapshot clickBox : dataSnapshot.getChildren()) {
+                                keyValue = clickBox.getKey();
+
+                                if (keyValue != null) {
+
+                                    String emailComp = null;
+                                    String emailCompF = null;
+                                    if (emailRemp != null) {
+                                        emailComp = dataSnapshot.child(keyValue).child(emailRemp).child("email").getValue(String.class);
+                                    } else {
+                                        if (emailRmpF != null) {
+                                            emailCompF = dataSnapshot.child(keyValue).child(emailRmpF).child("emailF").getValue(String.class);
+                                        }
+                                    }
+                                    if (emailComp != null) {
+
+                                        if (emailComp.contains(emailUser)) {
+                                            GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                                            };
+                                            Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRemp).
+                                                    child("Work-" + emailRemp).child(actadm).getValue(genericTypeIndicator);
+
+
+                                            if (workDay != null) {
+
+
+                                                homeWorks = workDay.keySet().toArray(new String[0]);
+
+                                                if (homeWorks.length > 0) {
+                                                    for (int i = 0; i < homeWorks.length; i++) {
+                                                        if (i == 0) {
+
+                                                            completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                                    child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                                    child("completed").getValue(String.class);
+                                                            if (completed != null) {
+                                                                if (completed.toLowerCase().contains("no")) {
+                                                                    databaseReference.child(keyValue).child(emailRemp).
+                                                                            child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                                            child("completed").setValue("si");
+                                                                }
+                                                            }
+
+                                                        }
+                                                    }
+
+
+                                                }
+
+
+                                            }
+
+
+                                        }
+                                    }else {
+                                        if (emailCompF!=null){
+                                            if (emailCompF.contains(emailFam)){
+
+                                                GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                                                };
+                                                Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRmpF).
+                                                        child("Work-" + emailRmpF).child(actadm).getValue(genericTypeIndicator);
+
+
+                                                if (workDay != null) {
+
+
+                                                    homeWorks = workDay.keySet().toArray(new String[0]);
+
+                                                    if (homeWorks.length > 0) {
+                                                        for (int i = 0; i < homeWorks.length; i++) {
+                                                            if (i == 0) {
+
+
+                                                                completed = dataSnapshot.child(keyValue).child(emailRmpF).
+                                                                        child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
+                                                                        child("completed").getValue(String.class);
+                                                                if (completed != null) {
+                                                                    if (completed.toLowerCase().contains("no")) {
+                                                                        databaseReference.child(keyValue).child(emailRmpF).
+                                                                                child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
+                                                                                child("completed").setValue("si");
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+
+
+                                                    }
+
+
+                                                }
+
+
+
+                                            }
+                                        }
+                                    }
+
+                                }
+
+
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+                    System.out.println("El chkmy acaba de ser pulsado");
+                }
+            }
+        });
+
+        chkMybis.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (chkMybis.isChecked()) {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String emailRemp = null;
+                            String emailRmpF = null;
+                            if (emailUser != null) {
+                                emailRemp = emailUser.replace(".", "-");
+                            } else {
+                                if (emailFam != null) {
+                                    emailRmpF = emailFam.replace(".", "-");
+
+                                }
+                            }
+
+                            for (DataSnapshot clickBox : dataSnapshot.getChildren()) {
+                                keyValue = clickBox.getKey();
+
+                                if (keyValue != null) {
+
+                                    String emailComp = null;
+                                    String emailCompF = null;
+                                    if (emailRemp != null) {
+                                        emailComp = dataSnapshot.child(keyValue).child(emailRemp).child("email").getValue(String.class);
+                                    } else {
+                                        if (emailRmpF != null) {
+                                            emailCompF = dataSnapshot.child(keyValue).child(emailRmpF).child("emailF").getValue(String.class);
+                                        }
+                                    }
+                                    if (emailComp != null) {
+
+                                        if (emailComp.contains(emailUser)) {
+                                            GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                                            };
+                                            Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRemp).
+                                                    child("Work-" + emailRemp).child(actadm).getValue(genericTypeIndicator);
+
+
+                                            if (workDay != null) {
+
+
+                                                homeWorks = workDay.keySet().toArray(new String[0]);
+
+                                                if (homeWorks.length > 0) {
+                                                    for (int i = 0; i < homeWorks.length; i++) {
+                                                        if (i > 0) {
+
+
+                                                            completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                                    child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                                    child("completed").getValue(String.class);
+                                                            if (completed != null) {
+                                                                if (completed.toLowerCase().contains("no")) {
+                                                                    databaseReference.child(keyValue).child(emailRemp).
+                                                                            child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                                            child("completed").setValue("si");
+                                                                }
+                                                            }
+
+                                                        }
+                                                    }
+
+
+                                                }
+
+
+                                            }
+
+
+                                        }
+                                    }else {
+                                        if (emailCompF!=null){
+                                            if (emailCompF.contains(emailFam)){
+
+                                                GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                                                };
+                                                Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRmpF).
+                                                        child("Work-" + emailRmpF).child(actadm).getValue(genericTypeIndicator);
+
+
+                                                if (workDay != null) {
+
+
+                                                    homeWorks = workDay.keySet().toArray(new String[0]);
+
+                                                    if (homeWorks.length > 0) {
+                                                        for (int i = 0; i < homeWorks.length; i++) {
+                                                            if (i > 0) {
+
+
+                                                                completed = dataSnapshot.child(keyValue).child(emailRmpF).
+                                                                        child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
+                                                                        child("completed").getValue(String.class);
+                                                                if (completed != null) {
+                                                                    if (completed.toLowerCase().contains("no")) {
+                                                                        databaseReference.child(keyValue).child(emailRmpF).
+                                                                                child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
+                                                                                child("completed").setValue("si");
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+
+
+                                                    }
+
+
+                                                }
+
+
+
+                                            }
+                                        }
+                                    }
+
+                                }
+
+
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    System.out.println("El chkmybis acaba de ser pulsado");
+                }
+            }
+        });
+
 
         return root;
     }
-
 
     private void datePresent() {
 
@@ -335,189 +388,7 @@ public class MyActivityFragment extends Fragment {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String emailRemp = null;
-                String emailRmpF = null;
-                if (emailUser != null) {
-                    emailRemp = emailUser.replace(".", "-");
-                } else {
-                    if (emailFam != null) {
-                        emailRmpF = emailFam.replace(".", "-");
-
-                    }
-                }
-
-
-                for (DataSnapshot homeW : dataSnapshot.getChildren()) {
-
-                    keyValue = homeW.getKey();
-                    if (keyValue != null) {
-                        String emailComp = null;
-                        String emailCompF = null;
-                        if (emailRemp != null) {
-                            emailComp = dataSnapshot.child(keyValue).child(emailRemp).child("email").getValue(String.class);
-                        } else {
-                            if (emailRmpF != null) {
-                                emailCompF = dataSnapshot.child(keyValue).child(emailRmpF).child("emailF").getValue(String.class);
-                            }
-                        }
-
-
-                        if (emailComp != null) {
-                            if (emailComp.contains(emailUser)) {
-                                GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
-                                };
-                                Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRemp).
-                                        child("Work-" + emailRemp).child(actadm).getValue(genericTypeIndicator);
-
-                                if (workDay == null) {
-                                    chkMy.setText("Dia libre");
-                                    chkMybis.setText("Dia libre");
-                                    if (chkMy.getText().toString().equals("Dia libre") | chkMy.getText().toString().equals("Dia libre")) {
-
-                                        chkMy.setClickable(false);
-                                        chkMy.setChecked(false);
-                                        chkMybis.setClickable(false);
-                                        chkMybis.setChecked(false);
-
-                                    }else{
-                                        chkMy.setClickable(false);
-
-                                        chkMybis.setClickable(false);
-
-                                    }
-
-                                } else {
-
-
-                                    homeWorks = workDay.keySet().toArray(new String[0]);
-
-
-
-                                    if (homeWorks.length > 0) {
-
-                                        for (int i = 0; i < homeWorks.length; i++) {
-                                            if (i == 0) {
-                                                chkMy.setText(homeWorks[i]);
-
-                                                completed = dataSnapshot.child(keyValue).child(emailRmpF).
-                                                        child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
-                                                        child("completed").getValue(String.class);
-                                                if (completed != null) {
-                                                    if (completed.toLowerCase().contains("si")) {
-                                                        chkMy.setChecked(true);
-                                                        chkMy.setClickable(false);
-                                                    }else{
-                                                        chkMy.setChecked(false);
-                                                        chkMy.setClickable(true);
-                                                    }
-                                                }
-
-                                            } else {
-                                                chkMybis.setText(homeWorks[i]);
-                                                completed = dataSnapshot.child(keyValue).child(emailRmpF).
-                                                        child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
-                                                        child("completed").getValue(String.class);
-
-                                                if (completed != null) {
-                                                    if (completed.toLowerCase().contains("si")) {
-                                                        chkMybis.setChecked(true);
-                                                        chkMybis.setClickable(false);
-                                                    }else{
-                                                        chkMybis.setChecked(false);
-                                                        chkMybis.setClickable(true);
-                                                    }
-                                                }
-
-
-                                            }
-                                            if (homeWorks.length < 2) {
-                                                chkMybis.setText("Sin tarea");
-                                                if (chkMy.getText().toString().equals("Sin tarea")) {
-                                                    chkMy.setClickable(false);
-                                                    chkMy.setChecked(false);
-
-                                                }else{
-                                                    chkMy.setClickable(true);
-                                                }
-                                                if (chkMybis.getText().toString().equals("Sin tarea")) {
-                                                    chkMybis.setChecked(false);
-                                                    chkMybis.setClickable(false);
-                                                }else{
-                                                    chkMybis.setClickable(true);
-                                                }
-                                            }
-                                        }
-
-
-                                    }
-
-
-
-                                }
-
-
-                            }
-
-                        } else {
-                            if (emailCompF != null) {
-                                if (emailCompF.contains(emailFam)) {
-                                    GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
-                                    };
-                                    Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRmpF).
-                                            child("Work-" + emailRmpF).child(actadm).getValue(genericTypeIndicator);
-
-
-                                    if (workDay == null) {
-                                        chkMy.setText("Dia libre");
-                                        chkMybis.setText("Dia libre");
-                                    } else {
-
-
-                                        homeWorks = workDay.keySet().toArray(new String[0]);
-
-                                        if (homeWorks.length > 0) {
-                                            for (int i = 0; i < homeWorks.length; i++) {
-                                                if (i == 0) {
-                                                    chkMy.setText(homeWorks[i]);
-                                                } else {
-                                                    chkMybis.setText(homeWorks[i]);
-                                                }
-
-                                                if (homeWorks.length < 2) {
-                                                    chkMybis.setText("Sin tarea");
-                                                    if (chkMy.getText().toString().equals("Sin tarea")) {
-                                                        chkMy.setClickable(false);
-                                                        chkMy.setChecked(false);
-
-                                                    }else{
-                                                        chkMy.setClickable(true);
-                                                    }
-                                                    if (chkMybis.getText().toString().equals("Sin tarea")) {
-                                                        chkMybis.setChecked(false);
-                                                        chkMybis.setClickable(false);
-                                                    }else{
-                                                        chkMybis.setClickable(true);
-                                                    }
-                                                }
-                                            }
-
-
-                                        }
-
-
-                                    }
-
-
-                                }
-                            }
-
-                        }
-
-
-                    }
-
-
-                }
+                extractData(dataSnapshot);
 
             }
 
@@ -529,5 +400,228 @@ public class MyActivityFragment extends Fragment {
 
 
     }
+
+    private void extractData(@NonNull DataSnapshot dataSnapshot) {
+        String emailRemp = null;
+        String emailRmpF = null;
+        if (emailUser != null) {
+            emailRemp = emailUser.replace(".", "-");
+        } else {
+            if (emailFam != null) {
+                emailRmpF = emailFam.replace(".", "-");
+
+            }
+        }
+
+
+        for (DataSnapshot homeW : dataSnapshot.getChildren()) {
+
+            keyValue = homeW.getKey();
+            if (keyValue != null) {
+                String emailComp = null;
+                String emailCompF = null;
+                if (emailRemp != null) {
+                    emailComp = dataSnapshot.child(keyValue).child(emailRemp).child("email").getValue(String.class);
+                } else {
+                    if (emailRmpF != null) {
+                        emailCompF = dataSnapshot.child(keyValue).child(emailRmpF).child("emailF").getValue(String.class);
+                    }
+                }
+
+
+                if (emailComp != null) {
+                    if (emailComp.contains(emailUser)) {
+                        GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                        };
+                        Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRemp).
+                                child("Work-" + emailRemp).child(actadm).getValue(genericTypeIndicator);
+
+
+                        if (workDay == null) {
+                            chkMy.setText("Dia libre");
+                            chkMybis.setText("Dia libre");
+                            if (chkMy.getText().toString().equals("Dia libre") | chkMy.getText().toString().equals("Dia libre")) {
+
+                                chkMy.setClickable(false);
+                                chkMy.setChecked(false);
+                                chkMybis.setClickable(false);
+                                chkMybis.setChecked(false);
+
+                            } else {
+                                chkMy.setClickable(false);
+
+                                chkMybis.setClickable(false);
+
+                            }
+                        } else {
+
+
+                            homeWorks = workDay.keySet().toArray(new String[0]);
+
+                            if (homeWorks.length > 0) {
+                                for (int i = 0; i < homeWorks.length; i++) {
+                                    if (i == 0) {
+                                        chkMy.setText(homeWorks[i]);
+
+                                        completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                child("completed").getValue(String.class);
+                                        if (completed != null) {
+                                            if (completed.toLowerCase().contains("si")) {
+                                                chkMy.setChecked(true);
+                                                chkMy.setClickable(false);
+                                            } else {
+
+                                                chkMy.setChecked(false);
+                                                chkMy.setClickable(true);
+                                            }
+                                        }
+
+                                    } else {
+                                        chkMybis.setText(homeWorks[i]);
+                                        completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                child("completed").getValue(String.class);
+
+                                        if (completed != null) {
+                                            if (completed.toLowerCase().contains("si")) {
+                                                chkMybis.setChecked(true);
+                                                chkMybis.setClickable(false);
+                                            } else {
+                                                chkMybis.setChecked(false);
+                                                chkMybis.setClickable(true);
+                                            }
+                                        }
+
+
+                                    }
+                                    if (homeWorks.length < 2) {
+                                        chkMybis.setText("Sin tarea");
+                                        if (chkMy.getText().toString().equals("Sin tarea")) {
+                                            chkMy.setClickable(false);
+                                            chkMy.setChecked(false);
+
+                                        } else {
+                                            chkMy.setClickable(true);
+                                        }
+                                        if (chkMybis.getText().toString().equals("Sin tarea")) {
+                                            chkMybis.setChecked(false);
+                                            chkMybis.setClickable(false);
+                                        } else {
+                                            chkMybis.setClickable(true);
+                                        }
+                                    }
+                                }
+
+
+                            }
+
+
+                        }
+
+
+                    }
+
+                } else {
+                    if (emailCompF != null) {
+                        if (emailCompF.contains(emailFam)) {
+                            GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                            };
+                            Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRmpF).
+                                    child("Work-" + emailRmpF).child(actadm).getValue(genericTypeIndicator);
+
+                            if (workDay == null) {
+                                chkMy.setText("Dia libre");
+                                chkMybis.setText("Dia libre");
+                                if (chkMy.getText().toString().equals("Dia libre") | chkMy.getText().toString().equals("Dia libre")) {
+
+                                    chkMy.setClickable(false);
+                                    chkMy.setChecked(false);
+                                    chkMybis.setClickable(false);
+                                    chkMybis.setChecked(false);
+
+                                } else {
+                                    chkMy.setClickable(false);
+
+                                    chkMybis.setClickable(false);
+
+                                }
+                            } else {
+
+
+                                homeWorks = workDay.keySet().toArray(new String[0]);
+
+                                if (homeWorks.length > 0) {
+
+                                    for (int i = 0; i < homeWorks.length; i++) {
+                                        if (i == 0) {
+                                            chkMy.setText(homeWorks[i]);
+
+                                            completed = dataSnapshot.child(keyValue).child(emailRmpF).
+                                                    child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
+                                                    child("completed").getValue(String.class);
+                                            if (completed != null) {
+                                                if (completed.toLowerCase().contains("si")) {
+                                                    chkMy.setChecked(true);
+                                                    chkMy.setClickable(false);
+                                                } else {
+                                                    chkMy.setChecked(false);
+                                                    chkMy.setClickable(true);
+                                                }
+                                            }
+
+                                        } else {
+                                            chkMybis.setText(homeWorks[i]);
+                                            completed = dataSnapshot.child(keyValue).child(emailRmpF).
+                                                    child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
+                                                    child("completed").getValue(String.class);
+
+                                            if (completed != null) {
+                                                if (completed.toLowerCase().contains("si")) {
+                                                    chkMybis.setChecked(true);
+                                                    chkMybis.setClickable(false);
+                                                } else {
+                                                    chkMybis.setChecked(false);
+                                                    chkMybis.setClickable(true);
+                                                }
+                                            }
+
+
+                                        }
+                                        if (homeWorks.length < 2) {
+                                            chkMybis.setText("Sin tarea");
+                                            if (chkMy.getText().toString().equals("Sin tarea")) {
+                                                chkMy.setClickable(false);
+                                                chkMy.setChecked(false);
+
+                                            } else {
+                                                chkMy.setClickable(true);
+                                            }
+                                            if (chkMybis.getText().toString().equals("Sin tarea")) {
+                                                chkMybis.setChecked(false);
+                                                chkMybis.setClickable(false);
+                                            } else {
+                                                chkMybis.setClickable(true);
+                                            }
+                                        }
+                                    }
+
+
+                                }
+
+
+                            }
+                        }
+                    }
+
+                }
+
+
+            }
+
+
+        }
+    }
+
 
 }
