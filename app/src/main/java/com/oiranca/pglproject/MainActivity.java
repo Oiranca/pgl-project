@@ -46,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
         mail = findViewById(R.id.plain_email);
         pass = findViewById(R.id.plain_password);
 
-        mail.setText("oiranca@gmail.com");
-        pass.setText("samuel");
+       /* mail.setText("oiranca@gmail.com");
+        pass.setText("samuel");*/
+        mail.setText("leyre@gmail.com");
+        pass.setText("leyre");
 
         FirebaseApp.initializeApp(getApplicationContext());
 
