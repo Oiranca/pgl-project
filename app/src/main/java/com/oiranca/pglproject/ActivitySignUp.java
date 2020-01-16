@@ -241,8 +241,9 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
                                                 String email = dataSnapshot.child(emailAdText.replace(".", "-")).child("email").getValue(String.class);
+
                                                 if (email != null) {
-                                                    if (email.contains(emailAdText)) {
+                                                    if (email.contains(emailAdText) && !email.equals(emailText)) {
                                                         email = dataSnapshot.child(emailText.replace(".", "-")).child("emailF").getValue(String.class);
                                                         if (email != null) {
                                                             if (email.equals(emailText)) {
@@ -253,11 +254,14 @@ public class ActivitySignUp extends AppCompatActivity {
                                                             Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
                                                             backLogin();
                                                         }
+                                                    }else {
+                                                        Toast.makeText(getApplicationContext(), "Email del familiar y del administrador son el mismo", Toast.LENGTH_LONG).show();
+
                                                     }
                                                 } else {
 
 
-                                                    Toast.makeText(getApplicationContext(), "El administrador no existe ", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "El administrador no existe o email erroneo", Toast.LENGTH_LONG).show();
 
                                                 }
 

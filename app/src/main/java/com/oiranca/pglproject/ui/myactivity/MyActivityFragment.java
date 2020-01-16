@@ -45,6 +45,7 @@ public class MyActivityFragment extends Fragment {
     private String emailFam;
     private String keyValue;
     private String[] homeWorks;
+    String completed;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -128,6 +129,19 @@ public class MyActivityFragment extends Fragment {
                                         if (workDay == null) {
                                             chkMy.setText("Dia libre");
                                             chkMybis.setText("Dia libre");
+                                            if (chkMy.getText().toString().equals("Dia libre") | chkMy.getText().toString().equals("Dia libre")) {
+
+                                                chkMy.setClickable(false);
+                                                chkMy.setChecked(false);
+                                                chkMybis.setClickable(false);
+                                                chkMybis.setChecked(false);
+
+                                            }else{
+                                                chkMy.setClickable(false);
+
+                                                chkMybis.setClickable(false);
+
+                                            }
                                         } else {
 
 
@@ -137,11 +151,53 @@ public class MyActivityFragment extends Fragment {
                                                 for (int i = 0; i < homeWorks.length; i++) {
                                                     if (i == 0) {
                                                         chkMy.setText(homeWorks[i]);
+
+                                                        completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                                child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                                child("completed").getValue(String.class);
+                                                        if (completed != null) {
+                                                            if (completed.toLowerCase().contains("si")) {
+                                                                chkMy.setChecked(true);
+                                                                chkMy.setClickable(false);
+                                                            }else{
+                                                                chkMy.setChecked(false);
+                                                                chkMy.setClickable(true);
+                                                            }
+                                                        }
+
                                                     } else {
                                                         chkMybis.setText(homeWorks[i]);
+                                                        completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                                child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                                child("completed").getValue(String.class);
+
+                                                        if (completed != null) {
+                                                            if (completed.toLowerCase().contains("si")) {
+                                                                chkMybis.setChecked(true);
+                                                                chkMybis.setClickable(false);
+                                                            }else{
+                                                                chkMybis.setChecked(false);
+                                                                chkMybis.setClickable(true);
+                                                            }
+                                                        }
+
+
                                                     }
-                                                    if(homeWorks.length<2){
+                                                    if (homeWorks.length < 2) {
                                                         chkMybis.setText("Sin tarea");
+                                                        if (chkMy.getText().toString().equals("Sin tarea")) {
+                                                            chkMy.setClickable(false);
+                                                            chkMy.setChecked(false);
+
+                                                        }else{
+                                                            chkMy.setClickable(true);
+                                                        }
+                                                        if (chkMybis.getText().toString().equals("Sin tarea")) {
+                                                            chkMybis.setChecked(false);
+                                                            chkMybis.setClickable(false);
+                                                        }else{
+                                                            chkMybis.setClickable(true);
+                                                        }
                                                     }
                                                 }
 
@@ -165,21 +221,60 @@ public class MyActivityFragment extends Fragment {
                                             if (workDay == null) {
                                                 chkMy.setText("Dia libre");
                                                 chkMybis.setText("Dia libre");
+                                                if (chkMy.getText().toString().equals("Dia libre") | chkMy.getText().toString().equals("Dia libre")) {
+
+                                                    chkMy.setClickable(false);
+                                                    chkMy.setChecked(false);
+                                                    chkMybis.setClickable(false);
+                                                    chkMybis.setChecked(false);
+
+                                                }
                                             } else {
 
 
                                                 homeWorks = workDay.keySet().toArray(new String[0]);
 
                                                 if (homeWorks.length > 0) {
+
                                                     for (int i = 0; i < homeWorks.length; i++) {
                                                         if (i == 0) {
                                                             chkMy.setText(homeWorks[i]);
+
+                                                            completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                                    child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                                    child("completed").getValue(String.class);
+                                                            if (completed != null) {
+                                                                if (completed.toLowerCase().contains("si")) {
+                                                                    chkMy.setChecked(true);
+                                                                    chkMy.setClickable(false);
+                                                                }
+                                                            }
+
                                                         } else {
                                                             chkMybis.setText(homeWorks[i]);
+                                                            completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                                    child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
+                                                                    child("completed").getValue(String.class);
+
+                                                            if (completed != null) {
+                                                                if (completed.toLowerCase().contains("si")) {
+                                                                    chkMybis.setChecked(true);
+                                                                    chkMybis.setClickable(false);
+                                                                }
+                                                            }
+
+
                                                         }
 
-                                                        if(homeWorks.length<2){
+                                                        if (homeWorks.length < 2) {
                                                             chkMybis.setText("Sin tarea");
+                                                            if (chkMy.getText().toString().equals("Sin tarea")) {
+                                                                chkMy.setClickable(false);
+
+                                                            }
+                                                            if (chkMybis.getText().toString().equals("Sin tarea")) {
+                                                                chkMybis.setClickable(false);
+                                                            }
                                                         }
                                                     }
 
@@ -261,21 +356,64 @@ public class MyActivityFragment extends Fragment {
                                 if (workDay == null) {
                                     chkMy.setText("Dia libre");
                                     chkMybis.setText("Dia libre");
+                                    if (chkMy.getText().toString().equals("Dia libre") | chkMy.getText().toString().equals("Dia libre")) {
+
+                                        chkMy.setClickable(false);
+                                        chkMy.setChecked(false);
+                                        chkMybis.setClickable(false);
+                                        chkMybis.setChecked(false);
+
+                                    }
+
                                 } else {
 
-
+                                    chkMy.setClickable(true);
+                                    chkMybis.setClickable(true);
                                     homeWorks = workDay.keySet().toArray(new String[0]);
 
                                     if (homeWorks.length > 0) {
+
                                         for (int i = 0; i < homeWorks.length; i++) {
                                             if (i == 0) {
                                                 chkMy.setText(homeWorks[i]);
+
+
+                                                completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                        child("Work-" + emailRemp).child(present).child(homeWorks[i]).
+                                                        child("completed").getValue(String.class);
+                                                if (completed != null) {
+                                                    if (completed.toLowerCase().contains("si")) {
+                                                        chkMy.setChecked(true);
+                                                        chkMy.setClickable(false);
+                                                    }
+                                                }
+
                                             } else {
                                                 chkMybis.setText(homeWorks[i]);
+                                                completed = dataSnapshot.child(keyValue).child(emailRemp).
+                                                        child("Work-" + emailRemp).child(present).child(homeWorks[i]).
+                                                        child("completed").getValue(String.class);
+
+                                                if (completed != null) {
+                                                    if (completed.toLowerCase().contains("si")) {
+                                                        chkMybis.setChecked(true);
+                                                        chkMybis.setClickable(false);
+                                                    }
+                                                }
+
+
                                             }
 
-                                            if(homeWorks.length<2){
+                                            if (homeWorks.length < 2) {
                                                 chkMybis.setText("Sin tarea");
+                                                if (chkMy.getText().toString().equals("Sin tarea")) {
+                                                    chkMy.setClickable(false);
+
+                                                }
+                                                if (chkMybis.getText().toString().equals("Sin tarea")) {
+                                                    chkMybis.setClickable(false);
+                                                }
+
                                             }
                                         }
 
@@ -313,7 +451,7 @@ public class MyActivityFragment extends Fragment {
                                                     chkMybis.setText(homeWorks[i]);
                                                 }
 
-                                                if(homeWorks.length<2){
+                                                if (homeWorks.length < 2) {
                                                     chkMybis.setText("Sin tarea");
                                                 }
                                             }
