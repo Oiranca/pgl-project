@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -71,9 +72,13 @@ public class MyActivityFragment extends Fragment {
         chkMybis = root.findViewById(R.id.checkBoxAdmBis);
 
         CalendarView calendar = root.findViewById(R.id.calendarMactivity);
+        disableLastDate(calendar);
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+
         datePresent();
+
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -173,9 +178,9 @@ public class MyActivityFragment extends Fragment {
 
 
                                         }
-                                    }else {
-                                        if (emailCompF!=null){
-                                            if (emailCompF.contains(emailFam)){
+                                    } else {
+                                        if (emailCompF != null) {
+                                            if (emailCompF.contains(emailFam)) {
 
                                                 GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
                                                 };
@@ -214,7 +219,6 @@ public class MyActivityFragment extends Fragment {
                                                 }
 
 
-
                                             }
                                         }
                                     }
@@ -234,7 +238,6 @@ public class MyActivityFragment extends Fragment {
                     });
 
 
-                    System.out.println("El chkmy acaba de ser pulsado");
                 }
             }
         });
@@ -312,9 +315,9 @@ public class MyActivityFragment extends Fragment {
 
 
                                         }
-                                    }else {
-                                        if (emailCompF!=null){
-                                            if (emailCompF.contains(emailFam)){
+                                    } else {
+                                        if (emailCompF != null) {
+                                            if (emailCompF.contains(emailFam)) {
 
                                                 GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
                                                 };
@@ -353,7 +356,6 @@ public class MyActivityFragment extends Fragment {
                                                 }
 
 
-
                                             }
                                         }
                                     }
@@ -371,13 +373,19 @@ public class MyActivityFragment extends Fragment {
 
                         }
                     });
-                    System.out.println("El chkmybis acaba de ser pulsado");
+
                 }
             }
         });
 
 
         return root;
+    }
+
+    private void disableLastDate(CalendarView calendar) {
+        SimpleDateFormat fechForm = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
+        Date fechaHoy = new Date();
+        calendar.setMinDate(fechaHoy.getTime());
     }
 
     private void datePresent() {

@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_newF"
             android:icon="@drawable/ic_family"
-            android:title="@string/menu_new_family" />
+            android:title="@string/menu_delete_family" />
         <item
             android:id="@+id/nav_activity"
             android:icon="@drawable/ic_cleaning"
