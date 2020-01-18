@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -68,38 +69,13 @@ public class DeleteFamily extends Fragment {
         assert user != null;
         emailUser = user.getString("Admin");
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         if (emailUser != null) {
             databaseReference = firebaseDatabase.getReference().child("Family-" + emailUser.replace(".", "-"));
         }
 
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<String> nameFamily = new ArrayList<>();
-                nameFamily.add("Selecciona un familiar");
-                for (DataSnapshot name : dataSnapshot.getChildren()) {
-                    String nameFm = name.child("nameF").getValue(String.class);
-                    if (nameFm != null) {
-                        nameFamily.add(nameFm);
-                    }
-
-                }
-
-
-                comAdp = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, nameFamily);
-                spinnerDel.setAdapter(comAdp);
-
-
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        itemSpinner(spinnerDel);
 
         spinnerDel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -118,14 +94,17 @@ public class DeleteFamily extends Fragment {
                                 if (compName != null) {
                                     if (compName.contains(famSelect)) {
                                         keyValue = dataFamily.getKey();
-                                        String emailFamily = dataSnapshot.child(keyValue).child("emailF").getValue(String.class);
-                                        String surFamily = dataSnapshot.child(keyValue).child("surnameF").getValue(String.class);
-                                        textName.setText(famSelect);
-                                        textSurname.setText(surFamily);
-                                        textEmailD.setText(emailFamily);
-                                        textName.setTextColor(Color.BLACK);
-                                        textSurname.setTextColor(Color.BLACK);
-                                        textEmailD.setTextColor(Color.BLACK);
+                                        if (keyValue!=null){
+                                            String emailFamily = dataSnapshot.child(keyValue).child("emailF").getValue(String.class);
+                                            String surFamily = dataSnapshot.child(keyValue).child("surnameF").getValue(String.class);
+                                            textName.setText(famSelect);
+                                            textSurname.setText(surFamily);
+                                            textEmailD.setText(emailFamily);
+                                            textName.setTextColor(Color.BLACK);
+                                            textSurname.setTextColor(Color.BLACK);
+                                            textEmailD.setTextColor(Color.BLACK);
+                                        }
+
                                     }
                                 }
 
@@ -146,19 +125,52 @@ public class DeleteFamily extends Fragment {
 
                             delteB.setMessage("¿Desea borrar a " + famSelect + "?").setTitle("Borrando Familiar");
 
+
                             delteB.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    System.out.println("Holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                                    spinnerDel.setSelection(0);
+                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot deleteF : dataSnapshot.getChildren()) {
+                                                String compD = deleteF.child("nameF").getValue(String.class);
+
+                                                if (compD != null) {
+                                                    if (compD.contains(famSelect)) {
+                                                        keyValue = deleteF.getKey();
+
+                                                        if (keyValue!=null){
+
+                                                            databaseReference.child(keyValue).removeValue();
+                                                            itemSpinner(spinnerDel);
+
+
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+
+
+                                    });
+
                                 }
+
                             });
+
+
 
 
                             delteB.setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    System.out.println("Adios");
+                                    spinnerDel.setSelection(0);
 
                                 }
                             });
@@ -168,6 +180,8 @@ public class DeleteFamily extends Fragment {
 
                         }
                     });
+
+
 
                 } else {
                     textName.setText("Seleccione un familiar");
@@ -189,6 +203,33 @@ public class DeleteFamily extends Fragment {
 
 
         return root;
+    }
+
+    private void itemSpinner(final Spinner spinnerDel) {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> nameFamily = new ArrayList<>();
+                nameFamily.add("Selecciona un familiar");
+                for (DataSnapshot name : dataSnapshot.getChildren()) {
+                    String nameFm = name.child("nameF").getValue(String.class);
+                    if (nameFm != null) {
+                        nameFamily.add(nameFm);
+                    }
+
+                }
+              comAdp = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, nameFamily);
+                spinnerDel.setAdapter(comAdp);
+
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

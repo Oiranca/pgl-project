@@ -1,5 +1,7 @@
 package com.oiranca.pglproject.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -68,6 +70,161 @@ public class ActivityFragment extends Fragment {
         }
 
 
+        dataSpinner(spinnerFam);
+
+        spinnerFam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                famSelect = spinnerFam.getSelectedItem().toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                int correction = 1 + month;
+
+
+                date = dayOfMonth + "-" + correction + "-" + year;
+
+
+            }
+        });
+
+        spinnerWork.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                workSelect = spinnerWork.getSelectedItem().toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        floatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder workFamily = new AlertDialog.Builder(getContext());
+
+                workFamily.setMessage("¿Desea que " + famSelect +" haga la terea "+ workSelect + "?").setTitle("Tareas de Casa");
+
+                final SimpleDateFormat fechForm = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
+                final Date fechaHoy = new Date();
+
+                if (date == null) {
+                    date = fechForm.format(fechaHoy);
+                }
+
+                workFamily.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                String email;
+
+
+                                for (DataSnapshot work : dataSnapshot.getChildren()) {
+                                    namesAd = work.child("name").getValue(String.class);
+                                    namesFam = work.child("nameF").getValue(String.class);
+
+
+                                    if (namesAd != null) {
+                                        if (namesAd.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea") && date != null) {
+                                            email = work.child("email").getValue(String.class);
+                                            assert email != null;
+                                            emailRemplace = email.replace(".", "-");
+
+
+                                            databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                            spinnerFam.setSelection(0);
+                                            spinnerWork.setSelection(0);
+
+
+                                        }
+                                        if (namesAd.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea") || date == null) {
+                                            Toast.makeText(getContext(), "Le ha faltado seleccionar algún dato", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    }
+                                    if (namesFam != null) {
+                                        if (namesFam.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea") && date != null) {
+
+                                            email = work.child("emailF").getValue(String.class);
+                                            if (email != null) {
+                                                emailRemplace = email.replace(".", "-");
+                                                databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                                spinnerFam.setSelection(0);
+                                                spinnerWork.setSelection(0);
+
+                                            }
+
+
+                                        } else {
+                                            if (namesFam.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea") || date == null) {
+                                                Toast.makeText(getContext(), "Le ha faltado seleccionar algún dato", Toast.LENGTH_LONG).show();
+                                            }
+
+                                        }
+                                    }
+
+
+                                }
+                            }
+
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
+                    }
+                });
+                workFamily.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        spinnerFam.setSelection(0);
+                        spinnerWork.setSelection(0);
+                    }
+                });
+
+
+                AlertDialog dialog = workFamily.show();
+            }
+
+        });
+
+
+        final TextView textView = root.findViewById(R.id.home);
+        activityViewModel.getText().
+
+                observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+
+                        textView.setText(s);
+                    }
+                });
+
+
+        return root;
+    }
+
+    private void dataSpinner(final Spinner spinnerFam) {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,133 +254,5 @@ public class ActivityFragment extends Fragment {
 
             }
         });
-        spinnerFam.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                famSelect = spinnerFam.getSelectedItem().toString();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                int correction = 1 + month;
-
-
-                    date = dayOfMonth + "-" + correction + "-" + year;
-
-
-            }
-        });
-
-        spinnerWork.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                workSelect = spinnerWork.getSelectedItem().toString();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-        floatButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-               final SimpleDateFormat fechForm = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
-                final Date fechaHoy = new Date();
-
-                if (date == null) {
-                    date = fechForm.format(fechaHoy);
-                }
-
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String email;
-
-
-                        for (DataSnapshot work : dataSnapshot.getChildren()) {
-                            namesAd = work.child("name").getValue(String.class);
-                            namesFam = work.child("nameF").getValue(String.class);
-
-
-                            if (namesAd != null) {
-                                if (namesAd.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea") && date != null) {
-                                    email = work.child("email").getValue(String.class);
-                                    assert email != null;
-                                    emailRemplace = email.replace(".", "-");
-                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
-                                    spinnerFam.setSelection(0);
-                                    spinnerWork.setSelection(0);
-
-
-                                }
-                                if (namesAd.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea") || date == null) {
-                                    Toast.makeText(getContext(), "Le ha faltado seleccionar algún dato", Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-                            if (namesFam != null) {
-                                if (namesFam.contains(famSelect) && !famSelect.equals("Selecciona un familiar") && !workSelect.equals("Selecciona una tarea") && date != null) {
-
-                                    email = work.child("emailF").getValue(String.class);
-                                    if (email != null) {
-                                        emailRemplace = email.replace(".", "-");
-                                        databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
-                                        spinnerFam.setSelection(0);
-                                        spinnerWork.setSelection(0);
-
-                                    }
-
-
-                                } else {
-                                    if (namesFam.isEmpty() || famSelect.equals("Selecciona un familiar") || workSelect.equals("Selecciona una tarea") || date == null) {
-                                        Toast.makeText(getContext(), "Le ha faltado seleccionar algún dato", Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-                            }
-
-
-                        }
-                    }
-
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-
-            }
-        });
-
-
-        final TextView textView = root.findViewById(R.id.home);
-        activityViewModel.getText().
-
-                observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-
-                        textView.setText(s);
-                    }
-                });
-
-
-        return root;
     }
 }
