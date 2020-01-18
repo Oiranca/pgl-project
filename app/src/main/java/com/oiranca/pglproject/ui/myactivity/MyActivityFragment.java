@@ -1,5 +1,7 @@
 package com.oiranca.pglproject.ui.myactivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,6 +33,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 public class MyActivityFragment extends Fragment {
 
@@ -42,7 +46,9 @@ public class MyActivityFragment extends Fragment {
     private String emailFam;
     private String keyValue;
     private String[] homeWorks;
-    String completed;
+    private String completed;
+    private String emailRemp = null;
+    private String emailRmpF = null;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -69,6 +75,8 @@ public class MyActivityFragment extends Fragment {
 
 
         chkMy = root.findViewById(R.id.checkBoxAdm);
+
+
         chkMybis = root.findViewById(R.id.checkBoxAdmBis);
 
         CalendarView calendar = root.findViewById(R.id.calendarMactivity);
@@ -106,15 +114,18 @@ public class MyActivityFragment extends Fragment {
             }
         });
 
+
         chkMy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 if (chkMy.isChecked()) {
+
+
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String emailRemp = null;
-                            String emailRmpF = null;
+
                             if (emailUser != null) {
                                 emailRemp = emailUser.replace(".", "-");
                             } else {
@@ -141,7 +152,7 @@ public class MyActivityFragment extends Fragment {
                                     if (emailComp != null) {
 
                                         if (emailComp.contains(emailUser)) {
-                                            GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                                            final GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
                                             };
                                             Map<String, Object> workDay = dataSnapshot.child(keyValue).child(emailRemp).
                                                     child("Work-" + emailRemp).child(actadm).getValue(genericTypeIndicator);
@@ -153,23 +164,51 @@ public class MyActivityFragment extends Fragment {
                                                 homeWorks = workDay.keySet().toArray(new String[0]);
 
                                                 if (homeWorks.length > 0) {
+
                                                     for (int i = 0; i < homeWorks.length; i++) {
-                                                        if (i == 0) {
+                                                        final int index = i;
+                                                        if (index == 0) {
 
                                                             completed = dataSnapshot.child(keyValue).child(emailRemp).
                                                                     child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
                                                                     child("completed").getValue(String.class);
                                                             if (completed != null) {
                                                                 if (completed.toLowerCase().contains("no")) {
-                                                                    databaseReference.child(keyValue).child(emailRemp).
-                                                                            child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
-                                                                            child("completed").setValue("si");
+
+                                                                    AlertDialog.Builder workFamily = new AlertDialog.Builder(getContext());
+
+                                                                    workFamily.setMessage("¿Desea que marcar la tarea como realizada?").setTitle("Tareas realizadas");
+
+                                                                    workFamily.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            databaseReference.child(keyValue).child(emailRemp).
+                                                                                    child("Work-" + emailRemp).child(actadm).child(homeWorks[index]).
+                                                                                    child("completed").setValue("si");
+                                                                            chkMy.setClickable(false);
+                                                                        }
+                                                                    });
+
+
+                                                                    workFamily.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            Toast.makeText(getContext(), "No se ha asignado la tarea", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+
+
+                                                                    AlertDialog dialog = workFamily.show();
+
+
+                                                                } else {
+                                                                    chkMy.setClickable(false);
                                                                 }
+
                                                             }
 
                                                         }
                                                     }
-
 
                                                 }
 
@@ -195,7 +234,8 @@ public class MyActivityFragment extends Fragment {
 
                                                     if (homeWorks.length > 0) {
                                                         for (int i = 0; i < homeWorks.length; i++) {
-                                                            if (i == 0) {
+                                                            final int indexF=i;
+                                                            if (indexF == 0) {
 
 
                                                                 completed = dataSnapshot.child(keyValue).child(emailRmpF).
@@ -203,9 +243,37 @@ public class MyActivityFragment extends Fragment {
                                                                         child("completed").getValue(String.class);
                                                                 if (completed != null) {
                                                                     if (completed.toLowerCase().contains("no")) {
-                                                                        databaseReference.child(keyValue).child(emailRmpF).
-                                                                                child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
-                                                                                child("completed").setValue("si");
+
+
+
+                                                                        AlertDialog.Builder workFamily = new AlertDialog.Builder(getContext());
+
+                                                                        workFamily.setMessage("¿Desea que marcar la tarea como realizada?").setTitle("Tareas realizadas");
+
+                                                                        workFamily.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                                databaseReference.child(keyValue).child(emailRmpF).
+                                                                                        child("Work-" + emailRmpF).child(actadm).child(homeWorks[indexF]).
+                                                                                        child("completed").setValue("si");
+                                                                                chkMy.setClickable(false);
+                                                                            }
+                                                                        });
+
+
+                                                                        workFamily.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                                Toast.makeText(getContext(), "No se ha asignado la tarea", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+
+
+                                                                        AlertDialog dialog = workFamily.show();
+
+
+                                                                    }else{
+                                                                        chkMy.setClickable(false);
                                                                     }
                                                                 }
 
@@ -249,8 +317,7 @@ public class MyActivityFragment extends Fragment {
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String emailRemp = null;
-                            String emailRmpF = null;
+
                             if (emailUser != null) {
                                 emailRemp = emailUser.replace(".", "-");
                             } else {
@@ -290,7 +357,8 @@ public class MyActivityFragment extends Fragment {
 
                                                 if (homeWorks.length > 0) {
                                                     for (int i = 0; i < homeWorks.length; i++) {
-                                                        if (i > 0) {
+                                                        final int index =i;
+                                                        if (index > 0) {
 
 
                                                             completed = dataSnapshot.child(keyValue).child(emailRemp).
@@ -298,9 +366,34 @@ public class MyActivityFragment extends Fragment {
                                                                     child("completed").getValue(String.class);
                                                             if (completed != null) {
                                                                 if (completed.toLowerCase().contains("no")) {
-                                                                    databaseReference.child(keyValue).child(emailRemp).
-                                                                            child("Work-" + emailRemp).child(actadm).child(homeWorks[i]).
-                                                                            child("completed").setValue("si");
+
+                                                                    AlertDialog.Builder workFamily = new AlertDialog.Builder(getContext());
+
+                                                                    workFamily.setMessage("¿Desea que marcar la tarea como realizada?").setTitle("Tareas realizadas");
+
+                                                                    workFamily.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            databaseReference.child(keyValue).child(emailRemp).
+                                                                                    child("Work-" + emailRemp).child(actadm).child(homeWorks[index]).
+                                                                                    child("completed").setValue("si");
+                                                                            chkMybis.setClickable(false);
+                                                                        }
+                                                                    });
+
+
+                                                                    workFamily.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            Toast.makeText(getContext(), "No se ha asignado la tarea", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    });
+
+
+                                                                    AlertDialog dialog = workFamily.show();
+
+                                                                }else{
+                                                                    chkMybis.setClickable(false);
                                                                 }
                                                             }
 
@@ -332,7 +425,8 @@ public class MyActivityFragment extends Fragment {
 
                                                     if (homeWorks.length > 0) {
                                                         for (int i = 0; i < homeWorks.length; i++) {
-                                                            if (i > 0) {
+                                                            final int indexf=i;
+                                                            if (indexf > 0) {
 
 
                                                                 completed = dataSnapshot.child(keyValue).child(emailRmpF).
@@ -340,9 +434,34 @@ public class MyActivityFragment extends Fragment {
                                                                         child("completed").getValue(String.class);
                                                                 if (completed != null) {
                                                                     if (completed.toLowerCase().contains("no")) {
-                                                                        databaseReference.child(keyValue).child(emailRmpF).
-                                                                                child("Work-" + emailRmpF).child(actadm).child(homeWorks[i]).
-                                                                                child("completed").setValue("si");
+                                                                        AlertDialog.Builder workFamily = new AlertDialog.Builder(getContext());
+
+                                                                        workFamily.setMessage("¿Desea que marcar la tarea como realizada?").setTitle("Tareas realizadas");
+
+                                                                        workFamily.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                                                databaseReference.child(keyValue).child(emailRmpF).
+                                                                                        child("Work-" + emailRmpF).child(actadm).child(homeWorks[indexf]).
+                                                                                        child("completed").setValue("si");
+                                                                                chkMybis.setClickable(false);
+                                                                            }
+                                                                        });
+
+
+                                                                        workFamily.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                                Toast.makeText(getContext(), "No se ha asignado la tarea", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+
+
+                                                                        AlertDialog dialog = workFamily.show();
+
+                                                                    }else{
+                                                                        chkMybis.setClickable(false);
                                                                     }
                                                                 }
 
