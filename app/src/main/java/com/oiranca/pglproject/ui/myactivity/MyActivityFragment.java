@@ -59,7 +59,20 @@ public class MyActivityFragment extends Fragment {
         myActivityViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText("Poner el Nombre del Usuario");
+
+                Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
+                Bundle user = idUser.getExtras();
+
+
+                assert user != null;
+                s = user.getString("Admin");
+
+                if (s!=null){
+                    textView.setText(s);
+                }else {
+                    s=user.getString("Family");
+                    textView.setText(s);
+                }
             }
         });
 
@@ -80,6 +93,7 @@ public class MyActivityFragment extends Fragment {
         chkMybis = root.findViewById(R.id.checkBoxAdmBis);
 
         CalendarView calendar = root.findViewById(R.id.calendarMactivity);
+
         disableLastDate(calendar);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();

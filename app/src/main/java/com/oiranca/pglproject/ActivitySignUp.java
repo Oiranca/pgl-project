@@ -1,31 +1,35 @@
 package com.oiranca.pglproject;
 
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.Query;
+
 import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.ui.entidades.Admin;
 import com.oiranca.pglproject.ui.entidades.Family;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -34,9 +38,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
 import java.util.UUID;
-import java.util.Vector;
+
 
 public class ActivitySignUp extends AppCompatActivity {
     EditText name;
@@ -48,6 +52,10 @@ public class ActivitySignUp extends AppCompatActivity {
     private int op = 1;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int CAMERA_PERMISSION = 100;
+    static final int WRITE_PERMISSION = 101;
+    static final int READ_PERMISSION = 102;
 
 
     @Override
@@ -65,6 +73,7 @@ public class ActivitySignUp extends AppCompatActivity {
         pass = (EditText) findViewById(R.id.pass_sign);
         rPass = (EditText) findViewById(R.id.repeat_sign);
         emailAdmin = (EditText) findViewById(R.id.emailSignAdmin);
+        final FloatingActionButton cameraFloat = (FloatingActionButton) findViewById(R.id.floatingCamera);
         option();
 
 
@@ -77,6 +86,16 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         });
 
+
+        cameraFloat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCameraHardware(getApplicationContext());
+                checkPermission();
+
+
+            }
+        });
 
     }
 
@@ -249,12 +268,12 @@ public class ActivitySignUp extends AppCompatActivity {
                                                             if (email.equals(emailText)) {
                                                                 Toast.makeText(getApplicationContext(), "Familiar ya existe ", Toast.LENGTH_LONG).show();
                                                             }
-                                                        }else {
+                                                        } else {
                                                             databaseReference.child(emailText.replace(".", "-")).setValue(fm);
                                                             Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
                                                             backLogin();
                                                         }
-                                                    }else {
+                                                    } else {
                                                         Toast.makeText(getApplicationContext(), "Email del familiar y del administrador son el mismo", Toast.LENGTH_LONG).show();
 
                                                     }
@@ -264,7 +283,6 @@ public class ActivitySignUp extends AppCompatActivity {
                                                     Toast.makeText(getApplicationContext(), "El administrador no existe o email erroneo", Toast.LENGTH_LONG).show();
 
                                                 }
-
 
 
                                             }
@@ -325,6 +343,87 @@ public class ActivitySignUp extends AppCompatActivity {
             backLogin();
         }
         return true;
+
+    }
+
+    private boolean checkCameraHardware(Context context) {
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            System.out.println("Detecta las Cámaras");
+            return true;
+        } else {
+            System.out.println("No detecta las cmámaras");
+            return false;
+        }
+    }
+
+    public void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED){
+
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},CAMERA_PERMISSION);
+
+
+        }
+
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},WRITE_PERMISSION);
+
+        }else{
+            takePhoto();
+        }
+
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    checkPermission();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permiso camara denegado", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            break;
+
+            case WRITE_PERMISSION: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    takePhoto();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permiso guardado denegado", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+            break;
+
+
+        }
+    }
+
+    private void takePhoto() {
+
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(getApplicationContext(), "Permiso lectura denegado", Toast.LENGTH_SHORT).show();
+
+        }else{
+            System.out.println("Permiso de lectura garantizado");
+
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+
 
     }
 

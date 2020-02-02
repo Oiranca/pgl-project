@@ -31,8 +31,7 @@ import java.util.Objects;
 
 public class ReportsFragment extends Fragment {
 
-    private ReportsViewModel reportsViewModel;
-    private TableView tablaDyn, tabHead;
+    private TableView tablaDyn;
     private String[] header = {"Fecha", "Nombre", "Actividad", "Realizado"};
     private ArrayList<String> item;
     private String[] datos;
@@ -46,13 +45,12 @@ public class ReportsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        reportsViewModel =
-                ViewModelProviders.of(this).get(ReportsViewModel.class);
+        ReportsViewModel reportsViewModel = ViewModelProviders.of(this).get(ReportsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_reports, container, false);
         TableLayout tableLayout = (TableLayout) root.findViewById(R.id.tableReports);
         tablaDyn = new TableView(tableLayout, getContext());
         TableLayout headTable = (TableLayout) root.findViewById(R.id.headTable);
-        tabHead = new TableView(headTable, getContext());
+        TableView tabHead = new TableView(headTable, getContext());
         tabHead.addHead(header);
         Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
         Bundle user = idUser.getExtras();
@@ -106,13 +104,14 @@ public class ReportsFragment extends Fragment {
                                 if (emailComp != null) {
                                     if (emailComp.contains(emailUser)) {
 
-                                        String emailData[];
+                                        String[] emailData;
                                         date = dayOfMonth + "-" + correction + "-" + year;
                                         GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
                                         };
 
                                         Map<String, Object> data = dataSnapshot.child(keyValue).getValue(genericTypeIndicator);
 
+                                        assert data != null;
                                         emailData = data.keySet().toArray(new String[0]);
 
                                         if (emailData.length > 0) {
@@ -230,7 +229,7 @@ public class ReportsFragment extends Fragment {
                                                 if (workDay == null) {
                                                     item = new ArrayList<String>();
                                                     item.add(date);
-                                                    item.add("Sin tarea");
+                                                    item.add(name);
                                                     item.add("Sin tarea");
                                                     item.add("Sin tarea");
 

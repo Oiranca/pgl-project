@@ -47,6 +47,8 @@ public class ActivityFragment extends Fragment {
     private String namesFam;
 
 
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -56,6 +58,8 @@ public class ActivityFragment extends Fragment {
         final Spinner spinnerWork = root.findViewById(R.id.spinnerWork);
         final CalendarView calendarView = root.findViewById(R.id.calendarAssig);
         final FloatingActionButton floatButton = root.findViewById(R.id.floatMyAct);
+
+        disableLastDate(calendarView);
 
 
         Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
@@ -216,7 +220,20 @@ public class ActivityFragment extends Fragment {
                     @Override
                     public void onChanged(@Nullable String s) {
 
-                        textView.setText(s);
+
+                        Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
+                        Bundle user = idUser.getExtras();
+
+
+                        assert user != null;
+                        s = user.getString("Admin");
+
+                        if (s!=null){
+                            textView.setText(s);
+                        }else {
+                            s=user.getString("Family");
+                            textView.setText(s);
+                        }
                     }
                 });
 
@@ -254,5 +271,11 @@ public class ActivityFragment extends Fragment {
 
             }
         });
+    }
+
+    private void disableLastDate(CalendarView calendar) {
+        SimpleDateFormat fechForm = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
+        Date fechaHoy = new Date();
+        calendar.setMinDate(fechaHoy.getTime());
     }
 }

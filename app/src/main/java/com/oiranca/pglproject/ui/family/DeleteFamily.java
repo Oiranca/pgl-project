@@ -36,7 +36,6 @@ import java.util.Objects;
 
 public class DeleteFamily extends Fragment {
 
-    private DeleteFamilyViewModel mViewModel;
     private DatabaseReference databaseReference;
     private ArrayAdapter<String> comAdp;
     private String famSelect;
@@ -46,14 +45,29 @@ public class DeleteFamily extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        mViewModel =
-                ViewModelProviders.of(this).get(DeleteFamilyViewModel.class);
+        DeleteFamilyViewModel mViewModel = ViewModelProviders.of(this).get(DeleteFamilyViewModel.class);
         View root = inflater.inflate(R.layout.delete_family_fragment, container, false);
         final TextView textView = root.findViewById(R.id.text_deletef);
         mViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText("Poner el Nombre del Usuario");
+
+
+                Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
+                Bundle user = idUser.getExtras();
+
+
+                assert user != null;
+                s = user.getString("Admin");
+
+                if (s!=null){
+                    textView.setText(s);
+                }else {
+                    s=user.getString("Family");
+                    textView.setText(s);
+                }
+
+
             }
         });
 
