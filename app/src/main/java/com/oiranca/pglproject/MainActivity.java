@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance().setPersistenceEnabled(false);
             MainActivity.firebaseInitialized = true;
         }
+        mail.setText("oiranca@gmail.com");
+        pass.setText("samuel");
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent forgotIntent = new Intent(getApplicationContext(), ActivityForgot.class);
-
                 startActivity(forgotIntent);
 
             }

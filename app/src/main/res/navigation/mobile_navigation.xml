@@ -19,6 +19,12 @@
         android:label="@string/assignment_work"
         tools:layout="@layout/fragment_activity" />
 
+    <fragment
+        android:id="@+id/nav_newreports"
+        android:name="com.oiranca.pglproject.ui.newreport.NewReportFragment"
+        android:label="@string/menu_reports"
+        tools:layout="@layout/new_report_fragment" />
+
 
 
     <fragment
@@ -26,6 +32,12 @@
         android:name="com.oiranca.pglproject.ui.reports.ReportsFragment"
         android:label="@string/menu_reports"
         tools:layout="@layout/fragment_reports" />
+
+    <fragment
+        android:id="@+id/nav_reports_month"
+        android:name="com.oiranca.pglproject.ui.reportmonth.ReportMonthFragment"
+        android:label="@string/reports_mensuales"
+        tools:layout="@layout/report_month_fragment" />
 
     <fragment
         android:id="@+id/nav_my_activity"

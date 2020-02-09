@@ -124,7 +124,7 @@ public class ActivityFragment extends Fragment {
 
                 workFamily.setMessage("¿Desea que " + famSelect +" haga la terea "+ workSelect + "?").setTitle("Tareas de Casa");
 
-                final SimpleDateFormat fechForm = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
+                final SimpleDateFormat fechForm = new SimpleDateFormat("d-M-yyyy", Locale.getDefault());
                 final Date fechaHoy = new Date();
 
                 if (date == null) {
@@ -274,7 +274,7 @@ public class ActivityFragment extends Fragment {
     }
 
     private void disableLastDate(CalendarView calendar) {
-        SimpleDateFormat fechForm = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
+
         Date fechaHoy = new Date();
         calendar.setMinDate(fechaHoy.getTime());
     }

@@ -17,9 +17,15 @@
 
 
         <item
-            android:id="@+id/nav_reports"
+            android:id="@+id/nav_newreports"
             android:icon="@drawable/ic_reports"
             android:title="@string/menu_reports" />
+
+        <item
+            android:id="@+id/nav_reports_month"
+            android:icon="@drawable/ic_report_month"
+            android:title="@string/reports_mensuales" />
+
         <item
             android:id="@+id/nav_my_activity"
             android:icon="@drawable/ic_home_work"

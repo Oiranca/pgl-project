@@ -70,7 +70,7 @@ public class NavigationAdmin extends AppCompatActivity {
 
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_activity, R.id.nav_newF, R.id.nav_reports, R.id.nav_my_activity)
+                R.id.nav_activity, R.id.nav_newF,R.id.nav_newreports,R.id.nav_reports_month, R.id.nav_my_activity)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
