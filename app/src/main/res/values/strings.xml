@@ -46,6 +46,8 @@
     <string name="seleciona_administrador_o_familiar">Seleciona una opción</string>
     <string name="selecciona_una_fehca">Selecciona una fecha</string>
     <string name="reports_mensuales">Informe del Mes</string>
+    <string name="fecha_de_inicio">Fecha inicio</string>
+    <string name="fecha_de_fin">Fecha fin</string>
 
 
     <string-array name="works">

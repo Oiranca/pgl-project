@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reportmonth"
     android:layout_width="match_parent"
@@ -13,23 +12,38 @@
         android:id="@+id/spinnerMonth"
         android:layout_width="300dp"
         android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="8dp"
-        android:layout_gravity="center_horizontal"
         android:background="@drawable/spinner_custom" />
 
-    <DatePicker
-        android:id="@+id/datePickerMonth"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="32dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/calendar_custom"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        android:theme="@style/AppTheme.NoActionBar" />
+
+    <EditText
+        android:id="@+id/textMonth"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:focusable="false"
+        android:hint="@string/fecha_de_inicio"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/textMonthBis"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:focusable="false"
+        android:hint="@string/fecha_de_fin"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

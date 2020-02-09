@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
 
@@ -33,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 public class ActivityFragment extends Fragment {
@@ -45,8 +47,7 @@ public class ActivityFragment extends Fragment {
     private String emailRemplace;
     private String namesAd;
     private String namesFam;
-
-
+    private Map<String, Object> workDay;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -122,7 +123,7 @@ public class ActivityFragment extends Fragment {
 
                 AlertDialog.Builder workFamily = new AlertDialog.Builder(getContext());
 
-                workFamily.setMessage("¿Desea que " + famSelect +" haga la terea "+ workSelect + "?").setTitle("Tareas de Casa");
+                workFamily.setMessage("¿Desea que " + famSelect + " haga la terea " + workSelect + "?").setTitle("Tareas de Casa");
 
                 final SimpleDateFormat fechForm = new SimpleDateFormat("d-M-yyyy", Locale.getDefault());
                 final Date fechaHoy = new Date();
@@ -130,6 +131,9 @@ public class ActivityFragment extends Fragment {
                 if (date == null) {
                     date = fechForm.format(fechaHoy);
                 }
+                final GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
+                };
+
 
                 workFamily.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
@@ -152,10 +156,18 @@ public class ActivityFragment extends Fragment {
                                             assert email != null;
                                             emailRemplace = email.replace(".", "-");
 
+                                            workDay = dataSnapshot.child(emailRemplace).
+                                                    child("Work-" + emailRemplace).child(date).getValue(genericTypeIndicator);
 
-                                            databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
-                                            spinnerFam.setSelection(0);
-                                            spinnerWork.setSelection(0);
+                                            assert workDay != null;
+                                            if (workDay.size() == 2) {
+                                                Toast.makeText(getContext(), "Maximo de tareas del día asignadas", Toast.LENGTH_SHORT).show();
+                                            } else {
+
+                                                databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                                spinnerFam.setSelection(0);
+                                                spinnerWork.setSelection(0);
+                                            }
 
 
                                         }
@@ -170,9 +182,19 @@ public class ActivityFragment extends Fragment {
                                             email = work.child("emailF").getValue(String.class);
                                             if (email != null) {
                                                 emailRemplace = email.replace(".", "-");
-                                                databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
-                                                spinnerFam.setSelection(0);
-                                                spinnerWork.setSelection(0);
+
+                                                workDay = dataSnapshot.child(emailRemplace).
+                                                        child("Work-" + emailRemplace).child(date).getValue(genericTypeIndicator);
+
+                                                assert workDay != null;
+                                                if (workDay.size() == 2) {
+                                                    Toast.makeText(getContext(), "Maximo de tareas del día asignadas", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                                    spinnerFam.setSelection(0);
+                                                    spinnerWork.setSelection(0);
+                                                }
+
 
                                             }
 
@@ -228,10 +250,10 @@ public class ActivityFragment extends Fragment {
                         assert user != null;
                         s = user.getString("Admin");
 
-                        if (s!=null){
+                        if (s != null) {
                             textView.setText(s);
-                        }else {
-                            s=user.getString("Family");
+                        } else {
+                            s = user.getString("Family");
                             textView.setText(s);
                         }
                     }

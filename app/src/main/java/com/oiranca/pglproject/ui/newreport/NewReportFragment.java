@@ -44,9 +44,7 @@ public class NewReportFragment extends Fragment {
 
     private NewReportViewModel mViewModel;
 
-    public static NewReportFragment newInstance() {
-        return new NewReportFragment();
-    }
+
 
     private DatabaseReference databaseReference;
     private ArrayAdapter<String> comAdp;

@@ -27,7 +27,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/calendar_custom"
+        android:background="@drawable/datepicker_custom"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         android:theme="@style/AppTheme.NoActionBar" />

@@ -4,7 +4,9 @@ package com.oiranca.pglproject.ui.reportmonth;
 import androidx.lifecycle.ViewModelProviders;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,14 +16,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.support.v4.media.RatingCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,11 +35,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 
 
 public class ReportMonthFragment extends Fragment {
-
 
 
     private DatabaseReference databaseReference;
@@ -44,13 +48,17 @@ public class ReportMonthFragment extends Fragment {
     private String keyValue;
 
 
-
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         ReportMonthViewModel monthViewModel = ViewModelProviders.of(this).get(ReportMonthViewModel.class);
         View root = inflater.inflate(R.layout.report_month_fragment, container, false);
         final Spinner spinnerMonth = root.findViewById(R.id.spinnerMonth);
+
+
+        final EditText textMonth = root.findViewById(R.id.textMonth);
+
+        final EditText textMonthBis = root.findViewById(R.id.textMonthBis);
 
 
         Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
@@ -84,7 +92,7 @@ public class ReportMonthFragment extends Fragment {
                                 if (compName != null) {
                                     if (compName.contains(famSelect)) {
                                         keyValue = dataFamily.getKey();
-                                        if (keyValue!=null){
+                                        if (keyValue != null) {
                                             String emailFamily = dataSnapshot.child(keyValue).child("emailF").getValue(String.class);
                                             String surFamily = dataSnapshot.child(keyValue).child("surnameF").getValue(String.class);
 
@@ -104,9 +112,6 @@ public class ReportMonthFragment extends Fragment {
                     });
 
 
-
-
-
                 }
 
             }
@@ -116,6 +121,61 @@ public class ReportMonthFragment extends Fragment {
 
             }
         });
+
+        textMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentDate = Calendar.getInstance();
+                final int year = mcurrentDate.get(Calendar.YEAR);
+                final int month = mcurrentDate.get(Calendar.MONTH);
+                final int day = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+
+
+                DatePickerDialog mDatePicker = new DatePickerDialog(Objects.requireNonNull(getContext()),R.style.Theme_Custom_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    @SuppressLint("SetTextI18n")
+                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                        String firstDay = String.valueOf(selectedday);
+                        String firstMonth = String.valueOf(selectedmonth);
+                        String firstYear = String.valueOf(selectedyear);
+                        textMonth.setText("Fecha de inicio : "+firstDay + "-" + firstMonth + "-" + firstYear);
+                    }
+                }, year, month, day);
+
+                mDatePicker.setTitle("Seleciona la fecha incio");
+                mDatePicker.show();
+            }
+
+        });
+
+        textMonthBis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentDateDis = Calendar.getInstance();
+                int yearBis = mcurrentDateDis.get(Calendar.YEAR);
+                int monthBis = mcurrentDateDis.get(Calendar.MONTH);
+                int dayBis = mcurrentDateDis.get(Calendar.DAY_OF_MONTH);
+
+
+                final DatePickerDialog mDatePickerBis = new DatePickerDialog(Objects.requireNonNull(getContext()),R.style.Theme_Custom_Dialog, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker datepicker, int selectedyearBis, int selectedmonthBis, int selecteddayBis) {
+
+                        String firstDayBis = String.valueOf(selecteddayBis);
+                        String firstMonthBis = String.valueOf(selectedmonthBis);
+                        String firstYearBis = String.valueOf(selectedyearBis);
+                        textMonthBis.setText("Fecha de fin : "+firstDayBis + "-" + firstMonthBis + "-" + firstYearBis);
+                    }
+                }, yearBis, monthBis, dayBis);
+
+                mDatePickerBis.setTitle("Selecciona la fecha fin");
+                mDatePickerBis.show();
+            }
+        });
+
+
+
+
+
 
 
         return root;
@@ -150,7 +210,6 @@ public class ReportMonthFragment extends Fragment {
             }
         });
     }
-
 
 
 }
