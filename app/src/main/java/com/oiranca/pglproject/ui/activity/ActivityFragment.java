@@ -159,14 +159,22 @@ public class ActivityFragment extends Fragment {
                                             workDay = dataSnapshot.child(emailRemplace).
                                                     child("Work-" + emailRemplace).child(date).getValue(genericTypeIndicator);
 
-                                            assert workDay != null;
-                                            if (workDay.size() == 2) {
-                                                Toast.makeText(getContext(), "Maximo de tareas del día asignadas", Toast.LENGTH_SHORT).show();
-                                            } else {
 
+                                            if (workDay == null) {
                                                 databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
                                                 spinnerFam.setSelection(0);
                                                 spinnerWork.setSelection(0);
+                                            } else {
+                                                if (workDay.size() < 2) {
+
+                                                    databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                                    spinnerFam.setSelection(0);
+                                                    spinnerWork.setSelection(0);
+
+                                                } else {
+
+                                                    Toast.makeText(getContext(), "Maximo de tareas del día asignadas", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
 
 
@@ -186,13 +194,22 @@ public class ActivityFragment extends Fragment {
                                                 workDay = dataSnapshot.child(emailRemplace).
                                                         child("Work-" + emailRemplace).child(date).getValue(genericTypeIndicator);
 
-                                                assert workDay != null;
-                                                if (workDay.size() == 2) {
-                                                    Toast.makeText(getContext(), "Maximo de tareas del día asignadas", Toast.LENGTH_SHORT).show();
-                                                } else {
+
+                                                if (workDay == null) {
+
+
                                                     databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
                                                     spinnerFam.setSelection(0);
                                                     spinnerWork.setSelection(0);
+                                                } else {
+                                                    if (workDay.size() < 2) {
+
+                                                        databaseReference.child(emailRemplace).child("Work-" + emailRemplace).child(date).child(workSelect).child("completed").setValue("no");
+                                                        spinnerFam.setSelection(0);
+                                                        spinnerWork.setSelection(0);
+                                                    } else {
+                                                        Toast.makeText(getContext(), "Maximo de tareas del día asignadas", Toast.LENGTH_SHORT).show();
+                                                    }
                                                 }
 
 

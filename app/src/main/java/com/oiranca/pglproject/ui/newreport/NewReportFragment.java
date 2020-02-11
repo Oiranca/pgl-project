@@ -145,7 +145,7 @@ public class NewReportFragment extends Fragment {
     @SuppressLint("IntentReset")
     private void sendData() {
         if (nameNoWork == null & nameNoWorkBis == null) {
-            Toast.makeText(getContext(),"Todas la tareas hechas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"Sin tareas por hacer", Toast.LENGTH_SHORT).show();
         } else {
             String[] TO = {mailNoWork};
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -301,7 +301,7 @@ public class NewReportFragment extends Fragment {
 
                         } else {
                             checkRep.setChecked(false);
-
+                            nameNoWork = homeWorks[works];
                             checkRepBis.setChecked(false);
                         }
 
