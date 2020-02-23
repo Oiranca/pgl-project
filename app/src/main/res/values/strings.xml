@@ -48,6 +48,7 @@
     <string name="reports_mensuales">Informe del Mes</string>
     <string name="fecha_de_inicio">Fecha inicio</string>
     <string name="fecha_de_fin">Fecha fin</string>
+    <string name="dash">-</string>
 
 
     <string-array name="works">
@@ -59,6 +60,22 @@
         <item>"Limpiar baño"</item>
         <item>"Recoger habitación"</item>
         <item>"Limpiar el coche"</item>
+    </string-array>
+
+    <string-array name="month">
+        <item>"Selecciona el mes"</item>
+        <item>"Enero"</item>
+        <item>"Febrero"</item>
+        <item>"Marzo"</item>
+        <item>"Abril"</item>
+        <item>"Mayo"</item>
+        <item>"Junio"</item>
+        <item>"Julio"</item>
+        <item>"Agosto"</item>
+        <item>"Septiembre"</item>
+        <item>"Octubre"</item>
+        <item>"Noviembre"</item>
+        <item>"Diciembre"</item>
     </string-array>
 
 

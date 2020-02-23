@@ -2,10 +2,12 @@ package com.oiranca.pglproject;
 
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.oiranca.pglproject.ui.entidades.Admin;
 import com.oiranca.pglproject.ui.entidades.Family;
 
@@ -27,8 +30,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +44,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -49,13 +58,21 @@ public class ActivitySignUp extends AppCompatActivity {
     EditText pass;
     EditText rPass;
     EditText emailAdmin;
+
     private int op = 1;
+
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    FirebaseStorage storage;
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int CAMERA_PERMISSION = 100;
     static final int WRITE_PERMISSION = 101;
-    static final int READ_PERMISSION = 102;
+    private Uri photoURI;
+    private String timeStamp;
+
+    String currentPhotoPath;
+    static final int REQUEST_TAKE_PHOTO = 1;
 
 
     @Override
@@ -90,7 +107,7 @@ public class ActivitySignUp extends AppCompatActivity {
         cameraFloat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkCameraHardware(getApplicationContext());
+
                 checkPermission();
 
 
@@ -190,6 +207,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
                                 ad.setPass(passText);
+                                storage = FirebaseStorage.getInstance();
                                 firebaseDatabase = FirebaseDatabase.getInstance();
                                 databaseReference = firebaseDatabase.getReference();
 
@@ -346,15 +364,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
     }
 
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            System.out.println("Detecta las Cámaras");
-            return true;
-        } else {
-            System.out.println("No detecta las cmámaras");
-            return false;
-        }
-    }
+
 
     public void checkPermission(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED){
@@ -420,11 +430,48 @@ public class ActivitySignUp extends AppCompatActivity {
 
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                // Create the File where the photo should go
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
+                   Toast.makeText(getApplicationContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
+
+                }
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+
+                    ContentValues values = new ContentValues();
+                    values.put(MediaStore.Images.Media.TITLE, timeStamp);
+                    values.put(MediaStore.Images.Media.DESCRIPTION, "Foto tomada en HomeWork");
+                    photoURI = getContentResolver().insert(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                }
             }
         }
 
 
+
+
+    }
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
 

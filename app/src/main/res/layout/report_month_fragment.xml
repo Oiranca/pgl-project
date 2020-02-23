@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/reportmonth"
     android:layout_width="match_parent"
@@ -9,7 +10,7 @@
 
 
     <Spinner
-        android:id="@+id/spinnerMonth"
+        android:id="@+id/spinnerFam"
         android:layout_width="300dp"
         android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
@@ -17,33 +18,48 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/spinner_custom" />
 
-
-    <EditText
-        android:id="@+id/textMonth"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
+    <Spinner
+        android:id="@+id/spinnerMonth"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="8dp"
-        android:focusable="false"
-        android:hint="@string/fecha_de_inicio"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:background="@drawable/spinner_custom"
+        android:entries="@array/month"/>
 
-    <EditText
-        android:id="@+id/textMonthBis"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
+
+
+    <!--com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        android:focusable="false"
-        android:hint="@string/fecha_de_fin"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/datepicker_custom"/-->
+
+
+
+
+    <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/custom_chart"/>
+
+
+
+
+
+
+
 
 </LinearLayout>

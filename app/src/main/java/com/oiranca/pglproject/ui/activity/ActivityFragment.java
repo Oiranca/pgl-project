@@ -298,7 +298,7 @@ public class ActivityFragment extends Fragment {
                 }
 
 
-                comAdp = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, nameFamily);
+                comAdp = new ArrayAdapter<String>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_dropdown_item, nameFamily);
                 spinnerFam.setAdapter(comAdp);
 
 
