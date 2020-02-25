@@ -56,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         }
         mail.setText("oiranca@gmail.com");
         pass.setText("samuel");
+      /*  mail.setText("infosatlpgc@gmail.com");
+        pass.setText("leyre");*/
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();

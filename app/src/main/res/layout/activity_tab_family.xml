@@ -23,8 +23,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="?attr/colorPrimary" />
+           android:background="?attr/colorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager

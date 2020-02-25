@@ -17,7 +17,7 @@ import com.oiranca.pglproject.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.menu_my_activity, R.string.menu_reports};
+    private static final int[] TAB_TITLES = new int[]{R.string.menu_my_activity, R.string.menu_reports,R.string.mi_perfil};
 
 
     private final Context mContext;
@@ -43,6 +43,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 2 total pages.
-        return 2;
+        return 3;
     }
 }

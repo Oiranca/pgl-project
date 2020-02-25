@@ -59,10 +59,6 @@ public class TabFamily extends AppCompatActivity {
                 return true;
 
 
-            case R.id.action_settings:
-
-                Toast.makeText(getApplicationContext(), "Pendiente de configurar", Toast.LENGTH_SHORT).show();
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

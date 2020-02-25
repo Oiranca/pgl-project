@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -21,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.oiranca.pglproject.ui.entidades.Admin;
 import com.oiranca.pglproject.ui.entidades.Family;
 
@@ -48,6 +51,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -64,6 +68,7 @@ public class ActivitySignUp extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     FirebaseStorage storage;
+    StorageReference storageReference;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int CAMERA_PERMISSION = 100;
@@ -208,6 +213,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
                                 ad.setPass(passText);
                                 storage = FirebaseStorage.getInstance();
+                                storageReference=storage.getReference();
                                 firebaseDatabase = FirebaseDatabase.getInstance();
                                 databaseReference = firebaseDatabase.getReference();
 
@@ -448,6 +454,17 @@ public class ActivitySignUp extends AppCompatActivity {
                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+
+
+
+                   StorageReference filePath=storageReference.child(email.getText().toString().replace(".","-")).child(Objects.requireNonNull(photoURI.getLastPathSegment()));
+                   filePath.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                       @Override
+                       public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                      Toast.makeText(getApplicationContext(),"Foto subida correctamente",Toast.LENGTH_SHORT).show();
+                       }
+                   });
+
                 }
             }
         }

@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.oiranca.pglproject.R;
 import com.oiranca.pglproject.ui.myactivity.MyActivityFragment;
+import com.oiranca.pglproject.ui.profile.ProfileFragment;
+import com.oiranca.pglproject.ui.reportmonth.ReportMonthFragment;
 import com.oiranca.pglproject.ui.reports.ReportsFragment;
 
 /**
@@ -23,9 +25,7 @@ public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
-    private PageViewModel pageViewModel;
-
-    public static Fragment newInstance(int index) {
+    static Fragment newInstance(int index) {
         Fragment fragment=null;
 
 
@@ -36,6 +36,9 @@ public class PlaceholderFragment extends Fragment {
             case 2:
                 fragment= new ReportsFragment();
                 break;
+            case 3:
+                fragment= new ProfileFragment();
+                break;
 
         }
         return fragment;
@@ -44,7 +47,7 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        PageViewModel pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
@@ -57,13 +60,7 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_tab_family, container, false);
-        final TextView textView = root.findViewById(R.id.section_label);
-        pageViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 }

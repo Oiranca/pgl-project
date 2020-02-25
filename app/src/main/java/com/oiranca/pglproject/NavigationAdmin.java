@@ -70,7 +70,7 @@ public class NavigationAdmin extends AppCompatActivity {
 
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_activity, R.id.nav_newF,R.id.nav_newreports,R.id.nav_reports_month, R.id.nav_my_activity)
+                R.id.nav_activity, R.id.nav_newF,R.id.nav_newreports,R.id.nav_reports_month, R.id.nav_my_activity,R.id.nav_my_profile)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -115,11 +115,6 @@ public class NavigationAdmin extends AppCompatActivity {
                 return true;
 
 
-
-            case R.id.action_settings:
-
-                Toast.makeText(getApplicationContext(), "Pendiente de configurar", Toast.LENGTH_SHORT).show();
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

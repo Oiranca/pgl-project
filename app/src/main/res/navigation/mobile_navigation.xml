@@ -45,5 +45,11 @@
         android:label="@string/menu_my_activity"
         tools:layout="@layout/fragment_my_activity" />
 
+    <fragment
+        android:id="@+id/nav_my_profile"
+        android:name="com.oiranca.pglproject.ui.profile.ProfileFragment"
+        android:label="@string/mi_perfil"
+        tools:layout="@layout/profile_fragment" />
+
 
 </navigation>
