@@ -55,6 +55,7 @@ public class ProfileFragment extends Fragment {
 
 
     private ImageView imageView;
+    private EditText profilePass;
 
     private final int COD_SELECCIONA = 10;
     private static final int CAMERA_PERMISSION = 100;
@@ -75,6 +76,7 @@ public class ProfileFragment extends Fragment {
     private String photoCharge;
     private String photoNew;
 
+
     private StorageReference storageReference;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -90,8 +92,8 @@ public class ProfileFragment extends Fragment {
         final FloatingActionButton floatProfile = root.findViewById(R.id.floatProfile);
         final EditText profileName = root.findViewById(R.id.nameProf);
         final EditText profileSurname = root.findViewById(R.id.profileSurname);
-        final EditText profileMail = root.findViewById(R.id.profileEmailF);
-        final EditText profilePass = root.findViewById(R.id.profilePass);
+        EditText profileMail = root.findViewById(R.id.profileEmailF);
+        profilePass = root.findViewById(R.id.profilePass);
 
 
         Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
@@ -148,10 +150,10 @@ public class ProfileFragment extends Fragment {
         databaseReference = firebaseDatabase.getReference();
 
         if (photoCharge != null) {
-            if (photoNew!=null){
+            if (photoNew != null) {
                 Glide.with(ProfileFragment.this).
                         load(photoNew).fitCenter().centerCrop().into(imageView);
-            }else {
+            } else {
                 Glide.with(ProfileFragment.this).
                         load(photoCharge).fitCenter().centerCrop().into(imageView);
             }
@@ -194,8 +196,59 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        floatProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chanceDataProfile();
+            }
+        });
+
 
         return root;
+    }
+
+    private void chanceDataProfile() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot chanceData : dataSnapshot.getChildren()) {
+                    String keyForChance = chanceData.getKey();
+                    String passWord;
+
+
+
+                    assert keyForChance != null;
+                    passWord = dataSnapshot.child(keyForChance).child(emailProf.replace(".", "-")).child("pass").getValue(String.class);
+
+
+
+                    if (passWord != null && !passWord.contentEquals(profilePass.getText())) {
+                        databaseReference.child(keyForChance).child(emailProf.replace(".", "-")).child("pass").setValue(profilePass.getText().toString());
+                    } else {
+
+                        passWord = dataSnapshot.child(keyForChance).child(emailProf.replace(".", "-")).child("passF").getValue(String.class);
+
+                        if (passWord != null && !passWord.contentEquals(profilePass.getText())) {
+
+
+                            databaseReference.child(keyForChance).child(emailProf.replace(".", "-")).child("passF").setValue(profilePass.getText().toString());
+
+                        }
+                    }
+
+
+                }
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
 
@@ -259,11 +312,11 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(getContext(), "Permiso lectura denegado", Toast.LENGTH_SHORT).show();
 
         } else {
-            System.out.println("Permiso de lectura garantizado");
+
 
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(Objects.requireNonNull(getActivity()).getPackageManager()) != null) {
-                // Create the File where the photo should go
+
                 File photoFile = null;
                 try {
                     photoFile = createImageFile();
@@ -271,7 +324,7 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
-                // Continue only if the File was successfully created
+
                 if (photoFile != null) {
 
                     ContentValues values = new ContentValues();
@@ -326,8 +379,6 @@ public class ProfileFragment extends Fragment {
                         selectedImage = getResizedBitmap(selectedImage);
 
 
-                        // imageView.setImageBitmap(selectedImage);
-
                         if (requestCode == COD_SELECCIONA && resultCode == RESULT_OK) {
                             StorageReference filepath = storageReference.child(emailProf.replace(".", "-")).child(Objects.requireNonNull(miPath.getLastPathSegment()));
                             filepath.putFile(miPath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -341,7 +392,7 @@ public class ProfileFragment extends Fragment {
                                                 @Override
                                                 public void onSuccess(Uri uri) {
                                                     final String imageUrl = uri.toString();
-                                                    System.out.println(imageUrl);
+
                                                     Glide.with(ProfileFragment.this).load(imageUrl).fitCenter().centerCrop().into(imageView);
 
                                                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -369,7 +420,7 @@ public class ProfileFragment extends Fragment {
 
 
                                                                             databaseReference.child(keyValue).child(emailProf.replace(".", "-")).child("profileF").setValue(imageUrl);
-                                                                            photoNew=imageUrl;
+                                                                            photoNew = imageUrl;
                                                                         }
 
                                                                     }
@@ -411,8 +462,6 @@ public class ProfileFragment extends Fragment {
                         imageStream = Objects.requireNonNull(getActivity()).getContentResolver().openInputStream(photoURI);
                         selectedImage = BitmapFactory.decodeStream(imageStream);
                         selectedImage = getResizedBitmap(selectedImage);
-
-
 
 
                         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
@@ -457,7 +506,7 @@ public class ProfileFragment extends Fragment {
 
 
                                                                             databaseReference.child(keyValue).child(emailProf.replace(".", "-")).child("profileF").setValue(imageUrl);
-                                                                            photoNew=imageUrl;
+                                                                            photoNew = imageUrl;
                                                                         }
 
                                                                     }

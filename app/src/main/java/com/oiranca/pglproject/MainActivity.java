@@ -54,10 +54,12 @@ public class MainActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance().setPersistenceEnabled(false);
             MainActivity.firebaseInitialized = true;
         }
-     mail.setText("oiranca@gmail.com");
-        pass.setText("samuel");
-       // mail.setText("infosatlpgc@gmail.com");
+    // mail.setText("oiranca@gmail.com");
+      // pass.setText("samuel");
+      // mail.setText("infosatlpgc@gmail.com");
         //pass.setText("leyre");
+        mail.setText("lucrecio@gmail.com");
+        pass.setText("lucrecio");
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
