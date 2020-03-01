@@ -34,7 +34,7 @@ public class PlaceholderFragment extends Fragment {
                 fragment = new MyActivityFragment();
                 break;
             case 2:
-                fragment= new ReportsFragment();
+                fragment= new ReportMonthFragment();
                 break;
             case 3:
                 fragment= new ProfileFragment();

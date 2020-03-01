@@ -1,7 +1,6 @@
 package com.oiranca.pglproject.ui.reportmonth;
 
 
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 
 
@@ -29,23 +28,14 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 
 
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -56,11 +46,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -95,6 +83,9 @@ public class ReportMonthFragment extends Fragment {
     private String[] homeWorks;
     private String[] possWorks;
     private ArrayList<Integer> numberRep;
+    private String compName;
+    private String compNameAd;
+    private String emailUser;
 
     private GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {
     };
@@ -116,33 +107,62 @@ public class ReportMonthFragment extends Fragment {
 
         Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
         Bundle user = idUser.getExtras();
-        final String emailUser;
+
         assert user != null;
-        emailUser = user.getString("Admin");
+
 
         final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        if (emailUser != null) {
+
+
+        if (user.getString("Admin") != null) {
+            emailUser = user.getString("Admin");
+            assert emailUser != null;
             databaseReference = firebaseDatabase.getReference().child("Family-" + emailUser.replace(".", "-"));
+            itemSpinner(spinnerFamily);
+
+            spinnerFamily.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    famSelect = spinnerFamily.getSelectedItem().toString();
+
+                    spinnerMonth.setSelection(0);
+                    drawColumm();
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            chargeWorkAllFamily(spinnerMonth);
+
+        } else {
+
+            emailUser = user.getString("Family");
+            databaseReference = firebaseDatabase.getReference();
+
+            if (user.getString("NameFam") != null) {
+                String[] nameFam = new String[1];
+                nameFam[0] = user.getString("NameFam");
+                comAdp = new ArrayAdapter<String>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_dropdown_item, nameFam);
+                spinnerFamily.setAdapter(comAdp);
+                famSelect = spinnerFamily.getSelectedItem().toString();
+                spinnerFamily.setEnabled(false);
+
+            }
+            chargeOnlyFamilyMember(spinnerMonth, emailUser);
         }
 
 
-        itemSpinner(spinnerFamily);
-
-        spinnerFamily.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                famSelect = spinnerFamily.getSelectedItem().toString();
+        return root;
+    }
 
 
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+    private void chargeWorkAllFamily(final Spinner spinnerMonth) {
         spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
@@ -164,8 +184,8 @@ public class ReportMonthFragment extends Fragment {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot dataFamily : dataSnapshot.getChildren()) {
 
-                                    String compName = dataFamily.child("nameF").getValue(String.class);
-                                    String compNameAd = dataFamily.child("name").getValue(String.class);
+                                    compName = dataFamily.child("nameF").getValue(String.class);
+                                    compNameAd = dataFamily.child("name").getValue(String.class);
                                     keyValue = dataFamily.getKey();
 
                                     if (keyValue != null) {
@@ -374,6 +394,218 @@ public class ReportMonthFragment extends Fragment {
                                     }
 
                                 }
+                                if (compName == null) {
+
+
+                                      if ( emailUser != null) {
+                                          compName = dataSnapshot.child(emailUser.replace(".", "-")).child("name").getValue(String.class);
+                                          if (compName != null) {
+
+                                              if (compName.contains(famSelect)) {
+                                                  for (Integer key : monthShort.keySet()) {
+
+
+                                                      if (monthWork.equals(monthShort.get(key))) {
+
+                                                          for (int dWork = 0; dWork < 30; dWork++) {
+                                                              day = (dWork + 1) + "-" + key + "-" + year;
+                                                              workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
+                                                                      child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+
+                                                              if (workDayFam != null) {
+                                                                  homeWorks = workDayFam.keySet().toArray(new String[0]);
+
+                                                                  for (int workF = 0; workF < homeWorks.length; workF++) {
+
+
+                                                                      dayWorks.put(cont, homeWorks[workF]);
+                                                                      cont++;
+
+
+                                                                  }
+                                                              }
+
+
+                                                          }
+                                                          for (int i = 1; i < possWorks.length; i++) {
+
+
+                                                              contRepeat = 0;
+                                                              Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+
+                                                              while (it.hasNext()) {
+                                                                  Map.Entry<Integer, String> e = it.next();
+                                                                  if (possWorks[i].equals(e.getValue())) {
+
+                                                                      cont++;
+                                                                      contRepeat = cont + contRepeat;
+                                                                  }
+                                                                  cont = 0;
+
+                                                              }
+                                                              numberRep.add(contRepeat);
+
+
+                                                          }
+                                                          setData(possWorks.length, 100, numberRep);
+                                                      }
+                                                  }
+
+                                                  for (Integer keyL : monthLarge.keySet()) {
+
+
+                                                      if (monthWork.equals(monthLarge.get(keyL))) {
+
+
+                                                          for (int dWork = 0; dWork < 31; dWork++) {
+                                                              day = (dWork + 1) + "-" + keyL + "-" + year;
+                                                              workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
+                                                                      child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+
+                                                              if (workDayFam != null) {
+                                                                  homeWorks = workDayFam.keySet().toArray(new String[0]);
+
+                                                                  for (int workF = 0; workF < homeWorks.length; workF++) {
+
+
+                                                                      dayWorks.put(cont, homeWorks[workF]);
+                                                                      cont++;
+
+
+                                                                  }
+                                                              }
+
+                                                          }
+                                                          for (int i = 1; i < possWorks.length; i++) {
+
+
+                                                              contRepeat = 0;
+                                                              Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+
+                                                              while (it.hasNext()) {
+                                                                  Map.Entry<Integer, String> e = it.next();
+                                                                  if (possWorks[i].equals(e.getValue())) {
+
+                                                                      cont++;
+                                                                      contRepeat = cont + contRepeat;
+                                                                  }
+                                                                  cont = 0;
+
+                                                              }
+
+                                                              numberRep.add(contRepeat);
+
+
+                                                          }
+                                                          setData(possWorks.length, 100, numberRep);
+                                                      }
+                                                  }
+
+
+                                                  if (monthWork.equals("Febrero")) {
+
+
+                                                      if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) {
+
+                                                          for (int dWork = 0; dWork < 29; dWork++) {
+                                                              day = (dWork + 1) + "-2-" + year;
+
+                                                              workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
+                                                                      child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+                                                              if (workDayFam != null) {
+                                                                  homeWorks = workDayFam.keySet().toArray(new String[0]);
+
+                                                                  for (int workF = 0; workF < homeWorks.length; workF++) {
+
+
+                                                                      dayWorks.put(cont, homeWorks[workF]);
+                                                                      cont++;
+
+
+                                                                  }
+
+                                                              }
+                                                          }
+
+                                                          for (int i = 1; i < possWorks.length; i++) {
+
+
+                                                              contRepeat = 0;
+                                                              Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+
+                                                              while (it.hasNext()) {
+                                                                  Map.Entry<Integer, String> e = it.next();
+                                                                  if (possWorks[i].equals(e.getValue())) {
+
+                                                                      cont++;
+                                                                      contRepeat = cont + contRepeat;
+                                                                  }
+                                                                  cont = 0;
+
+                                                              }
+                                                              System.out.println(possWorks[i] + " se repite " + contRepeat);
+                                                              numberRep.add(contRepeat);
+
+
+                                                          }
+
+                                                          setData(possWorks.length, 100, numberRep);
+
+
+                                                      } else {
+                                                          for (int dWork = 0; dWork < 28; dWork++) {
+                                                              day = (dWork + 1) + "-2-" + year;
+                                                              workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
+                                                                      child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+
+                                                              if (workDayFam != null) {
+                                                                  homeWorks = workDayFam.keySet().toArray(new String[0]);
+
+                                                                  for (int workF = 0; workF < homeWorks.length; workF++) {
+
+
+                                                                      dayWorks.put(cont, homeWorks[workF]);
+                                                                      cont++;
+
+
+                                                                  }
+                                                              }
+                                                          }
+                                                          for (int i = 1; i < possWorks.length; i++) {
+
+
+                                                              contRepeat = 0;
+                                                              Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+
+                                                              while (it.hasNext()) {
+                                                                  Map.Entry<Integer, String> e = it.next();
+                                                                  if (possWorks[i].equals(e.getValue())) {
+
+                                                                      cont++;
+                                                                      contRepeat = cont + contRepeat;
+                                                                  }
+                                                                  cont = 0;
+
+
+                                                              }
+
+                                                              numberRep.add(contRepeat);
+
+
+                                                          }
+
+                                                          setData(possWorks.length, 100, numberRep);
+                                                      }
+
+                                                  }
+                                              }
+
+                                          }
+                                      }
+
+
+
+                                }
                             }
 
                             @Override
@@ -398,9 +630,255 @@ public class ReportMonthFragment extends Fragment {
 
             }
         });
+    }
+
+    private void chargeOnlyFamilyMember(@NonNull final Spinner spinnerMonth, final String emailUser) {
+        spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                monthWork = spinnerMonth.getSelectedItem().toString();
+                numberRep = new ArrayList<>();
+                numberRep.clear();
+                dayWorks.clear();
 
 
-        return root;
+                Calendar cal = Calendar.getInstance();
+                final int year = cal.get(Calendar.YEAR);
+
+
+                if (!monthWork.equals("Selecciona el mes") && !famSelect.equals("Selecciona un familiar")) {
+
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot nameFamily : dataSnapshot.getChildren()) {
+                                String keyFamily = nameFamily.getKey(); //Key Family-.......
+
+                                if (keyFamily != null && emailUser != null) {
+                                    compName = dataSnapshot.child(keyFamily).child(emailUser.replace(".", "-")).child("nameF").getValue(String.class);
+                                    if (compName != null) {
+
+                                        if (compName.contains(famSelect)) {
+                                            for (Integer key : monthShort.keySet()) {
+
+
+                                                if (monthWork.equals(monthShort.get(key))) {
+
+                                                    for (int dWork = 0; dWork < 30; dWork++) {
+                                                        day = (dWork + 1) + "-" + key + "-" + year;
+                                                        workDayFam = nameFamily.child(emailUser.replace(".", "-")).
+                                                                child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+
+                                                        if (workDayFam != null) {
+                                                            homeWorks = workDayFam.keySet().toArray(new String[0]);
+
+                                                            for (int workF = 0; workF < homeWorks.length; workF++) {
+
+
+                                                                dayWorks.put(cont, homeWorks[workF]);
+                                                                cont++;
+
+
+                                                            }
+                                                        }
+
+
+                                                    }
+                                                    for (int i = 1; i < possWorks.length; i++) {
+
+
+                                                        contRepeat = 0;
+                                                        Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+
+                                                        while (it.hasNext()) {
+                                                            Map.Entry<Integer, String> e = it.next();
+                                                            if (possWorks[i].equals(e.getValue())) {
+
+                                                                cont++;
+                                                                contRepeat = cont + contRepeat;
+                                                            }
+                                                            cont = 0;
+
+                                                        }
+                                                        System.out.println(possWorks[i] + " se repite " + contRepeat);
+                                                        numberRep.add(contRepeat);
+
+
+                                                    }
+                                                    setData(possWorks.length, 100, numberRep);
+                                                }
+                                            }
+
+                                            for (Integer keyL : monthLarge.keySet()) {
+
+
+                                                if (monthWork.equals(monthLarge.get(keyL))) {
+
+
+                                                    for (int dWork = 0; dWork < 31; dWork++) {
+                                                        day = (dWork + 1) + "-" + keyL + "-" + year;
+                                                        workDayFam = nameFamily.child(emailUser.replace(".", "-")).
+                                                                child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+
+                                                        if (workDayFam != null) {
+                                                            homeWorks = workDayFam.keySet().toArray(new String[0]);
+
+                                                            for (int workF = 0; workF < homeWorks.length; workF++) {
+
+
+                                                                dayWorks.put(cont, homeWorks[workF]);
+                                                                cont++;
+
+
+                                                            }
+                                                        }
+
+                                                    }
+                                                    for (int i = 1; i < possWorks.length; i++) {
+
+
+                                                        contRepeat = 0;
+                                                        Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+
+                                                        while (it.hasNext()) {
+                                                            Map.Entry<Integer, String> e = it.next();
+                                                            if (possWorks[i].equals(e.getValue())) {
+
+                                                                cont++;
+                                                                contRepeat = cont + contRepeat;
+                                                            }
+                                                            cont = 0;
+
+                                                        }
+                                                        System.out.println(possWorks[i] + " se repite " + contRepeat);
+                                                        numberRep.add(contRepeat);
+
+
+                                                    }
+                                                    setData(possWorks.length, 100, numberRep);
+                                                }
+                                            }
+
+
+                                            if (monthWork.equals("Febrero")) {
+
+
+                                                if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) {
+
+                                                    for (int dWork = 0; dWork < 29; dWork++) {
+                                                        day = (dWork + 1) + "-2-" + year;
+
+                                                        workDayFam = nameFamily.child(emailUser.replace(".", "-")).
+                                                                child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+                                                        if (workDayFam != null) {
+                                                            homeWorks = workDayFam.keySet().toArray(new String[0]);
+
+                                                            for (int workF = 0; workF < homeWorks.length; workF++) {
+
+
+                                                                dayWorks.put(cont, homeWorks[workF]);
+                                                                cont++;
+
+
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                    for (int i = 1; i < possWorks.length; i++) {
+
+
+                                                        contRepeat = 0;
+                                                        Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+
+                                                        while (it.hasNext()) {
+                                                            Map.Entry<Integer, String> e = it.next();
+                                                            if (possWorks[i].equals(e.getValue())) {
+
+                                                                cont++;
+                                                                contRepeat = cont + contRepeat;
+                                                            }
+                                                            cont = 0;
+
+                                                        }
+                                                        System.out.println(possWorks[i] + " se repite " + contRepeat);
+                                                        numberRep.add(contRepeat);
+
+
+                                                    }
+
+                                                    setData(possWorks.length, 100, numberRep);
+
+
+                                                } else {
+                                                    for (int dWork = 0; dWork < 28; dWork++) {
+                                                        day = (dWork + 1) + "-2-" + year;
+                                                        workDayFam = nameFamily.child(emailUser.replace(".", "-")).
+                                                                child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+
+                                                        if (workDayFam != null) {
+                                                            homeWorks = workDayFam.keySet().toArray(new String[0]);
+
+                                                            for (int workF = 0; workF < homeWorks.length; workF++) {
+
+
+                                                                dayWorks.put(cont, homeWorks[workF]);
+                                                                cont++;
+
+
+                                                            }
+                                                        }
+                                                    }
+                                                    for (int i = 1; i < possWorks.length; i++) {
+
+
+                                                        contRepeat = 0;
+                                                        Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+
+                                                        while (it.hasNext()) {
+                                                            Map.Entry<Integer, String> e = it.next();
+                                                            if (possWorks[i].equals(e.getValue())) {
+
+                                                                cont++;
+                                                                contRepeat = cont + contRepeat;
+                                                            }
+                                                            cont = 0;
+
+
+                                                        }
+                                                        System.out.println(possWorks[i] + " se repite " + contRepeat);
+                                                        numberRep.add(contRepeat);
+
+
+                                                    }
+
+                                                    setData(possWorks.length, 100, numberRep);
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+                                }
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void drawColumm() {
@@ -408,7 +886,7 @@ public class ReportMonthFragment extends Fragment {
         chart.clear();
         chart.invalidate();
         chart.getDescription().setEnabled(true);
-        chart.getDescription().setText("Veces que se realiza una tarea en el mes");
+        chart.getDescription().setText("Tareas asignadas en el mes hechas o no");
         chart.getDescription().setTextSize(16f);
         chart.getDescription().setTextColor(Color.WHITE);
         chart.getDescription().setTextAlign(Paint.Align.RIGHT);
@@ -461,7 +939,11 @@ public class ReportMonthFragment extends Fragment {
 
         for (int i = 0; i < numberRep.size(); i++) {
             if (numberRep.get(i) != null && numberRep.get(i) != 0) {
-                entries.add(new PieEntry((float) (numberRep.get(i)), possWorks[i + 1]));
+
+                if (!possWorks[i].equals("Selecciona una tarea")){
+                    entries.add(new PieEntry((float) (numberRep.get(i)), possWorks[i]));
+                }
+
             }
 
         }
@@ -510,7 +992,7 @@ public class ReportMonthFragment extends Fragment {
         data.setValueTypeface(Typeface.DEFAULT_BOLD);
         chart.setData(data);
 
-        // undo all highlights
+        //
         chart.highlightValues(null);
 
         chart.invalidate();
@@ -533,7 +1015,7 @@ public class ReportMonthFragment extends Fragment {
     }
 
 
-    private void itemSpinner(final Spinner spinnerMonth) {
+    private void itemSpinner(final Spinner spinnerFamily) {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -550,7 +1032,7 @@ public class ReportMonthFragment extends Fragment {
                     }
                 }
                 comAdp = new ArrayAdapter<String>(Objects.requireNonNull(getContext()), android.R.layout.simple_spinner_dropdown_item, nameFamily);
-                spinnerMonth.setAdapter(comAdp);
+                spinnerFamily.setAdapter(comAdp);
 
 
             }

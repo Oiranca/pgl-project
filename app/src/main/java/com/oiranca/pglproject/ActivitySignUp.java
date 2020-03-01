@@ -95,7 +95,7 @@ public class ActivitySignUp extends AppCompatActivity {
         pass = (EditText) findViewById(R.id.pass_sign);
         rPass = (EditText) findViewById(R.id.repeat_sign);
         emailAdmin = (EditText) findViewById(R.id.emailSignAdmin);
-        final FloatingActionButton cameraFloat = (FloatingActionButton) findViewById(R.id.floatingCamera);
+
         option();
 
 
@@ -108,16 +108,6 @@ public class ActivitySignUp extends AppCompatActivity {
             }
         });
 
-
-        cameraFloat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                checkPermission();
-
-
-            }
-        });
 
     }
 
@@ -213,7 +203,7 @@ public class ActivitySignUp extends AppCompatActivity {
 
                                 ad.setPass(passText);
                                 storage = FirebaseStorage.getInstance();
-                                storageReference=storage.getReference();
+                                storageReference = storage.getReference();
                                 firebaseDatabase = FirebaseDatabase.getInstance();
                                 databaseReference = firebaseDatabase.getReference();
 
@@ -368,127 +358,6 @@ public class ActivitySignUp extends AppCompatActivity {
         }
         return true;
 
-    }
-
-
-
-    public void checkPermission(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED){
-
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA},CAMERA_PERMISSION);
-
-
-        }
-
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},WRITE_PERMISSION);
-
-        }else{
-            takePhoto();
-        }
-
-
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case CAMERA_PERMISSION: {
-
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    checkPermission();
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permiso camara denegado", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-            break;
-
-            case WRITE_PERMISSION: {
-
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    takePhoto();
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Permiso guardado denegado", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-            break;
-
-
-        }
-    }
-
-    private void takePhoto() {
-
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(getApplicationContext(), "Permiso lectura denegado", Toast.LENGTH_SHORT).show();
-
-        }else{
-            System.out.println("Permiso de lectura garantizado");
-
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                // Create the File where the photo should go
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-                   Toast.makeText(getApplicationContext(),ex.getMessage(),Toast.LENGTH_SHORT).show();
-
-                }
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Images.Media.TITLE, timeStamp);
-                    values.put(MediaStore.Images.Media.DESCRIPTION, "Foto tomada en HomeWork");
-                    photoURI = getContentResolver().insert(
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-
-
-
-                   StorageReference filePath=storageReference.child(email.getText().toString().replace(".","-")).child(Objects.requireNonNull(photoURI.getLastPathSegment()));
-                   filePath.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                       @Override
-                       public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                      Toast.makeText(getApplicationContext(),"Foto subida correctamente",Toast.LENGTH_SHORT).show();
-                       }
-                   });
-
-                }
-            }
-        }
-
-
-
-
-    }
-
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 
 

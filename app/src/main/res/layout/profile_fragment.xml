@@ -25,7 +25,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginBottom="8dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/spinner_custom"
+            android:background="@drawable/datepicker_custom"
             android:maxWidth="150dp"
             android:maxHeight="150dp"
             android:minWidth="150dp"

@@ -1,8 +1,6 @@
 package com.oiranca.pglproject.ui.profile;
 
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -13,7 +11,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -23,7 +20,6 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,15 +27,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.oiranca.pglproject.Profile;
 import com.oiranca.pglproject.R;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,18 +53,14 @@ import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
 
-    private ProfileViewModel mViewModel;
-
-    FirebaseStorage storage;
-    StorageReference storageReference;
-
 
     private ImageView imageView;
-    private final int COD_SELECCIONA = 10;
 
+    private final int COD_SELECCIONA = 10;
     private static final int CAMERA_PERMISSION = 100;
     private static final int WRITE_PERMISSION = 101;
-    static final int READ_PERMISSION = 102;
+    private static final int REQUEST_TAKE_PHOTO = 1;
+
     private Uri photoURI;
     private String timeStamp;
 
@@ -71,9 +68,16 @@ public class ProfileFragment extends Fragment {
     private Bitmap selectedImage;
 
     private String currentPhotoPath;
-    private static final int REQUEST_TAKE_PHOTO = 1;
+    private String profileURL;
+
 
     private String emailProf;
+    private String photoCharge;
+    private String photoNew;
+
+    private StorageReference storageReference;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
 
     @Override
@@ -92,18 +96,69 @@ public class ProfileFragment extends Fragment {
 
         Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
         Bundle user = idUser.getExtras();
-        assert user != null;
-        emailProf = user.getString("Admin");
 
-        Intent idFam = Objects.requireNonNull(getActivity()).getIntent();
-        Bundle userF = idFam.getExtras();
-        assert userF != null;
-        emailProf = user.getString("Family");
+        if (user != null && user.getString("Admin") != null) {
+            emailProf = user.getString("Admin");
+            profileMail.setText(emailProf);
 
+            if ((user.getString("PhotoAd") != null)) {
+                photoCharge = user.getString("PhotoAd");
+            }
+            if ((user.getString("PassAd") != null)) {
+                profilePass.setText(user.getString("PassAd"));
+            }
+            if ((user.getString("NameAd") != null)) {
+                profileName.setText(user.getString("NameAd"));
+            }
+            if ((user.getString("SurnameAd") != null)) {
+                profileSurname.setText(user.getString("SurnameAd"));
+            }
+
+
+        } else {
+            if (user != null && user.getString("Family") != null) {
+                emailProf = user.getString("Family");
+                profileMail.setText(emailProf);
+
+                if ((user.getString("PhotoFam") != null)) {
+                    photoCharge = user.getString("PhotoFam");
+                }
+                if ((user.getString("PhotoFam") != null)) {
+                    photoCharge = user.getString("PhotoFam");
+                }
+                if ((user.getString("PassFam") != null)) {
+                    profilePass.setText(user.getString("PassFam"));
+                }
+                if ((user.getString("NameFam") != null)) {
+                    profileName.setText(user.getString("NameFam"));
+                }
+                if ((user.getString("SurnameFam") != null)) {
+                    profileSurname.setText(user.getString("SurnameFam"));
+                }
+
+            }
+
+
+        }
         imageView = root.findViewById(R.id.imageProfile);
 
-        storage = FirebaseStorage.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+        if (photoCharge != null) {
+            if (photoNew!=null){
+                Glide.with(ProfileFragment.this).
+                        load(photoNew).fitCenter().centerCrop().into(imageView);
+            }else {
+                Glide.with(ProfileFragment.this).
+                        load(photoCharge).fitCenter().centerCrop().into(imageView);
+            }
+
+        } else {
+            imageView.setImageResource(R.drawable.ic_redes);
+        }
 
 
         profileEdit.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +197,7 @@ public class ProfileFragment extends Fragment {
 
         return root;
     }
+
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -237,7 +293,7 @@ public class ProfileFragment extends Fragment {
 
     @SuppressLint("SimpleDateFormat")
     private File createImageFile() throws IOException {
-        // Create an image file name
+
         timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Objects.requireNonNull(getActivity()).getExternalFilesDir(Environment.DIRECTORY_PICTURES);
@@ -262,15 +318,82 @@ public class ProfileFragment extends Fragment {
                 case COD_SELECCIONA:
 
                     try {
-                        Uri miPath = data.getData();
+                        final Uri miPath = data.getData();
                         assert miPath != null;
 
                         imageStream = Objects.requireNonNull(getActivity()).getContentResolver().openInputStream(miPath);
                         selectedImage = BitmapFactory.decodeStream(imageStream);
-                        selectedImage = getResizedBitmap(selectedImage, 1024);
+                        selectedImage = getResizedBitmap(selectedImage);
 
 
-                        imageView.setImageBitmap(selectedImage);
+                        // imageView.setImageBitmap(selectedImage);
+
+                        if (requestCode == COD_SELECCIONA && resultCode == RESULT_OK) {
+                            StorageReference filepath = storageReference.child(emailProf.replace(".", "-")).child(Objects.requireNonNull(miPath.getLastPathSegment()));
+                            filepath.putFile(miPath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    if (taskSnapshot.getMetadata() != null) {
+                                        if (taskSnapshot.getMetadata().getReference() != null) {
+                                            Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
+                                            Toast.makeText(getContext(), "Foto subida correctmanete", Toast.LENGTH_SHORT).show();
+                                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    final String imageUrl = uri.toString();
+                                                    System.out.println(imageUrl);
+                                                    Glide.with(ProfileFragment.this).load(imageUrl).fitCenter().centerCrop().into(imageView);
+
+                                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            for (DataSnapshot image : dataSnapshot.getChildren()) {
+                                                                String keyValue = image.getKey();
+
+
+                                                                if (keyValue != null) {
+                                                                    String emailComp;
+
+                                                                    emailComp = dataSnapshot.child(keyValue).child(emailProf.replace(".", "-"))
+                                                                            .child("email").getValue(String.class);
+
+                                                                    if (emailComp != null) {
+
+                                                                        databaseReference.child(keyValue).child(emailProf.replace(".", "-")).child("profileAd").setValue(imageUrl);
+                                                                    } else {
+
+                                                                        emailComp = dataSnapshot.child(keyValue).child(emailProf.replace(".", "-"))
+                                                                                .child("emailF").getValue(String.class);
+
+                                                                        if (emailComp != null) {
+
+
+                                                                            databaseReference.child(keyValue).child(emailProf.replace(".", "-")).child("profileF").setValue(imageUrl);
+                                                                            photoNew=imageUrl;
+                                                                        }
+
+                                                                    }
+
+
+                                                                }
+
+
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            });
+                        }
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -287,10 +410,80 @@ public class ProfileFragment extends Fragment {
 
                         imageStream = Objects.requireNonNull(getActivity()).getContentResolver().openInputStream(photoURI);
                         selectedImage = BitmapFactory.decodeStream(imageStream);
-                        selectedImage = getResizedBitmap(selectedImage, 1024);
+                        selectedImage = getResizedBitmap(selectedImage);
 
 
-                        imageView.setImageBitmap(selectedImage);
+
+
+                        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+                            StorageReference filepath = storageReference.child(emailProf.replace(".", "-")).child(Objects.requireNonNull(photoURI.getLastPathSegment()));
+                            filepath.putFile(photoURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    if (taskSnapshot.getMetadata() != null) {
+                                        if (taskSnapshot.getMetadata().getReference() != null) {
+                                            Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
+                                            Toast.makeText(getContext(), "Foto subida correctmanete", Toast.LENGTH_SHORT).show();
+                                            result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    final String imageUrl = uri.toString();
+
+
+                                                    Glide.with(ProfileFragment.this).load(imageUrl).fitCenter().centerCrop().into(imageView);
+
+                                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            for (DataSnapshot image : dataSnapshot.getChildren()) {
+                                                                String keyValue = image.getKey();
+
+
+                                                                if (keyValue != null) {
+                                                                    String emailComp;
+
+                                                                    emailComp = dataSnapshot.child(keyValue).child(emailProf.replace(".", "-"))
+                                                                            .child("email").getValue(String.class);
+
+                                                                    if (emailComp != null) {
+
+                                                                        databaseReference.child(keyValue).child(emailProf.replace(".", "-")).child("profileAd").setValue(imageUrl);
+                                                                    } else {
+
+                                                                        emailComp = dataSnapshot.child(keyValue).child(emailProf.replace(".", "-"))
+                                                                                .child("emailF").getValue(String.class);
+
+                                                                        if (emailComp != null) {
+
+
+                                                                            databaseReference.child(keyValue).child(emailProf.replace(".", "-")).child("profileF").setValue(imageUrl);
+                                                                            photoNew=imageUrl;
+                                                                        }
+
+                                                                    }
+
+
+                                                                }
+
+
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+
+
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            });
+                        }
+
 
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -305,16 +498,16 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+    private Bitmap getResizedBitmap(Bitmap image) {
         int width = image.getWidth();
         int height = image.getHeight();
 
         float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
-            width = maxSize;
+            width = 1024;
             height = (int) (width / bitmapRatio);
         } else {
-            height = maxSize;
+            height = 1024;
             width = (int) (height * bitmapRatio);
         }
         return Bitmap.createScaledBitmap(image, width, height, true);

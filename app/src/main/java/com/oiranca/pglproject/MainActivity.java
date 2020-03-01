@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance().setPersistenceEnabled(false);
             MainActivity.firebaseInitialized = true;
         }
-        mail.setText("oiranca@gmail.com");
+     mail.setText("oiranca@gmail.com");
         pass.setText("samuel");
-      /*  mail.setText("infosatlpgc@gmail.com");
-        pass.setText("leyre");*/
+       // mail.setText("infosatlpgc@gmail.com");
+        //pass.setText("leyre");
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -94,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
                         for (DataSnapshot emails : dataSnapshot.getChildren()) {
                             String valuesKey = emails.getKey();
+                            String photoUrl;
+                            String names;
+                            String surnames;
                             if (valuesKey != null) {
                                 String emailComp;
                                 String emailCompF;
@@ -111,8 +114,20 @@ public class MainActivity extends AppCompatActivity {
                                                     if (rang.contains("Admin")) {
 
                                                         if (passComp.equals(pass.getText().toString())) {
+                                                            photoUrl = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                                    child("profileAd").getValue(String.class);
+                                                            names=dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                                    child("name").getValue(String.class);
+                                                            surnames=dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                                    child("surname").getValue(String.class);
+
                                                             Intent admin = new Intent(getApplicationContext(), NavigationAdmin.class);
                                                             admin.putExtra("Admin", mail.getText().toString());
+                                                            admin.putExtra("PhotoAd",photoUrl);
+                                                            admin.putExtra("PassAd",passComp);
+                                                            admin.putExtra("NameAd",names);
+                                                            admin.putExtra("SurnameAd",surnames);
+
                                                             startActivity(admin);
                                                         }
                                                     }
@@ -139,8 +154,18 @@ public class MainActivity extends AppCompatActivity {
                                                         if (rang.contains("Family")) {
 
                                                             if (passComp.equals(pass.getText().toString())) {
+                                                                photoUrl = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                                        child("profileF").getValue(String.class);
+                                                                names=dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                                        child("nameF").getValue(String.class);
+                                                                surnames=dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                                        child("surnameF").getValue(String.class);
                                                                 Intent fam = new Intent(getApplicationContext(), TabFamily.class);
                                                                 fam.putExtra("Family", mail.getText().toString());
+                                                                fam.putExtra("PhotoFam",photoUrl);
+                                                                fam.putExtra("PassFam",passComp);
+                                                                fam.putExtra("NameFam",names);
+                                                                fam.putExtra("SurnameFam",surnames);
                                                                 startActivity(fam);
                                                             }
                                                         }
