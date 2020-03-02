@@ -4,21 +4,20 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,13 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.oiranca.pglproject.R;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
 
 public class MyActivityFragment extends Fragment {
 
@@ -49,32 +45,16 @@ public class MyActivityFragment extends Fragment {
     private String completed;
     private String emailRemp = null;
     private String emailRmpF = null;
+    private String day, m, years;
+    private FloatingActionButton calendarInsert;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MyActivityViewModel myActivityViewModel = ViewModelProviders.of(this).get(MyActivityViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_my_activity, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        myActivityViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
+        calendarInsert = root.findViewById(R.id.floatCalendar);
 
-                Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
-                Bundle user = idUser.getExtras();
-
-
-                assert user != null;
-                s = user.getString("Admin");
-
-                if (s!=null){
-                    textView.setText(s);
-                }else {
-                    s=user.getString("Family");
-                    textView.setText(s);
-                }
-            }
-        });
 
         Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
         Bundle user = idUser.getExtras();
@@ -101,14 +81,22 @@ public class MyActivityFragment extends Fragment {
 
         datePresent();
 
+        calendarInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                workInCalendar();
+            }
+        });
+
+
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 int correction = 1 + month;
 
-                String day = Integer.toString(dayOfMonth);
-                String m = Integer.toString(correction);
-                String years = Integer.toString(year);
+                day = Integer.toString(dayOfMonth);
+                m = Integer.toString(correction);
+                years = Integer.toString(year);
                 actadm = day + "-" + m + "-" + years;
 
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -212,7 +200,7 @@ public class MyActivityFragment extends Fragment {
                                                                     });
 
 
-                                                                    AlertDialog dialog = workFamily.show();
+                                                                    workFamily.show();
 
 
                                                                 } else {
@@ -248,7 +236,7 @@ public class MyActivityFragment extends Fragment {
 
                                                     if (homeWorks.length > 0) {
                                                         for (int i = 0; i < homeWorks.length; i++) {
-                                                            final int indexF=i;
+                                                            final int indexF = i;
                                                             if (indexF == 0) {
 
 
@@ -257,7 +245,6 @@ public class MyActivityFragment extends Fragment {
                                                                         child("completed").getValue(String.class);
                                                                 if (completed != null) {
                                                                     if (completed.toLowerCase().contains("no")) {
-
 
 
                                                                         AlertDialog.Builder workFamily = new AlertDialog.Builder(getContext());
@@ -283,10 +270,10 @@ public class MyActivityFragment extends Fragment {
                                                                         });
 
 
-                                                                        AlertDialog dialog = workFamily.show();
+                                                                        workFamily.show();
 
 
-                                                                    }else{
+                                                                    } else {
                                                                         chkMy.setClickable(false);
                                                                     }
                                                                 }
@@ -371,7 +358,7 @@ public class MyActivityFragment extends Fragment {
 
                                                 if (homeWorks.length > 0) {
                                                     for (int i = 0; i < homeWorks.length; i++) {
-                                                        final int index =i;
+                                                        final int index = i;
                                                         if (index > 0) {
 
 
@@ -404,9 +391,9 @@ public class MyActivityFragment extends Fragment {
                                                                     });
 
 
-                                                                    AlertDialog dialog = workFamily.show();
+                                                                    workFamily.show();
 
-                                                                }else{
+                                                                } else {
                                                                     chkMybis.setClickable(false);
                                                                 }
                                                             }
@@ -439,7 +426,7 @@ public class MyActivityFragment extends Fragment {
 
                                                     if (homeWorks.length > 0) {
                                                         for (int i = 0; i < homeWorks.length; i++) {
-                                                            final int indexf=i;
+                                                            final int indexf = i;
                                                             if (indexf > 0) {
 
 
@@ -474,7 +461,7 @@ public class MyActivityFragment extends Fragment {
 
                                                                         AlertDialog dialog = workFamily.show();
 
-                                                                    }else{
+                                                                    } else {
                                                                         chkMybis.setClickable(false);
                                                                     }
                                                                 }
@@ -538,6 +525,46 @@ public class MyActivityFragment extends Fragment {
 
             }
         });
+
+
+    }
+
+    private void workInCalendar() {
+
+
+        if (actadm != null) {
+
+
+            assert chkMy != null;
+            if (chkMy.getText().equals("Dia libre") || !chkMy.getText().equals("Sin tarea") && !chkMy.isChecked()) {
+                Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                calIntent.setType("vnd.android.cursor.item/event");
+                calIntent.putExtra(CalendarContract.Events.TITLE, chkMy.getText().toString());
+                calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+
+
+                startActivity(calIntent);
+
+                System.out.println("Pasa por el primer check");
+
+            }
+            assert chkMybis != null;
+            if (chkMybis.getText().equals("Dia libre") || !chkMybis.getText().equals("Sin tarea") && !chkMybis.isChecked()) {
+                Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                calIntent.setType("vnd.android.cursor.item/event");
+                calIntent.putExtra(CalendarContract.Events.TITLE, chkMybis.getText().toString());
+                calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+
+
+                startActivity(calIntent);
+
+                System.out.println("Pasa por el primer check");
+
+            }
+
+        } else {
+            Toast.makeText(getContext(), "No ha seleccionado la fecha", Toast.LENGTH_SHORT).show();
+        }
 
 
     }

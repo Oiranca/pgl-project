@@ -20,17 +20,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/text_slideshow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="16sp" />
-
-        <TextView
             android:id="@+id/textMactivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
             android:fontFamily="monospace"
             android:text="@string/menu_my_activity"
             android:textAlignment="center"
@@ -39,10 +33,23 @@
 
         <CalendarView
             android:id="@+id/calendarMactivity"
-            android:layout_width="285dp"
-            android:layout_height="292dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/calendar_custom" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            app:backgroundTint="#3B88C3"
+            app:fabSize="mini"
+            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
     </LinearLayout>
 
     <CheckBox

@@ -47,19 +47,17 @@ public class MainActivity extends AppCompatActivity {
         pass = findViewById(R.id.plain_password);
 
 
-
         FirebaseApp.initializeApp(getApplicationContext());
 
         if (!MainActivity.firebaseInitialized) {
             FirebaseDatabase.getInstance().setPersistenceEnabled(false);
             MainActivity.firebaseInitialized = true;
         }
-    // mail.setText("oiranca@gmail.com");
-      // pass.setText("samuel");
-      // mail.setText("infosatlpgc@gmail.com");
-        //pass.setText("leyre");
-        mail.setText("lucrecio@gmail.com");
-        pass.setText("lucrecio");
+        mail.setText("oiranca@gmail.com");
+        pass.setText("romero");
+        // mail.setText("infosatlpgc@gmail.com");
+        //pass.setText("romero");
+
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
@@ -118,26 +116,30 @@ public class MainActivity extends AppCompatActivity {
                                                         if (passComp.equals(pass.getText().toString())) {
                                                             photoUrl = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
                                                                     child("profileAd").getValue(String.class);
-                                                            names=dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                            names = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
                                                                     child("name").getValue(String.class);
-                                                            surnames=dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                            surnames = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
                                                                     child("surname").getValue(String.class);
 
                                                             Intent admin = new Intent(getApplicationContext(), NavigationAdmin.class);
                                                             admin.putExtra("Admin", mail.getText().toString());
-                                                            admin.putExtra("PhotoAd",photoUrl);
-                                                            admin.putExtra("PassAd",passComp);
-                                                            admin.putExtra("NameAd",names);
-                                                            admin.putExtra("SurnameAd",surnames);
+                                                            admin.putExtra("PhotoAd", photoUrl);
+                                                            admin.putExtra("PassAd", passComp);
+                                                            admin.putExtra("NameAd", names);
+                                                            admin.putExtra("SurnameAd", surnames);
 
                                                             startActivity(admin);
                                                         }
                                                     }
 
                                                 }
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                                             }
 
                                         }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                                     }
 
 
@@ -158,24 +160,28 @@ public class MainActivity extends AppCompatActivity {
                                                             if (passComp.equals(pass.getText().toString())) {
                                                                 photoUrl = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
                                                                         child("profileF").getValue(String.class);
-                                                                names=dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                                names = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
                                                                         child("nameF").getValue(String.class);
-                                                                surnames=dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
+                                                                surnames = dataSnapshot.child(valuesKey).child(mail.getText().toString().replace(".", "-")).
                                                                         child("surnameF").getValue(String.class);
                                                                 Intent fam = new Intent(getApplicationContext(), TabFamily.class);
                                                                 fam.putExtra("Family", mail.getText().toString());
-                                                                fam.putExtra("PhotoFam",photoUrl);
-                                                                fam.putExtra("PassFam",passComp);
-                                                                fam.putExtra("NameFam",names);
-                                                                fam.putExtra("SurnameFam",surnames);
+                                                                fam.putExtra("PhotoFam", photoUrl);
+                                                                fam.putExtra("PassFam", passComp);
+                                                                fam.putExtra("NameFam", names);
+                                                                fam.putExtra("SurnameFam", surnames);
                                                                 startActivity(fam);
                                                             }
                                                         }
 
                                                     }
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                                                 }
 
                                             }
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show();
                                         }
 
 

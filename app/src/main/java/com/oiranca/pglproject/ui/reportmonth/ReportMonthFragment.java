@@ -885,11 +885,7 @@ public class ReportMonthFragment extends Fragment {
 
         chart.clear();
         chart.invalidate();
-        chart.getDescription().setEnabled(true);
-        chart.getDescription().setText("Tareas asignadas en el mes hechas o no");
-        chart.getDescription().setTextSize(16f);
-        chart.getDescription().setTextColor(Color.WHITE);
-        chart.getDescription().setTextAlign(Paint.Align.RIGHT);
+        chart.getDescription().setEnabled(false);
 
 
         chart.setExtraOffsets(5, 10, 5, 5);

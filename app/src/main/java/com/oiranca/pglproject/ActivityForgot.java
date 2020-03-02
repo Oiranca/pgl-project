@@ -70,6 +70,9 @@ public class ActivityForgot extends AppCompatActivity {
        final FloatingActionButton fab = findViewById(R.id.fabForgot);
 
 
+       // Crea el Alert dialog para advertir si no llega el mensaje, ya que hay que
+        // realizar una confoguración el correo de gmail
+
         AlertDialog.Builder alertRemember = new AlertDialog.Builder(ActivityForgot.this);
         alertRemember.setTitle("Advertencia\n --Si no llega el mensaje--");
 
@@ -86,6 +89,9 @@ public class ActivityForgot extends AppCompatActivity {
 
 
     }
+
+    //En este método vamos a realizar el check si el editext está vacio
+    //Además recogemos el correo para enviar la recuperación y mediante un alertdialog pedimos la contraseña del correo
 
     private void clickAndRemember(FloatingActionButton fab) {
         fab.setOnClickListener(new View.OnClickListener() {

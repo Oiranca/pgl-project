@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="408dp"
-        android:layout_height="541dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -15,18 +15,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textFamily"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
             android:fontFamily="monospace"
             android:gravity="center"
             android:text="@string/family_activity_admin"
@@ -40,6 +35,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
 
             android:background="@drawable/spinner_custom"
             android:gravity="center"
@@ -47,10 +43,11 @@
 
         <CalendarView
             android:id="@+id/calendarAssig"
-            android:layout_width="310dp"
-            android:layout_height="303dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/calendar_custom" />
 
         <TextView
@@ -59,10 +56,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="monospace"
             android:text="@string/assignment_work"
             android:textAlignment="center"
-
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -72,6 +69,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/spinner_custom"
             android:entries="@array/works" />
 
@@ -80,7 +78,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16pt"
             android:clickable="true"
             app:backgroundTint="#3B88C3"
             app:fabSize="mini"

@@ -47,29 +47,8 @@ public class DeleteFamily extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         DeleteFamilyViewModel mViewModel = ViewModelProviders.of(this).get(DeleteFamilyViewModel.class);
         View root = inflater.inflate(R.layout.delete_family_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.text_deletef);
-        mViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
+     ;
 
-
-                Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
-                Bundle user = idUser.getExtras();
-
-
-                assert user != null;
-                s = user.getString("Admin");
-
-                if (s!=null){
-                    textView.setText(s);
-                }else {
-                    s=user.getString("Family");
-                    textView.setText(s);
-                }
-
-
-            }
-        });
 
         final Spinner spinnerDel = root.findViewById(R.id.spinnerDelete);
         final TextView textName = root.findViewById(R.id.deleteNameF);

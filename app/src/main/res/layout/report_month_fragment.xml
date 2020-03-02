@@ -28,21 +28,18 @@
         android:background="@drawable/spinner_custom"
         android:entries="@array/month"/>
 
-
-
-    <!--com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView
+        android:id="@+id/titleReportMoth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/datepicker_custom"/-->
-
-
-
+        android:layout_marginEnd="16dp"
+        android:fontFamily="monospace"
+        android:text="@string/tareas_asiganadas_en_el_mes"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
     <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/chart1"

@@ -252,29 +252,6 @@ public class ActivityFragment extends Fragment {
         });
 
 
-        final TextView textView = root.findViewById(R.id.home);
-        activityViewModel.getText().
-
-                observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-
-
-                        Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
-                        Bundle user = idUser.getExtras();
-
-
-                        assert user != null;
-                        s = user.getString("Admin");
-
-                        if (s != null) {
-                            textView.setText(s);
-                        } else {
-                            s = user.getString("Family");
-                            textView.setText(s);
-                        }
-                    }
-                });
 
 
         return root;
