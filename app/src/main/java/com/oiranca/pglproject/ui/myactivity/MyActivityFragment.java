@@ -88,6 +88,7 @@ public class MyActivityFragment extends Fragment {
             }
         });
 
+        /*Método para escuchar los cambios en el calendarview*/
 
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -116,6 +117,8 @@ public class MyActivityFragment extends Fragment {
             }
         });
 
+        /*Este método escucha si marcamos el checkbox y nos da un alertdialog para indicarnos que si lo queremos marcar
+         * relamente*/
 
         chkMy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -311,6 +314,9 @@ public class MyActivityFragment extends Fragment {
             }
         });
 
+        /*Este método escucha si marcamos el checkbox y nos da un alertdialog para indicarnos que si lo queremos marcar
+         * relamente*/
+
         chkMybis.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -502,11 +508,14 @@ public class MyActivityFragment extends Fragment {
         return root;
     }
 
+    /*Este médo nos ayuda a bloquear el calendarview para no poder modificar dias atras*/
     private void disableLastDate(CalendarView calendar) {
         SimpleDateFormat fechForm = new SimpleDateFormat("dd-M-yyyy", Locale.getDefault());
         Date fechaHoy = new Date();
         calendar.setMinDate(fechaHoy.getTime());
     }
+
+    /*Este método nos ayuda a cargar la fecha del sistema, si no tenemos permisos no nos cargará el día*/
 
     private void datePresent() {
 
@@ -528,6 +537,8 @@ public class MyActivityFragment extends Fragment {
 
 
     }
+
+    /*Este método nos carga los datos del día que seleccinamos y si está realizadas o no*/
 
     private void workInCalendar() {
 

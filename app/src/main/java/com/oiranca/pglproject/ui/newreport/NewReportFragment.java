@@ -40,6 +40,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+
+/*En este fragmento vamos a recuperar los datos del día seleccionado en el datespicker
+* y mostraremos las tareas, realizadas o no y luego mediante un intent enviarémos
+* las tareas no realizadas por el medio a selccionar*/
 public class NewReportFragment extends Fragment {
 
     private NewReportViewModel mViewModel;
@@ -110,6 +114,8 @@ public class NewReportFragment extends Fragment {
 
             }
         });
+
+        /*Método para escuchar la seccion de la decha en el datespicker con una comprobación de sdk*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             dateNReport.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
                 @Override
@@ -141,6 +147,8 @@ public class NewReportFragment extends Fragment {
 
         return root;
     }
+
+    /*Método para enviar las tareas  no realizadas mediante el medio que selccionemos*/
 
     @SuppressLint("IntentReset")
     private void sendData() {
@@ -180,6 +188,9 @@ public class NewReportFragment extends Fragment {
         }
     }
 
+
+    /*Después de seleccionar la fecha, usaremos este método para poder cargar los datos de las tareas y ver si están realizadas o no
+    * llamando al método baseData*/
     private void extractData() {
         if (!famSelect.equals("Selecciona un familiar")) {
 
@@ -318,7 +329,7 @@ public class NewReportFragment extends Fragment {
         }
     }
 
-
+/*Método para cargar el spinner*/
     private void itemSpinner(final Spinner spinneReports) {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -24,7 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.Properties;
@@ -67,10 +66,10 @@ public class ActivityForgot extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
-       final FloatingActionButton fab = findViewById(R.id.fabForgot);
+        final FloatingActionButton fab = findViewById(R.id.fabForgot);
 
 
-       // Crea el Alert dialog para advertir si no llega el mensaje, ya que hay que
+        // Crea el Alert dialog para advertir si no llega el mensaje, ya que hay que
         // realizar una confoguración el correo de gmail
 
         AlertDialog.Builder alertRemember = new AlertDialog.Builder(ActivityForgot.this);
@@ -86,12 +85,10 @@ public class ActivityForgot extends AppCompatActivity {
         alertRemember.show();
 
 
-
-
     }
 
-    //En este método vamos a realizar el check si el editext está vacio
-    //Además recogemos el correo para enviar la recuperación y mediante un alertdialog pedimos la contraseña del correo
+    /*En este método vamos a realizar el check si el editext está vacio
+    Además recogemos el correo para enviar la recuperación y mediante un alertdialog pedimos la contraseña del correo*/
 
     private void clickAndRemember(FloatingActionButton fab) {
         fab.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +112,8 @@ public class ActivityForgot extends AppCompatActivity {
 
                     final AlertDialog.Builder alert = new AlertDialog.Builder(ActivityForgot.this);
                     final EditText edittext = new EditText(ActivityForgot.this);
-                    alert.setTitle("Selecciona una opción");
-                    alert.setMessage("Introduce la contraseña de tu correo");
+                    alert.setTitle("Introduce la contraseña de tu correo");
+
 
                     alert.setView(edittext);
 
@@ -124,14 +121,14 @@ public class ActivityForgot extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
                             Editable yourMailPassword = edittext.getText();
-                            contrasenyaCorreo=yourMailPassword.toString();
+                            contrasenyaCorreo = yourMailPassword.toString();
                             dataInDataBase();
                         }
                     });
 
                     alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            Toast.makeText(getApplicationContext(),"Recuperación no enviada",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Recuperación no enviada", Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -143,6 +140,9 @@ public class ActivityForgot extends AppCompatActivity {
             }
         });
     }
+
+    /*Buscamos el password en la base de datos
+     * siempre que exista el email*/
 
     private void dataInDataBase() {
 
@@ -216,10 +216,11 @@ public class ActivityForgot extends AppCompatActivity {
         properties.put("mail.smtp.port", "465");
 
         //Configuramos la sesión
+
         session = Session.getDefaultInstance(properties, null);
 
         try {
-            enviarMensaje("Recordatorio de contraseña", "Su contraseña es : " + passWord);
+            customMessage("Recordatorio de contraseña", "Su contraseña es : " + passWord);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -227,25 +228,26 @@ public class ActivityForgot extends AppCompatActivity {
 
     }
 
-    public static void enviarMensaje(String subject, String content) throws MessagingException {
+    public void customMessage(String subject, String content) throws MessagingException {
 
 
         // Configuramos los valores de nuestro mensaje
+
         mensaje = new MimeMessage(session);
         mensaje.addRecipient(Message.RecipientType.TO, new InternetAddress(destintatarioCorreo));
         mensaje.setSubject(subject);
         mensaje.setContent(content, "text/html");
 
         // Configuramos como sera el envio del correo
+
         transport = session.getTransport("smtp");
         transport.connect("smtp.gmail.com", direccionCorreo, contrasenyaCorreo);
         transport.sendMessage(mensaje, mensaje.getAllRecipients());
         transport.close();
 
         // Mostramos que el mensaje se ha enviado correctamente
-        System.out.println("--------------------------");
-        System.out.println("Mensaje enviado");
-        System.out.println("---------------------------");
+
+        Toast.makeText(getApplicationContext(), "Usuario no encontrado", Toast.LENGTH_SHORT).show();
     }
 
     @Override

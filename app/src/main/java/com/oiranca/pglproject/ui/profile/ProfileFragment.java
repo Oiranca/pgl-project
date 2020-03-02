@@ -51,6 +51,10 @@ import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
+/*Este ProfileFragment nos va a permitir cargar los datos del perfil
+ * como email, password, nombre y apelllidos, aunque solamente podremos modicar la contraseña
+ * por motivos de estructura de los datos en la base de datos*/
+
 public class ProfileFragment extends Fragment {
 
 
@@ -95,6 +99,8 @@ public class ProfileFragment extends Fragment {
         EditText profileMail = root.findViewById(R.id.profileEmailF);
         profilePass = root.findViewById(R.id.profilePass);
 
+        /*Aquí traemos los datos del MainActivity y la url de la foto del perfil si existe
+         * si no es así nos carga una imagen predeterminada*/
 
         Intent idUser = Objects.requireNonNull(getActivity()).getIntent();
         Bundle user = idUser.getExtras();
@@ -149,6 +155,9 @@ public class ProfileFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
+
+        // Aquí cargamos la foto en el imageview, ya sea de la base de datos o una nueva
+
         if (photoCharge != null) {
             if (photoNew != null) {
                 Glide.with(ProfileFragment.this).
@@ -159,8 +168,13 @@ public class ProfileFragment extends Fragment {
             }
 
         } else {
+            //Si no hay url de la foto de perfil nos carga la imagen predeterminada
             imageView.setImageResource(R.drawable.ic_redes);
         }
+
+        /*En este listener nos va a salir un alerdialog donde nos pregunta de donde queremo obtener
+         * la foto de perfil que vamos a poner, además llama un método para pedir los
+         * permisos necesarios para la cámara o para la lectura de la memoria*/
 
 
         profileEdit.setOnClickListener(new View.OnClickListener() {
@@ -173,12 +187,13 @@ public class ProfileFragment extends Fragment {
                 optionAlert.setItems(option, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        /* Está opción llama al método donde nos piden los permisos para tomar
+                        la foto con la cámara*/
                         if (option[which].equals("Cargar desde Camara")) {
                             checkPermission();
 
                         }
-
+                        /*Esta opción nos permite coger la foto directamente desde la galería*/
                         if (option[which].equals("Cargar desde Galeria")) {
                             Intent intentPick = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
@@ -207,6 +222,8 @@ public class ProfileFragment extends Fragment {
         return root;
     }
 
+    /*Métoodo que compara la contraseña del perfil con la que hemos escrito en el editex
+    y si no son iguales nos la cambia en firebase*/
     private void chanceDataProfile() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -217,10 +234,8 @@ public class ProfileFragment extends Fragment {
                     String passWord;
 
 
-
                     assert keyForChance != null;
                     passWord = dataSnapshot.child(keyForChance).child(emailProf.replace(".", "-")).child("pass").getValue(String.class);
-
 
 
                     if (passWord != null && !passWord.contentEquals(profilePass.getText())) {
@@ -251,6 +266,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    /*Método para verificar los permisos necesarios y si no los tenemos nos los pide*/
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -306,6 +322,9 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+
+    /*Método para tomar la foto de la cámara y cargarla en el imageview además de
+     * guardarla en el móvil*/
     private void takePhoto() {
 
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -362,6 +381,9 @@ public class ProfileFragment extends Fragment {
         return image;
     }
 
+    /*En onActivityResult hemos puesto le código necesario para cuando seleccionemos la opción
+     * con la que queremos cargar la foto en el perfil, nos permita subirla a Firestorage y guardar la url en
+     * Firebase*/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -546,7 +568,8 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
+    /*Este método nos permite cambiar el tamaño de la foto tomada de la cámara
+     * ya que depende de que cámara saquemos la foto, el tamaño puede ser demasiado grande*/
     private Bitmap getResizedBitmap(Bitmap image) {
         int width = image.getWidth();
         int height = image.getHeight();

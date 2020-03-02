@@ -70,6 +70,9 @@ public class DeleteFamily extends Fragment {
 
         itemSpinner(spinnerDel);
 
+        /* Método que busca el familiar seleccionado en el spinner y lo carga en los editext que
+        * los bloqueo para que no puedan modificarlos*/
+
         spinnerDel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -111,6 +114,9 @@ public class DeleteFamily extends Fragment {
                         }
                     });
 
+
+                    /*Una vez seleccionado el usuario a borrar le damos al boton delete y slata un alerdialog para advertinor si estamos
+                    * seguros de borrarlo, al seleccionar si, lo busca y lo borrar*/
                     floatDelete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

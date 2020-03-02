@@ -49,6 +49,8 @@ public class ActivityFragment extends Fragment {
     private String namesFam;
     private Map<String, Object> workDay;
 
+    /*En este frágmento vamos a seleccionar un día en el calendario, un familiar y una actividad
+     * para poder asignarsela a dicho usuairo */
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -94,6 +96,7 @@ public class ActivityFragment extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                // Se le suma 1 al mes porque el calendarview empieza en el mes 0 que equivale a Enero
                 int correction = 1 + month;
 
 
@@ -120,6 +123,10 @@ public class ActivityFragment extends Fragment {
         floatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*Creamos un Alerdialog para saber si la tarea asignar al usuario es la correcta
+                * si aceptamos dicha tarea con dicho usuario se le asignara en Firebase
+                * y se pondrá como no realizada hasta que el usuario la haga*/
 
                 AlertDialog.Builder workFamily = new AlertDialog.Builder(getContext());
 
@@ -246,16 +253,17 @@ public class ActivityFragment extends Fragment {
                 });
 
 
-                AlertDialog dialog = workFamily.show();
+                workFamily.show();
             }
 
         });
 
 
-
-
         return root;
     }
+
+
+    //El metodo dataSpinner nos permite cargar los usuarios de la base datos correspondiente a ese administrador
 
     private void dataSpinner(final Spinner spinnerFam) {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

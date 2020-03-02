@@ -53,10 +53,15 @@ public class MainActivity extends AppCompatActivity {
             FirebaseDatabase.getInstance().setPersistenceEnabled(false);
             MainActivity.firebaseInitialized = true;
         }
+        /* Aqui dejo dos usuarios,
+
+        oiranca es administrador
         mail.setText("oiranca@gmail.com");
         pass.setText("romero");
-        // mail.setText("infosatlpgc@gmail.com");
-        //pass.setText("romero");
+
+        Leyre es familiar
+         mail.setText("infosatlpgc@gmail.com");
+        pass.setText("romero");*/
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -83,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        /*El evento listener de abajo va buscando en Firebase los datos a comprar con los
+        * escritos en los editex para saber si existe y si son corrextos
+        * y depende si el rango es administrador o familiar pues nos abre la actividad
+        * NavigationAdmin si es administrador y si es familiar nos abre TabFamily
+        * También mediante los putextras nos pasan los datos necesarios para rellenar
+        * el ProfileFragmen*/
 
         loginButton = findViewById(R.id.button_login);
         loginButton.setOnClickListener(new View.OnClickListener() {

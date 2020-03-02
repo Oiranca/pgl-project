@@ -1,16 +1,11 @@
 package com.oiranca.pglproject;
 
 
-import android.Manifest;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
@@ -23,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.oiranca.pglproject.ui.entidades.Admin;
 import com.oiranca.pglproject.ui.entidades.Family;
 
@@ -31,13 +25,8 @@ import androidx.annotation.NonNull;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -47,11 +36,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 
 
@@ -70,14 +54,7 @@ public class ActivitySignUp extends AppCompatActivity {
     FirebaseStorage storage;
     StorageReference storageReference;
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int CAMERA_PERMISSION = 100;
-    static final int WRITE_PERMISSION = 101;
-    private Uri photoURI;
-    private String timeStamp;
 
-    String currentPhotoPath;
-    static final int REQUEST_TAKE_PHOTO = 1;
 
 
     @Override
@@ -103,7 +80,7 @@ public class ActivitySignUp extends AppCompatActivity {
         okFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                correct();
+                createMembers();
 
             }
         });
@@ -111,6 +88,8 @@ public class ActivitySignUp extends AppCompatActivity {
 
     }
 
+    /*En este método resibimos de la actividad DialogAdmin donde hemos creado un alerdialog
+     * si el usuario se quiere registrar como administrador o como familiar*/
     private void option() {
 
         Intent idAd = this.getIntent();
@@ -129,7 +108,10 @@ public class ActivitySignUp extends AppCompatActivity {
         }
     }
 
-    private void correct() {
+    /*En este método además de revisar que todos los datos estén rellenos
+    creamos a los miembro de la familia y al administrador*/
+
+    private void createMembers() {
 
         name.setError(null);
         surname.setError(null);
@@ -184,7 +166,7 @@ public class ActivitySignUp extends AppCompatActivity {
                             return;
                         }
 
-                        // Create Administrator in FireBase
+                        // Crea el administrado en Firebase
 
                         if (op == 0) {
                             emailAdmin.setVisibility(View.INVISIBLE);
@@ -241,6 +223,8 @@ public class ActivitySignUp extends AppCompatActivity {
                             }
 
                         } else {
+
+                            //Crea el familiar en Firebase
 
                             if (op == 1) {
 

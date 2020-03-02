@@ -26,12 +26,12 @@ import android.view.View;
 import android.widget.TextView;
 
 
+/*Esta activiad es la necesitamos para manejar el NavigationDrawer*/
 
 public class NavigationAdmin extends AppCompatActivity {
 
 
     private AppBarConfiguration mAppBarConfiguration;
-    private TextView textView;
     View headerView;
 
     @Override
@@ -50,7 +50,7 @@ public class NavigationAdmin extends AppCompatActivity {
 
 
         headerView=navigationView.getHeaderView(0);
-        textView = headerView.findViewById(R.id.textNav);
+        TextView textView = headerView.findViewById(R.id.textNav);
 
 
         Intent idUser = this.getIntent();

@@ -2,7 +2,7 @@ package com.oiranca.pglproject.ui.dialog;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.graphics.Color;
+
 import android.os.Bundle;
 
 
@@ -11,6 +11,9 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 import java.util.Objects;
+
+/*Esta clase fue crada para personalizar un dateSpicker pero no la uso, no la borro porque me gustaría
+* usarla en otro proyecto y así tengo el código */
 
 public class DatePickerFragment extends DialogFragment {
 

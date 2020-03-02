@@ -52,6 +52,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+/*Este Fragment nos va dar una gŕafica de las tareas asignadas en el mes que seleccionemos
+ * estén realizadas o no*/
+
 public class ReportMonthFragment extends Fragment {
 
 
@@ -113,6 +116,11 @@ public class ReportMonthFragment extends Fragment {
 
         final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
+        /*En este if cargamos el reference de la base de datos, ya que si el dato que nos envía el
+         * MainAtivity es de administrador, ya la referencia puede ser más precisa y cargamos todos
+         * los usuarios en el spinner de la familia. Si no es así, solamente cargamos el dato de usuario
+         * que no es administrador y la referencia para buscar los datos en la base de datos
+         * cambia*/
 
         if (user.getString("Admin") != null) {
             emailUser = user.getString("Admin");
@@ -160,7 +168,10 @@ public class ReportMonthFragment extends Fragment {
         return root;
     }
 
-
+    /*Métood que usamos cuando el usuario que se logea es administrador, con este método
+     * sacamos todas las tareas del familiar seleccionado en el spinnner
+     * que le ha sido asignada en el mes que tambien seleccionamos
+     * en el spinner correspondiente*/
 
     private void chargeWorkAllFamily(final Spinner spinnerMonth) {
         spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -397,212 +408,211 @@ public class ReportMonthFragment extends Fragment {
                                 if (compName == null) {
 
 
-                                      if ( emailUser != null) {
-                                          compName = dataSnapshot.child(emailUser.replace(".", "-")).child("name").getValue(String.class);
-                                          if (compName != null) {
+                                    if (emailUser != null) {
+                                        compName = dataSnapshot.child(emailUser.replace(".", "-")).child("name").getValue(String.class);
+                                        if (compName != null) {
 
-                                              if (compName.contains(famSelect)) {
-                                                  for (Integer key : monthShort.keySet()) {
+                                            if (compName.contains(famSelect)) {
+                                                for (Integer key : monthShort.keySet()) {
 
 
-                                                      if (monthWork.equals(monthShort.get(key))) {
+                                                    if (monthWork.equals(monthShort.get(key))) {
 
-                                                          for (int dWork = 0; dWork < 30; dWork++) {
-                                                              day = (dWork + 1) + "-" + key + "-" + year;
-                                                              workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
-                                                                      child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+                                                        for (int dWork = 0; dWork < 30; dWork++) {
+                                                            day = (dWork + 1) + "-" + key + "-" + year;
+                                                            workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
+                                                                    child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
 
-                                                              if (workDayFam != null) {
-                                                                  homeWorks = workDayFam.keySet().toArray(new String[0]);
+                                                            if (workDayFam != null) {
+                                                                homeWorks = workDayFam.keySet().toArray(new String[0]);
 
-                                                                  for (int workF = 0; workF < homeWorks.length; workF++) {
+                                                                for (int workF = 0; workF < homeWorks.length; workF++) {
 
 
-                                                                      dayWorks.put(cont, homeWorks[workF]);
-                                                                      cont++;
+                                                                    dayWorks.put(cont, homeWorks[workF]);
+                                                                    cont++;
 
 
-                                                                  }
-                                                              }
+                                                                }
+                                                            }
 
 
-                                                          }
-                                                          for (int i = 1; i < possWorks.length; i++) {
+                                                        }
+                                                        for (int i = 1; i < possWorks.length; i++) {
 
 
-                                                              contRepeat = 0;
-                                                              Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+                                                            contRepeat = 0;
+                                                            Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
 
-                                                              while (it.hasNext()) {
-                                                                  Map.Entry<Integer, String> e = it.next();
-                                                                  if (possWorks[i].equals(e.getValue())) {
+                                                            while (it.hasNext()) {
+                                                                Map.Entry<Integer, String> e = it.next();
+                                                                if (possWorks[i].equals(e.getValue())) {
 
-                                                                      cont++;
-                                                                      contRepeat = cont + contRepeat;
-                                                                  }
-                                                                  cont = 0;
+                                                                    cont++;
+                                                                    contRepeat = cont + contRepeat;
+                                                                }
+                                                                cont = 0;
 
-                                                              }
-                                                              numberRep.add(contRepeat);
+                                                            }
+                                                            numberRep.add(contRepeat);
 
 
-                                                          }
-                                                          setData(possWorks.length, 100, numberRep);
-                                                      }
-                                                  }
+                                                        }
+                                                        setData(possWorks.length, 100, numberRep);
+                                                    }
+                                                }
 
-                                                  for (Integer keyL : monthLarge.keySet()) {
+                                                for (Integer keyL : monthLarge.keySet()) {
 
 
-                                                      if (monthWork.equals(monthLarge.get(keyL))) {
+                                                    if (monthWork.equals(monthLarge.get(keyL))) {
 
 
-                                                          for (int dWork = 0; dWork < 31; dWork++) {
-                                                              day = (dWork + 1) + "-" + keyL + "-" + year;
-                                                              workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
-                                                                      child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+                                                        for (int dWork = 0; dWork < 31; dWork++) {
+                                                            day = (dWork + 1) + "-" + keyL + "-" + year;
+                                                            workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
+                                                                    child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
 
-                                                              if (workDayFam != null) {
-                                                                  homeWorks = workDayFam.keySet().toArray(new String[0]);
+                                                            if (workDayFam != null) {
+                                                                homeWorks = workDayFam.keySet().toArray(new String[0]);
 
-                                                                  for (int workF = 0; workF < homeWorks.length; workF++) {
+                                                                for (int workF = 0; workF < homeWorks.length; workF++) {
 
 
-                                                                      dayWorks.put(cont, homeWorks[workF]);
-                                                                      cont++;
+                                                                    dayWorks.put(cont, homeWorks[workF]);
+                                                                    cont++;
 
 
-                                                                  }
-                                                              }
+                                                                }
+                                                            }
 
-                                                          }
-                                                          for (int i = 1; i < possWorks.length; i++) {
+                                                        }
+                                                        for (int i = 1; i < possWorks.length; i++) {
 
 
-                                                              contRepeat = 0;
-                                                              Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+                                                            contRepeat = 0;
+                                                            Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
 
-                                                              while (it.hasNext()) {
-                                                                  Map.Entry<Integer, String> e = it.next();
-                                                                  if (possWorks[i].equals(e.getValue())) {
+                                                            while (it.hasNext()) {
+                                                                Map.Entry<Integer, String> e = it.next();
+                                                                if (possWorks[i].equals(e.getValue())) {
 
-                                                                      cont++;
-                                                                      contRepeat = cont + contRepeat;
-                                                                  }
-                                                                  cont = 0;
+                                                                    cont++;
+                                                                    contRepeat = cont + contRepeat;
+                                                                }
+                                                                cont = 0;
 
-                                                              }
+                                                            }
 
-                                                              numberRep.add(contRepeat);
+                                                            numberRep.add(contRepeat);
 
 
-                                                          }
-                                                          setData(possWorks.length, 100, numberRep);
-                                                      }
-                                                  }
+                                                        }
+                                                        setData(possWorks.length, 100, numberRep);
+                                                    }
+                                                }
 
 
-                                                  if (monthWork.equals("Febrero")) {
+                                                if (monthWork.equals("Febrero")) {
 
 
-                                                      if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) {
+                                                    if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) {
 
-                                                          for (int dWork = 0; dWork < 29; dWork++) {
-                                                              day = (dWork + 1) + "-2-" + year;
+                                                        for (int dWork = 0; dWork < 29; dWork++) {
+                                                            day = (dWork + 1) + "-2-" + year;
 
-                                                              workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
-                                                                      child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
-                                                              if (workDayFam != null) {
-                                                                  homeWorks = workDayFam.keySet().toArray(new String[0]);
+                                                            workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
+                                                                    child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+                                                            if (workDayFam != null) {
+                                                                homeWorks = workDayFam.keySet().toArray(new String[0]);
 
-                                                                  for (int workF = 0; workF < homeWorks.length; workF++) {
+                                                                for (int workF = 0; workF < homeWorks.length; workF++) {
 
 
-                                                                      dayWorks.put(cont, homeWorks[workF]);
-                                                                      cont++;
+                                                                    dayWorks.put(cont, homeWorks[workF]);
+                                                                    cont++;
 
 
-                                                                  }
+                                                                }
 
-                                                              }
-                                                          }
+                                                            }
+                                                        }
 
-                                                          for (int i = 1; i < possWorks.length; i++) {
+                                                        for (int i = 1; i < possWorks.length; i++) {
 
 
-                                                              contRepeat = 0;
-                                                              Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+                                                            contRepeat = 0;
+                                                            Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
 
-                                                              while (it.hasNext()) {
-                                                                  Map.Entry<Integer, String> e = it.next();
-                                                                  if (possWorks[i].equals(e.getValue())) {
+                                                            while (it.hasNext()) {
+                                                                Map.Entry<Integer, String> e = it.next();
+                                                                if (possWorks[i].equals(e.getValue())) {
 
-                                                                      cont++;
-                                                                      contRepeat = cont + contRepeat;
-                                                                  }
-                                                                  cont = 0;
+                                                                    cont++;
+                                                                    contRepeat = cont + contRepeat;
+                                                                }
+                                                                cont = 0;
 
-                                                              }
-                                                              System.out.println(possWorks[i] + " se repite " + contRepeat);
-                                                              numberRep.add(contRepeat);
+                                                            }
+                                                            System.out.println(possWorks[i] + " se repite " + contRepeat);
+                                                            numberRep.add(contRepeat);
 
 
-                                                          }
+                                                        }
 
-                                                          setData(possWorks.length, 100, numberRep);
+                                                        setData(possWorks.length, 100, numberRep);
 
 
-                                                      } else {
-                                                          for (int dWork = 0; dWork < 28; dWork++) {
-                                                              day = (dWork + 1) + "-2-" + year;
-                                                              workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
-                                                                      child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
+                                                    } else {
+                                                        for (int dWork = 0; dWork < 28; dWork++) {
+                                                            day = (dWork + 1) + "-2-" + year;
+                                                            workDayFam = dataSnapshot.child(emailUser.replace(".", "-")).
+                                                                    child("Work-" + emailUser.replace(".", "-")).child(day).getValue(genericTypeIndicator);
 
-                                                              if (workDayFam != null) {
-                                                                  homeWorks = workDayFam.keySet().toArray(new String[0]);
+                                                            if (workDayFam != null) {
+                                                                homeWorks = workDayFam.keySet().toArray(new String[0]);
 
-                                                                  for (int workF = 0; workF < homeWorks.length; workF++) {
+                                                                for (int workF = 0; workF < homeWorks.length; workF++) {
 
 
-                                                                      dayWorks.put(cont, homeWorks[workF]);
-                                                                      cont++;
+                                                                    dayWorks.put(cont, homeWorks[workF]);
+                                                                    cont++;
 
 
-                                                                  }
-                                                              }
-                                                          }
-                                                          for (int i = 1; i < possWorks.length; i++) {
+                                                                }
+                                                            }
+                                                        }
+                                                        for (int i = 1; i < possWorks.length; i++) {
 
 
-                                                              contRepeat = 0;
-                                                              Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
+                                                            contRepeat = 0;
+                                                            Iterator<Map.Entry<Integer, String>> it = dayWorks.entrySet().iterator();
 
-                                                              while (it.hasNext()) {
-                                                                  Map.Entry<Integer, String> e = it.next();
-                                                                  if (possWorks[i].equals(e.getValue())) {
+                                                            while (it.hasNext()) {
+                                                                Map.Entry<Integer, String> e = it.next();
+                                                                if (possWorks[i].equals(e.getValue())) {
 
-                                                                      cont++;
-                                                                      contRepeat = cont + contRepeat;
-                                                                  }
-                                                                  cont = 0;
+                                                                    cont++;
+                                                                    contRepeat = cont + contRepeat;
+                                                                }
+                                                                cont = 0;
 
 
-                                                              }
+                                                            }
 
-                                                              numberRep.add(contRepeat);
+                                                            numberRep.add(contRepeat);
 
 
-                                                          }
+                                                        }
 
-                                                          setData(possWorks.length, 100, numberRep);
-                                                      }
+                                                        setData(possWorks.length, 100, numberRep);
+                                                    }
 
-                                                  }
-                                              }
+                                                }
+                                            }
 
-                                          }
-                                      }
-
+                                        }
+                                    }
 
 
                                 }
@@ -631,6 +641,9 @@ public class ReportMonthFragment extends Fragment {
             }
         });
     }
+
+    /*Este método garga los datos cuando el usuario que se logea no es administrador, ya que solamente
+     * carga sus datos*/
 
     private void chargeOnlyFamilyMember(@NonNull final Spinner spinnerMonth, final String emailUser) {
         spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -881,6 +894,8 @@ public class ReportMonthFragment extends Fragment {
         });
     }
 
+    /*Método para pintar la gráfica, este método es del a librería MPAndroidChart
+     * la puede encontrar en GitHub*/
     private void drawColumm() {
 
         chart.clear();
@@ -925,8 +940,9 @@ public class ReportMonthFragment extends Fragment {
         l.setTypeface(Typeface.SANS_SERIF);
     }
 
-
-    private void setData(int count, float range, ArrayList<Integer> numberRep) {
+    /*Esté metodo tambien es la librearia de la gŕafica, aquí rellenamos los
+     * datos que vamos a mostrar en la gŕafica*/
+    private void setData(int count, float range, @NonNull ArrayList<Integer> numberRep) {
 
         drawColumm();
         ArrayList<PieEntry> entries = new ArrayList<>();
@@ -936,8 +952,8 @@ public class ReportMonthFragment extends Fragment {
         for (int i = 0; i < numberRep.size(); i++) {
             if (numberRep.get(i) != null && numberRep.get(i) != 0) {
 
-                if (!possWorks[i].equals("Selecciona una tarea")){
-                    entries.add(new PieEntry((float) (numberRep.get(i)), possWorks[i]));
+                if (!possWorks[i].equals("Selecciona una tarea")) {
+                    entries.add(new PieEntry((float) (numberRep.get(i)), possWorks[i+1]));
                 }
 
             }
@@ -988,7 +1004,7 @@ public class ReportMonthFragment extends Fragment {
         data.setValueTypeface(Typeface.DEFAULT_BOLD);
         chart.setData(data);
 
-        //
+
         chart.highlightValues(null);
 
         chart.invalidate();
