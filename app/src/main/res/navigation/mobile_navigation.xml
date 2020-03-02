@@ -9,15 +9,21 @@
 
     <fragment
         android:id="@+id/nav_newF"
-        android:name="com.oiranca.pglproject.ui.family.NewFamily"
-        android:label="@string/menu_new_family"
-        tools:layout="@layout/new_family_fragment" />
+        android:name="com.oiranca.pglproject.ui.family.DeleteFamily"
+        android:label="@string/menu_delete_family"
+        tools:layout="@layout/delete_family_fragment" />
 
     <fragment
         android:id="@+id/nav_activity"
         android:name="com.oiranca.pglproject.ui.activity.ActivityFragment"
         android:label="@string/assignment_work"
         tools:layout="@layout/fragment_activity" />
+
+    <fragment
+        android:id="@+id/nav_newreports"
+        android:name="com.oiranca.pglproject.ui.newreport.NewReportFragment"
+        android:label="@string/menu_reports"
+        tools:layout="@layout/new_report_fragment" />
 
 
 
@@ -28,10 +34,22 @@
         tools:layout="@layout/fragment_reports" />
 
     <fragment
+        android:id="@+id/nav_reports_month"
+        android:name="com.oiranca.pglproject.ui.reportmonth.ReportMonthFragment"
+        android:label="@string/reports_mensuales"
+        tools:layout="@layout/report_month_fragment" />
+
+    <fragment
         android:id="@+id/nav_my_activity"
         android:name="com.oiranca.pglproject.ui.myactivity.MyActivityFragment"
         android:label="@string/menu_my_activity"
         tools:layout="@layout/fragment_my_activity" />
+
+    <fragment
+        android:id="@+id/nav_my_profile"
+        android:name="com.oiranca.pglproject.ui.profile.ProfileFragment"
+        android:label="@string/mi_perfil"
+        tools:layout="@layout/profile_fragment" />
 
 
 </navigation>

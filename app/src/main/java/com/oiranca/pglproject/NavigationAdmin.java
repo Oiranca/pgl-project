@@ -22,13 +22,17 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
+
+/*Esta activiad es la necesitamos para manejar el NavigationDrawer*/
 
 public class NavigationAdmin extends AppCompatActivity {
 
 
     private AppBarConfiguration mAppBarConfiguration;
+    View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +49,35 @@ public class NavigationAdmin extends AppCompatActivity {
         navigationView.setItemIconTintList(null);
 
 
+        headerView=navigationView.getHeaderView(0);
+        TextView textView = headerView.findViewById(R.id.textNav);
+
+
+        Intent idUser = this.getIntent();
+        Bundle user = idUser.getExtras();
+        String emailUser;
+
+        assert user != null;
+        emailUser = user.getString("Admin");
+
+        if (emailUser!=null){
+            textView.setText(emailUser);
+        }else {
+            emailUser=user.getString("Family");
+            textView.setText(emailUser);
+        }
+
+
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_activity, R.id.nav_newF, R.id.nav_reports, R.id.nav_my_activity)
+                R.id.nav_activity, R.id.nav_newF,R.id.nav_newreports,R.id.nav_reports_month, R.id.nav_my_activity,R.id.nav_my_profile)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
 
     }
 
@@ -89,11 +115,6 @@ public class NavigationAdmin extends AppCompatActivity {
                 return true;
 
 
-
-            case R.id.action_settings:
-
-                Toast.makeText(getApplicationContext(), "Pendiente de configurar", Toast.LENGTH_SHORT).show();
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

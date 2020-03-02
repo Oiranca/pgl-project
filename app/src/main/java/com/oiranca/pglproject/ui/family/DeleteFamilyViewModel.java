@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NewFamilyViewModel extends ViewModel {
+public class DeleteFamilyViewModel extends ViewModel {
 
     private MutableLiveData<String> fText;
 
-    public NewFamilyViewModel() { fText = new MutableLiveData<>();
+    public DeleteFamilyViewModel() { fText = new MutableLiveData<>();
         fText.setValue("This is new family fragment");
     }
 

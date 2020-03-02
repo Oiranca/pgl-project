@@ -9,7 +9,7 @@
         <item
             android:id="@+id/nav_newF"
             android:icon="@drawable/ic_family"
-            android:title="@string/menu_new_family" />
+            android:title="@string/menu_delete_family" />
         <item
             android:id="@+id/nav_activity"
             android:icon="@drawable/ic_cleaning"
@@ -17,13 +17,24 @@
 
 
         <item
-            android:id="@+id/nav_reports"
+            android:id="@+id/nav_newreports"
             android:icon="@drawable/ic_reports"
             android:title="@string/menu_reports" />
+
+        <item
+            android:id="@+id/nav_reports_month"
+            android:icon="@drawable/ic_report_month"
+            android:title="@string/reports_mensuales" />
+
         <item
             android:id="@+id/nav_my_activity"
             android:icon="@drawable/ic_home_work"
             android:title="@string/menu_my_activity" />
+
+        <item
+            android:id="@+id/nav_my_profile"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/mi_perfil" />
 
         
 

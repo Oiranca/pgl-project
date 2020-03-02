@@ -3,25 +3,26 @@ package com.oiranca.pglproject;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.Query;
+
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.oiranca.pglproject.ui.entidades.Admin;
 import com.oiranca.pglproject.ui.entidades.Family;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -34,9 +35,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+
 import java.util.UUID;
-import java.util.Vector;
+
 
 public class ActivitySignUp extends AppCompatActivity {
     EditText name;
@@ -45,9 +46,15 @@ public class ActivitySignUp extends AppCompatActivity {
     EditText pass;
     EditText rPass;
     EditText emailAdmin;
+
     private int op = 1;
+
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    FirebaseStorage storage;
+    StorageReference storageReference;
+
+
 
 
     @Override
@@ -65,6 +72,7 @@ public class ActivitySignUp extends AppCompatActivity {
         pass = (EditText) findViewById(R.id.pass_sign);
         rPass = (EditText) findViewById(R.id.repeat_sign);
         emailAdmin = (EditText) findViewById(R.id.emailSignAdmin);
+
         option();
 
 
@@ -72,7 +80,7 @@ public class ActivitySignUp extends AppCompatActivity {
         okFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                correct();
+                createMembers();
 
             }
         });
@@ -80,10 +88,13 @@ public class ActivitySignUp extends AppCompatActivity {
 
     }
 
+    /*En este método resibimos de la actividad DialogAdmin donde hemos creado un alerdialog
+     * si el usuario se quiere registrar como administrador o como familiar*/
     private void option() {
 
         Intent idAd = this.getIntent();
         Bundle admin = idAd.getExtras();
+        assert admin != null;
         boolean selected = admin.getBoolean("administrator");
 
 
@@ -97,7 +108,10 @@ public class ActivitySignUp extends AppCompatActivity {
         }
     }
 
-    private void correct() {
+    /*En este método además de revisar que todos los datos estén rellenos
+    creamos a los miembro de la familia y al administrador*/
+
+    private void createMembers() {
 
         name.setError(null);
         surname.setError(null);
@@ -152,7 +166,7 @@ public class ActivitySignUp extends AppCompatActivity {
                             return;
                         }
 
-                        // Create Administrator in FireBase
+                        // Crea el administrado en Firebase
 
                         if (op == 0) {
                             emailAdmin.setVisibility(View.INVISIBLE);
@@ -170,6 +184,8 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
                                 ad.setPass(passText);
+                                storage = FirebaseStorage.getInstance();
+                                storageReference = storage.getReference();
                                 firebaseDatabase = FirebaseDatabase.getInstance();
                                 databaseReference = firebaseDatabase.getReference();
 
@@ -181,7 +197,7 @@ public class ActivitySignUp extends AppCompatActivity {
                                         String email = dataSnapshot.child("Family-" + emailText.replace(".", "-"))
                                                 .child(emailText.replace(".", "-")).child("email").getValue(String.class);
                                         if (email != null) {
-                                            if (email.contains(emailText)) {
+                                            if (email.equals(emailText)) {
                                                 Toast.makeText(getApplicationContext(), "Ya existe administrador con ese email", Toast.LENGTH_SHORT).show();
 
                                             }
@@ -207,6 +223,8 @@ public class ActivitySignUp extends AppCompatActivity {
                             }
 
                         } else {
+
+                            //Crea el familiar en Firebase
 
                             if (op == 1) {
 
@@ -240,26 +258,29 @@ public class ActivitySignUp extends AppCompatActivity {
 
 
                                                 String email = dataSnapshot.child(emailAdText.replace(".", "-")).child("email").getValue(String.class);
+
                                                 if (email != null) {
-                                                    if (email.contains(emailAdText)) {
+                                                    if (email.contains(emailAdText) && !email.equals(emailText)) {
                                                         email = dataSnapshot.child(emailText.replace(".", "-")).child("emailF").getValue(String.class);
                                                         if (email != null) {
-                                                            if (email.contains(emailText)) {
+                                                            if (email.equals(emailText)) {
                                                                 Toast.makeText(getApplicationContext(), "Familiar ya existe ", Toast.LENGTH_LONG).show();
                                                             }
-                                                        }else {
+                                                        } else {
                                                             databaseReference.child(emailText.replace(".", "-")).setValue(fm);
                                                             Toast.makeText(getApplicationContext(), "Se le ha enviado E-mail de confirmación ", Toast.LENGTH_LONG).show();
                                                             backLogin();
                                                         }
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Email del familiar y del administrador son el mismo", Toast.LENGTH_LONG).show();
+
                                                     }
                                                 } else {
 
 
-                                                    Toast.makeText(getApplicationContext(), "El administrador no existe ", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "El administrador no existe o email erroneo", Toast.LENGTH_LONG).show();
 
                                                 }
-
 
 
                                             }

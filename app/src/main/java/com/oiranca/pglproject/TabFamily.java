@@ -4,8 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.widget.Toolbar;
@@ -14,10 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+
 
 import com.oiranca.pglproject.ui.tabfamily.SectionsPagerAdapter;
+
+/*Está Actividad nos permite manejar el Tab de los familiares*/
 
 public class TabFamily extends AppCompatActivity {
 
@@ -59,10 +59,6 @@ public class TabFamily extends AppCompatActivity {
                 return true;
 
 
-            case R.id.action_settings:
-
-                Toast.makeText(getApplicationContext(), "Pendiente de configurar", Toast.LENGTH_SHORT).show();
-                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
