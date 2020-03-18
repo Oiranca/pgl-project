@@ -538,7 +538,7 @@ public class MyActivityFragment extends Fragment {
 
     }
 
-    /*Este método nos carga los datos del día que seleccinamos y si está realizadas o no*/
+    /*Este método nos carga los datos del día que seleccionamos y si está realizadas o no*/
 
     private void workInCalendar() {
 
@@ -547,37 +547,49 @@ public class MyActivityFragment extends Fragment {
 
 
             assert chkMy != null;
-            if (chkMy.getText().equals("Dia libre") || !chkMy.getText().equals("Sin tarea") && !chkMy.isChecked()) {
-                Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                calIntent.setType("vnd.android.cursor.item/event");
-                calIntent.putExtra(CalendarContract.Events.TITLE, chkMy.getText().toString());
-                calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+            if (!chkMy.getText().equals("Dia libre")) {
+
+                if (!chkMy.getText().equals("Sin tarea")) {
+
+                    if (!chkMy.isChecked()) {
+
+                        Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                        calIntent.setType("vnd.android.cursor.item/event");
+                        calIntent.putExtra(CalendarContract.Events.TITLE, chkMy.getText().toString());
+                        calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
 
 
-                startActivity(calIntent);
+                        startActivity(calIntent);
 
-                System.out.println("Pasa por el primer check");
+                    }
+
+                }
+
 
             }
+
             assert chkMybis != null;
-            if (chkMybis.getText().equals("Dia libre") || !chkMybis.getText().equals("Sin tarea") && !chkMybis.isChecked()) {
-                Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                calIntent.setType("vnd.android.cursor.item/event");
-                calIntent.putExtra(CalendarContract.Events.TITLE, chkMybis.getText().toString());
-                calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+            if (!chkMybis.getText().equals("Dia libre")) {
+
+                if (!chkMybis.getText().equals("Sin tarea")) {
+
+                    if (!chkMybis.isChecked()) {
+
+                        Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                        calIntent.setType("vnd.android.cursor.item/event");
+                        calIntent.putExtra(CalendarContract.Events.TITLE, chkMybis.getText().toString());
+                        calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
 
 
-                startActivity(calIntent);
+                        startActivity(calIntent);
+                    }
 
-                System.out.println("Pasa por el primer check");
-
+                }
+            } else {
+                Toast.makeText(getContext(), "No ha seleccionado la fecha o no tienes tareas", Toast.LENGTH_SHORT).show();
             }
 
-        } else {
-            Toast.makeText(getContext(), "No ha seleccionado la fecha", Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     private void extractData(@NonNull DataSnapshot dataSnapshot) {
